@@ -1,0 +1,108 @@
+@use "../../../assets/styles/colors" as *;
+@use "../../../assets/styles/fonts" as *;
+
+
+.container-fluid {
+    max-width: 1400px;
+    margin-bottom: 92px;
+
+    .categories {
+        a {
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+
+            img {
+                width: 150px;
+                height: 150px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                border-radius: 50%;
+            }
+
+            h4 {
+                margin-top: 10px;
+            }
+        }
+    }
+
+    .advertisement {
+        margin-top: 50px;
+
+        div {
+            padding: 5px;
+            cursor: pointer;
+
+            img {
+                width: 100%;
+                height: 250px;
+                border-radius: 5px;
+            }
+        }
+    }
+
+    .recentProducts {
+        margin-top: 50px;
+
+        .card {
+            border: none;
+
+            .header {
+                display: flex;
+                justify-content: center;
+
+                img {
+                    height: 180px;
+                    width: 180px;
+                }
+            }
+
+            .body {
+                .brand {
+                    color: rgba(189, 189, 189);
+                    font-size: 12px;
+                    font-weight: bold;
+                }
+
+                .sub-brand {
+                    font-size: 12px;
+                    font-family: $brand-name-font;
+                }
+
+                .price {
+                    font-size: 12px;
+                }
+
+                .discount {
+                    color: rgba(208, 2, 27);
+                    font-weight: bold;
+                    min-height: 25px;
+                }
+            }
+
+            .footer {
+                display: flex;
+                justify-content: center;
+
+                p-button {
+                    font-weight: 400 !important;
+                    font-size: 12px;
+
+                }
+            }
+
+            &:hover {
+                cursor: pointer;
+                box-shadow: 0 0 10px $base-input-color;
+                transition: all ease-in-out .5s;
+            }
+        }
+    }
+}
+
+.more {
+    cursor: pointer;
+    text-decoration: underline;
+}

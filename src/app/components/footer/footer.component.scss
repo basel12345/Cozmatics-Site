@@ -1,0 +1,77 @@
+@use "../../../assets/styles/colors" as *;
+
+footer {
+    background-color: white;
+    padding: 50px;
+    margin: 60px 0 0 0;
+    h5 {
+        margin-bottom: 40px;
+    }
+
+    :where(.categories, .social) {
+        ul {
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+
+            li {
+                list-style: none;
+
+                a {
+                    color: black;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration-line: underline;
+                        text-decoration-color: black;
+                    }
+                }
+            }
+        }
+    }
+
+    :where(.profile, .contact) {
+        ul {
+            padding: 0;
+
+            li {
+                list-style: none;
+
+                a {
+                    color: black;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration-line: underline;
+                        text-decoration-color: black;
+                    }
+                }
+            }
+        }
+    }
+
+    .social {
+        li {
+            list-style: none;
+            background: $base-color;
+            padding: 8px;
+            border-radius: 23%;
+
+            .pi {
+                font-size: 1.5rem
+            }
+
+            :where(.pi-facebook, .pi-linkedin) {
+                &:hover {
+                    color: cornflowerblue;
+                }
+            }
+
+            :where(.pi-youtube, .pi-instagram) {
+                &:hover {
+                    color: red;
+                }
+            }
+        }
+    }
+}

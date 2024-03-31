@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 col-12" *ngIf="Brands">
+            <p-panel header="Gender" [toggleable]="true">
+                <div class="my-1" *ngFor="let res of FilterByGender">
+                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.Value"
+                        (onChange)="selectSearch($event.checked, res.Value)"></p-checkbox>
+                    <label class="label-checkbox" for="binary">{{res.Text| uppercase}}</label>
+                </div>
+            </p-panel>
+            <p-panel header="Brand" [toggleable]="true">
+                <div class="my-1" *ngFor="let res of Brands">
+                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
+                        (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
+                    <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
+                </div>
+            </p-panel>
+        </div>
+        <div class="col-md-10 col-12">
+            <ng-container *ngIf="titlePage">
+                <div class="row">
+                    <h3>{{titlePage}}</h3>
+                    <div class="col-12 col-sm-6 col-md-3" *ngFor="let res of Products$ | async">
+                        <div class="m-1 p-2 card">
+                            <span (click)="navigateToProduct(res.id)">
+                                <div class="header">
+                                    <img [src]="sanitizationImage(res.coverImg)" alt="">
+                                </div>
+                                <div class="body">
+                                    <div class="brand">{{res.brandName}}</div>
+                                    <div class="sub-brand mb-3">{{res.name}}</div>
+                                    <div>
+                                        <p-rating [(ngModel)]="res.rateValue" [readonly]="true"
+                                            [cancel]="false"></p-rating>
+                                    </div>
+                                    <div class="price"
+                                        [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                                        SAR
+                                        {{res.price}}<span> (VAT included)</span>
+                                    </div>
+                                    <div class="discount" *ngIf="res.discountPercentage">SAR {{(+res.discountPercentage
+                                        /
+                                        +res.price ) * 100 | trimDecimalPipe}}</div>
+                                </div>
+                            </span>
+                            <hr>
+                            <div class="footer">
+                                <p-button label="Add To Cart" [text]="true" severity="help"></p-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-auto mt-4">
+                    <p-paginator locale="en-US" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+                        [totalRecords]="totalCount"></p-paginator>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!titlePage">
+                <h3 class="text-center my-5 not-found">Not Found Products</h3>
+            </ng-container>
+        </div>
+    </div>
+</div>

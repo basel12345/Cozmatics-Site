@@ -1,0 +1,55 @@
+@use "../../../assets/styles/colors" as *;
+@use "../../../assets/styles/fonts" as *;
+
+.product {
+    padding: 10px;
+    background-color: white;
+
+    p-scrollPanel {
+        img {
+            width: 100%;
+            border: 2px solid $base-color;
+        }
+
+        ::ng-deep .p-scrollpanel .p-scrollpanel-bar {
+            background-color: black !important;
+            width: 5px;
+        }
+    }
+
+    .desc {
+        word-break: break-all;
+
+        img {
+            max-width: 150px;
+            max-height: 110px;
+        }
+
+        h6 {
+            font-family: $brand-name-font;
+        }
+
+        h4 {
+            font-family: $base-font;
+            font-weight: bold;
+        }
+
+        .footer {
+            ::ng-deep button {
+                width: 100%;
+                text-align: center;
+                background-color: black !important;
+                color: white;
+                margin-top: 55%;
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .footer {
+        ::ng-deep button {
+            margin-top: 0 !important;
+        }
+    }
+}

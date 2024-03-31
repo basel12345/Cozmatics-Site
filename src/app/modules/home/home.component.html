@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="row categories">
+        <a class="col-2" *ngFor="let res of selectedCategories" (click)="categories(res.id)">
+            <img [src]="'assets/22171677_RealTechniquesEverydayEyeEssentialsBrushSet-8Pieces--680x680.png'" alt="">
+            <h4>{{res.name}}</h4>
+        </a>
+    </div>
+    <div class="row advertisement">
+        <h4>Discounts</h4>
+        <div *ngFor="let res of discountAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
+            (click)="advertisement(res.brandId, res.categoryId, res.discount, res.tag)">
+            <img [src]="sanitizationImage(res.img)" alt="">
+        </div>
+    </div>
+    <div class="recentProducts row">
+        <div class="row">
+            <div class="col-6">
+                <h4>Recent Products</h4>
+            </div>
+            <div class="col-6 text-end more">
+                <a (click)="recentProductsPage()">More than</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-2" *ngFor="let res of RecentProducts">
+            <div class="m-1 p-2 card">
+                <span (click)="navigateToProduct(res.id)">
+                    <div class="header">
+                        <img [src]="sanitizationImage(res.coverImg)" alt="">
+                    </div>
+                    <div class="body">
+                        <div class="brand">{{res.brandName}}</div>
+                        <div class="sub-brand mb-3">{{res.name}}</div>
+                        <div>
+                            <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
+                        </div>
+                        <div class="price"
+                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                            SAR
+                            {{res.price}}<span> (VAT included)</span>
+                        </div>
+                        <div class="discount">
+                            <span *ngIf="res.discountPercentage">
+                                SAR {{(+res.discountPercentage
+                                /
+                                +res.price ) * 100 | trimDecimalPipe}}
+                            </span>
+                        </div>
+                    </div>
+                </span>
+                <hr>
+                <div class="footer">
+                    <p-button label="Add To Cart" [text]="true" severity="help"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row advertisement">
+        <h4>Brands</h4>
+        <div *ngFor="let res of brandIdAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
+            (click)="navigateToBrands(res.brandId)">
+            <img [src]="sanitizationImage(res.img)" alt="">
+        </div>
+    </div>
+
+    <div class="recentProducts row">
+        <div class="row">
+            <div class="col-6">
+                <h4>Best Products</h4>
+            </div>
+            <div class="col-6 text-end more">
+                <a (click)="bestProductsPage()">More than</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-2" *ngFor="let res of BestProducts">
+            <div class="m-1 p-2 card">
+                <span (click)="navigateToProduct(res.id)">
+                    <div class="header">
+                        <img [src]="sanitizationImage(res.coverImg)" alt="">
+                    </div>
+                    <div class="body">
+                        <div class="brand">{{res.brandName}}</div>
+                        <div class="sub-brand mb-3">{{res.name}}</div>
+                        <div>
+                            <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
+                        </div>
+                        <div class="price"
+                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                            SAR
+                            {{res.price}}<span> (VAT included)</span>
+                        </div>
+                        <div class="discount">
+                            <span *ngIf="res.discountPercentage">
+                                SAR {{(+res.discountPercentage
+                                /
+                                +res.price ) * 100 | trimDecimalPipe}}
+                            </span>
+                        </div>
+                    </div>
+                </span>
+                <hr>
+                <div class="footer">
+                    <p-button label="Add To Cart" [text]="true" severity="help"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+@use "../../../assets/styles/colors" as *;
+@use "../../../assets/styles/fonts" as *;
+
+.card {
+    border: none;
+
+    .header {
+        display: flex;
+        justify-content: center;
+
+        img {
+            height: 180px;
+            width: 180px;
+        }
+    }
+
+    .body {
+        .brand {
+            color: rgba(189, 189, 189);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .sub-brand {
+            font-size: 12px;
+            font-family: $brand-name-font;
+        }
+
+        .price {
+            font-size: 12px;
+        }
+
+        .discount {
+            color: rgba(208, 2, 27);
+            font-weight: bold;
+            min-height: 25px;
+        }
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+        p-button {
+            font-weight: 400 !important;
+            font-size: 12px;
+    
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 10px $base-input-color;
+        transition: all ease-in-out .5s;
+    }
+}
+
+.not-found {
+    height: 100vh;
+}
+
+h3,
+::ng-deep.p-panel-title,
+::ng-deep.label-checkbox  {
+    font-family: $brand-name-font !important;
+}

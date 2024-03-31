@@ -1,0 +1,55 @@
+@use "../../../assets/styles/colors" as *;
+
+::ng-deep .p-menubar {
+    margin: 0 0 60px 0;
+    background-color: white;
+
+    ul {
+        margin-bottom: 0;
+
+        a {
+            text-decoration: none;
+
+            &:hover {
+                color: black !important;
+                text-decoration-color: black;
+                text-decoration-line: underline;
+            }
+        }
+    }
+
+    .p-input-icon-left {
+        width: 600px;
+
+        .pi-search {
+            color: $base-input-color;
+        }
+
+        input {
+            background-color: $base-color;
+            border: none;
+            width: 100%;
+            color: $base-input-color;
+
+            &:focus,
+            &:hover {
+                outline: none !important;
+                border: 1px solid $base-input-color;
+                box-shadow: 0 0 10px $base-input-color;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+    .p-input-icon-left {
+        width: 400px;
+    }
+}
+
+@media (min-width: 960px) and (max-width: 1200px) {
+    .p-input-icon-left {
+        width: 180px;
+
+    }
+}

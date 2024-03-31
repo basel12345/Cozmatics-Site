@@ -1,0 +1,26 @@
+@use "../assets/styles/colors" as *;
+
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+}
+
+.overlay {
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    opacity: 0.3;
+    position: absolute;
+    z-index: 1;
+
+}
+
+.loader {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    z-index: 2;
+}

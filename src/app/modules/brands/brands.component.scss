@@ -1,0 +1,42 @@
+@use "../../../assets/styles/colors" as *;
+
+.container {
+    min-height: 100vh;
+    background-color: white;
+    padding: 50px;
+    max-width: 1800px;
+
+    .search {
+        width: 100%;
+
+        .p-input-icon-left {
+            width: 40%;
+            border-radius: 6px;
+            border: 1px solid black;
+
+            input {
+                width: 100%;
+                padding: 5px 35px;
+            }
+        }
+    }
+
+    a {
+        cursor: pointer;
+        display: inline-block;
+        border: 1px solid transparent;
+        border-radius: 10px;
+
+        img {
+            width: 120px;
+            height: 80px;
+            margin: 0 10px;
+        }
+
+        &:hover {
+            cursor: pointer;
+            box-shadow: 0 0 10px $base-input-color;
+            transition: all ease-in-out .5s;
+        }
+    }
+}
