@@ -88,11 +88,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				if (res['ProductsByBrandId']) {
 					this.Products$ = of(res['ProductsByBrandId']['products']);
 					this.totalCount = res['ProductsByBrandId']?.['totalCount'];
-					this.titlePage = res["ProductsByBrandId"][0]?.brandName;
+					this.titlePage = res["ProductsByBrandId"]['products'][0]?.brandName;
 				} else if (res['ProductByCategoryId']) {
 					this.Products$ = of(res['ProductByCategoryId']['products']);
 					this.totalCount = res['ProductByCategoryId']?.['totalCount'];
-					this.titlePage = res["ProductByCategoryId"][0]?.categoryName;
+					this.titlePage = res["ProductByCategoryId"]['products'][0]?.categoryName;
 				} else if (res['Products']) {
 					this.Products$ = of(res['Products']['products']);
 					this.totalCount = res['Products']['totalCount'];

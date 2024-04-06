@@ -49,7 +49,7 @@ export class BestProductsComponent {
 		this.subscription = this.route.data.subscribe((res) => {
 			this.Products$ = of(res['BestProducts']['products']);
 			this.totalCount = res['BestProducts']['totalCount'];
-			this.titlePage = "Total Products";
+			this.titlePage = "Best Products";
 			this.Brands = res['Brands'];
 		});
 	}

@@ -1,0 +1,33 @@
+nav {
+    background-color: white;
+
+    .row {
+        width: 100% !important;
+
+        ::ng-deep.p-dropdown {
+            border: none;
+
+
+            ul {
+                padding-left: 0;
+
+                img {
+                    width: 18px;
+                }
+            }
+
+            .conuntryName {
+                display: inline-block;
+                margin-left: 5px;
+            }
+        }
+
+        a {
+            color: #4b5563;
+            text-decoration: none;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+    }
+
+}
