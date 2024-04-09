@@ -9,7 +9,6 @@ import { IProducts } from '../../models/products';
 export class ProductsService {
     pageNo: number = 1;
     pageSize: number = 10;
-
     constructor(private http: HttpClient) { }
 
     getAllProducts(): Observable<{ products: IProducts[], totalCount: number }> {
@@ -47,4 +46,9 @@ export class ProductsService {
     getBestProducts(): Observable<{ products: IProducts[], totalCount: number }> {
         return this.http.get<{ products: IProducts[], totalCount: number }>(`http://localhost:5237/api/Product/GetBestProducts?pageNo=${this.pageNo}&pageSize=${this.pageSize}`);
     }
+
+    filterSpecificProducts(filter: any): Observable<{ products: IProducts[], totalCount: number }> {
+        return this.http.post<{ products: IProducts[], totalCount: number }>(`http://localhost:5237/api/Product/FilterProducts?pageNo=${this.pageNo}&pageSize=${this.pageSize}`, filter);
+    }
+
 }
