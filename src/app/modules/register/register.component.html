@@ -1,1 +1,67 @@
-<p>register works!</p>
+<div class="container">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="flex flex-column gap-2">
+            <div class="input">
+                <label for="username">Username</label>
+                <input pInputText
+                    [ngClass]="submitted && registerForm.get('username')?.invalid ? 'ng-invalid ng-dirty' : ''"
+                    id="username" aria-describedby="username-help" formControlName="username" required />
+                <span *ngIf="submitted && registerForm.get('username')?.errors?.['required']" class="invalid">
+                    Username is required
+                </span>
+            </div>
+            <div class="input">
+                <label for="email">Email</label>
+                <input pInputText type="email"
+                    [ngClass]="submitted && registerForm.get('email')?.invalid ? 'ng-invalid ng-dirty' : ''" id="email"
+                    aria-describedby="email-help" formControlName="email" />
+                <span *ngIf="submitted && registerForm.get('email')?.errors?.['required']" class="invalid">
+                    Email is required
+                </span>
+                <span *ngIf="submitted && registerForm.get('email')?.errors?.['email']" class="invalid">
+                    Enter a valid email address
+                </span>
+            </div>
+            <div class="input">
+                <label for="password">Password</label>
+                <p-password formControlName="password">
+                    <ng-template pTemplate="header">
+                        <h6>Pick a password</h6>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <p-divider></p-divider>
+                        <p class="mt-2">Suggestions</p>
+                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                            <li>At least one lowercase</li>
+                            <li>At least one uppercase</li>
+                            <li>At least one numeric</li>
+                            <li>Minimum 8 characters</li>
+                        </ul>
+                    </ng-template>
+                </p-password>
+                <span *ngIf="submitted && registerForm.get('password')?.errors?.['required']" class="invalid">
+                    Password is required
+                </span>
+                <span *ngIf="submitted && registerForm.get('password')?.errors?.['pattern']?.['requiredPattern']"
+                    class="invalid">
+                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                        <li>At least one lowercase</li>
+                        <li>At least one uppercase</li>
+                        <li>At least one numeric</li>
+                        <li>Minimum 8 characters</li>
+                    </ul>
+                </span>
+            </div>
+            <div class="input">
+                <label for="phone">Phone</label>
+                <p-inputMask formControlName="phone" mask="(999) 999-9999" placeholder="(999) 999-9999"></p-inputMask>
+                <span *ngIf="submitted && registerForm.get('phone')?.errors?.['required']" class="invalid">
+                    Phone is required
+                </span>
+            </div>
+        </div>
+        <div class="footer">
+            <p-button type="submit" label="Register"></p-button>
+        </div>
+    </form>
+</div>

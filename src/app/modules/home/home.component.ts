@@ -10,6 +10,8 @@ import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { ICategory } from '../../shared/models/category';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RatingModule } from 'primeng/rating';
+import { CartService } from '../../shared/services/cart.service';
+import { ICart } from '../../shared/models/cart';
 
 @Component({
 	selector: 'app-home',
@@ -33,7 +35,8 @@ export class HomeComponent implements OnInit {
 	constructor(
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,
-		private router: Router
+		private router: Router,
+		public cartService: CartService
 	) {
 	}
 	ngOnInit(): void {
@@ -111,6 +114,10 @@ export class HomeComponent implements OnInit {
 
 	bestProductsPage(){
 		this.router.navigate(["BestProducts"])
+	}
+
+	addCart(cart: ICart) {
+		this.cartService.addCart(cart);
 	}
 
 }

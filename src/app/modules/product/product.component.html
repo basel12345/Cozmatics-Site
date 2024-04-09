@@ -2,7 +2,8 @@
     <div class="row product">
         <div class="col-1">
             <p-scrollPanel [style]="{ width: '100%', height: '300px' }">
-                <img *ngFor="let res of product.productImgs" class="d-block mb-2" [src]="sanitizationImage(res.image)" alt="">
+                <img *ngFor="let res of product?.productImgs" class="d-block mb-2" [src]="sanitizationImage(res.image)"
+                    alt="">
             </p-scrollPanel>
         </div>
         <div class="col-11 col-md-6">
@@ -12,13 +13,47 @@
             <img class="d-block" [src]="sanitizationImage(product.brandImg)" alt="">
             <h6>{{product.name}}</h6>
             <div>
-                <p-rating [(ngModel)]="product.rateValue" [readonly]="true" [cancel]="false"></p-rating>({{product.totalRate}})
+                Available Quantity: {{product.qty ? product.qty : 0}}
             </div>
-            <h4 class="d-inline-block">SAR {{product.price}}</h4> <span> (VAT included)</span>
+            <div>
+                <p-rating [(ngModel)]="product.rateValue" [readonly]="true"
+                    [cancel]="false"></p-rating>({{product.totalRate}})
+            </div>
+            <h4 class="d-inline-block" [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">SAR {{product.price}}</h4> <span> (VAT included)</span>
+            <h4 class="discount" *ngIf="product.discountPercentage">SAR {{(+product.discountPercentage
+                /
+                +product.price ) * 100 | trimDecimalPipe}}</h4>
             <p>{{product.description}}</p>
             <div class="footer">
-                <p-button label="Add To Cart" [raised]="true"></p-button>
+                <p-button  [label]="!cartService.checkInCart(product.id) ? 'Add To Cart' : 'Done'" [raised]="true" [disabled]="cartService.checkInCart(product.id) || !product.qty"></p-button>
             </div>
         </div>
+
+        <p-tabView>
+            <p-tabPanel header="Reviews">
+                <div class="row text-end">
+                    <p-button label="Add Review" (click)="showDialog()" [raised]="true"></p-button>
+                </div>
+                <div class="card p-3 m-2" *ngFor="let res of Review">
+                    <div><p-rating [(ngModel)]="res.rate" [readonly]="true" [cancel]="false"></p-rating></div>
+                    <div>{{res.customerName}}</div>
+                    <span class="create-date">2024/04/08</span>
+                    <div>{{res.comment}}</div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
     </div>
 </div>
+
+<p-dialog header="Add Review" [(visible)]="visible" [style]="{width: '50vw'}">
+    <div>
+        <p-rating [(ngModel)]="addReview.rate" [cancel]="false"></p-rating>
+    </div>
+    <div>
+        <label style="display: block;">Comment</label>
+        <textarea rows="5" cols="50" pInputTextarea [(ngModel)]="addReview.comment"></textarea>
+    </div>
+    <div class="text-end add-review">
+        <p-button label="Add" (click)="addReviewToProduct()" [raised]="true"></p-button>
+    </div>
+</p-dialog>

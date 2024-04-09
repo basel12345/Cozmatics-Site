@@ -1,18 +1,18 @@
 <div class="container-fluid">
-    <div class="row categories">
+    <div class="row categories" *ngIf="selectedCategories?.length">
         <a class="col-12 col-sm-6 col-md-2" *ngFor="let res of selectedCategories" (click)="categories(res.id)">
             <img [src]="'assets/22171677_RealTechniquesEverydayEyeEssentialsBrushSet-8Pieces--680x680.png'" alt="">
             <h4>{{res.name}}</h4>
         </a>
     </div>
-    <div class="row advertisement">
+    <div class="row advertisement" *ngIf="discountAdvertisement?.length">
         <h4>Discounts</h4>
         <div *ngFor="let res of discountAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
             (click)="advertisement(res.brandId, res.categoryId, res.discount, res.tag)">
             <img [src]="sanitizationImage(res.img)" alt="">
         </div>
     </div>
-    <div class="recentProducts row">
+    <div class="recentProducts row" *ngIf="RecentProducts?.length">
         <div class="row">
             <div class="col-6">
                 <h4>Recent Products</h4>
@@ -49,12 +49,15 @@
                 </span>
                 <hr>
                 <div class="footer">
-                    <p-button label="Add To Cart" [text]="true" severity="help"></p-button>
+                    <p-button
+                        (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                        [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
+                        severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row advertisement">
+    <div class="row advertisement" *ngIf="brandIdAdvertisement?.length">
         <h4>Brands</h4>
         <div *ngFor="let res of brandIdAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
             (click)="navigateToBrands(res.brandId)">
@@ -62,7 +65,7 @@
         </div>
     </div>
 
-    <div class="recentProducts row">
+    <div class="recentProducts row" *ngIf="BestProducts?.length">
         <div class="row">
             <div class="col-6">
                 <h4>Best Products</h4>
@@ -99,7 +102,10 @@
                 </span>
                 <hr>
                 <div class="footer">
-                    <p-button label="Add To Cart" [text]="true" severity="help"></p-button>
+                    <p-button
+                        (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                        [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
+                        severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
                 </div>
             </div>
         </div>

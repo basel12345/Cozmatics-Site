@@ -3,7 +3,7 @@
         <div class="col-6">
         </div>
         <div class="col-6 text-end">
-            <a (click)="sidebarVisible = true" class="pi pi-shopping-bag"></a>
+            <a (click)="showSideBar()" class="pi pi-shopping-bag"></a>
             <p-dropdown [options]="countries" [(ngModel)]="selectedLanguage" optionLabel="name">
                 <ng-template pTemplate="selectedItem">
                     <div class="flex align-items-center gap-2" *ngIf="selectedLanguage">
@@ -18,20 +18,44 @@
                     </div>
                 </ng-template>
             </p-dropdown>
-            <p-dropdown [options]="users" [(ngModel)]="selectedUsers" optionLabel="name"
-                placeholder="My Account"></p-dropdown>
+            <p-dropdown *ngIf="!user" [options]="users" [(ngModel)]="selectedUsers" optionLabel="name"
+                (ngModelChange)="navigateToSign($event)" placeholder="My Account"></p-dropdown>
 
-
+            <a *ngIf="user" (click)="logOut()">LogOut</a>
         </div>
     </div>
 </nav>
 
 <p-sidebar [(visible)]="sidebarVisible">
-    <h3>Sidebar</h3>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
-    </p>
+    <h3>Cart</h3>
+    <span *ngFor="let res of carts" class="card mb-2">
+        <div class="row m-2">
+            <div class="col-2">
+                <img class="d-block" [src]="sanitizationImage(res.coverImg)" alt="">
+            </div>
+            <div class="col-8">
+                <div>
+                    {{res.name}}
+                </div>
+                <div>
+                    Available Quantity: {{res.qty}}
+                </div>
+                <div class="price">
+                    <span [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                        SAR {{res.price}}</span>
+                    <span> (VAT included)</span>
+                </div>
+                <div class="discount" *ngIf="res.discountPercentage">SAR {{(+res.discountPercentage
+                    /
+                    +res.price ) * 100 | trimDecimalPipe}}</div>
+            </div>
+            <div class="col-2">
+                <div class="text-end mb-2 clear" (click)="clear(res.id)">X</div>
+                <p-inputNumber [max]="res.qty" [(ngModel)]="qty" [showButtons]="true" buttonLayout="vertical"
+                    spinnerMode="vertical" inputId="vertical" decrementButtonClass="p-button-secondary"
+                    incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus"
+                    decrementButtonIcon="pi pi-minus"></p-inputNumber>
+            </div>
+        </div>
+    </span>
 </p-sidebar>

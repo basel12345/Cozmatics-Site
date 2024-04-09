@@ -31,3 +31,32 @@ nav {
     }
 
 }
+
+::ng-deep.p-sidebar-left {
+    width: 35rem;
+
+    .card {
+        img {
+            vertical-align: middle;
+            width: 60px;
+            height: 60px;
+        }
+
+        .discount {
+            color: rgba(208, 2, 27);
+            font-weight: bold;
+            min-height: 25px;
+        }
+        button,input {
+            width: 100%;
+            height: 40px;
+        }
+
+        .clear {
+            cursor: pointer;
+            font-weight: bolder;
+            font-size: 20px;
+        }
+    }
+
+}

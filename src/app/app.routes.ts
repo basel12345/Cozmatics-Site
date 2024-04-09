@@ -8,6 +8,8 @@ import { SelectedCategoriesResolver } from './shared/resolvers/selectedCategorie
 import { AdvertisementResolver } from './shared/resolvers/advertisement.resolver';
 import { RecentProductsResolver } from './shared/resolvers/recentProducts.resolver';
 import { BestProductsResolver } from './shared/resolvers/bestProducts.resolver';
+import { ReviewResolver } from './shared/resolvers/review.resolver';
+import { CategoryResolver } from './shared/resolvers/category.resolver';
 
 export const routes: Routes = [
     {
@@ -28,6 +30,7 @@ export const routes: Routes = [
         resolve: {
             Products: ProductsResolver,
             Brands: BrandsResolver,
+            Category: CategoryResolver
         }
     },
     {
@@ -36,7 +39,7 @@ export const routes: Routes = [
         resolve: {
             Brands: BrandsResolver,
             ProductByCategoryId: ProductByCategoryIdResolver
-        }
+        },
     },
     {
         path: "productsByBrand",
@@ -50,7 +53,8 @@ export const routes: Routes = [
         path: "product/:id",
         loadComponent: () => import("./modules/product/product.component").then(c => c.ProductComponent),
         resolve: {
-            Product: ProductResolver
+            Product: ProductResolver,
+            Review: ReviewResolver
         }
     },
     {
@@ -87,6 +91,14 @@ export const routes: Routes = [
             BestProducts: BestProductsResolver,
             Brands: BrandsResolver
         }
+    },
+    {
+        path: "register",
+        loadComponent: () => import("./modules/register/register.component").then(c => c.RegisterComponent)
+    },
+    {
+        path: "login",
+        loadComponent: () => import("./modules/login/login.component").then(c => c.LoginComponent)
     },
     {
         path: "**",

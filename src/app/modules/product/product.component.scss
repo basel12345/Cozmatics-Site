@@ -34,15 +34,42 @@
             font-weight: bold;
         }
 
+        .discount {
+            color: rgba(208, 2, 27);
+            font-weight: bold;
+            min-height: 25px;
+        }
+
         .footer {
             ::ng-deep button {
                 width: 100%;
                 text-align: center;
-                background-color: black !important;
                 color: white;
                 margin-top: 55%;
             }
         }
+    }
+
+    ::ng-deep a {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    .create-date {
+        color: rgba(189, 189, 189);
+        font-size: 12px;
+    }
+
+    ::ng-deep button {
+        background-color: black !important;
+
+    }
+}
+
+.add-review {
+    ::ng-deep button {
+        background-color: black !important;
+
     }
 }
 

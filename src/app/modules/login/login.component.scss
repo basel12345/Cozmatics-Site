@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    justify-content: center;
+
+    form {
+        background-color: white;
+        border-radius: 20px;
+        width: 35vw;
+
+        .input {
+            margin: 20px;
+
+            input,
+            ::ng-deep .p-password,
+            ::ng-deep .p-password-input,
+            ::ng-deep p-inputmask,
+            ::ng-deep .p-inputmask {
+                display: block;
+                width: 100%;
+            }
+
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .footer {
+            text-align: center;
+
+            p-button {
+                ::ng-deep button {
+                    margin: 25px 0;
+                    width: 464px;
+                    border-radius: 50px;
+                }
+            }
+
+        }
+    }
+
+}

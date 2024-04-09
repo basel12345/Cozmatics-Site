@@ -1,13 +1,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 col-12" *ngIf="Brands">
-            <p-panel header="Gender" [toggleable]="true">
-                <div class="my-1" *ngFor="let res of FilterByGender">
-                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.Value"
-                        (onChange)="selectSearch($event.checked, res.Value)"></p-checkbox>
-                    <label class="label-checkbox" for="binary">{{res.Text| uppercase}}</label>
-                </div>
-            </p-panel>
             <p-panel header="Brand" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Brands">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
@@ -15,6 +8,20 @@
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
+            <p-panel header="Category" [toggleable]="true">
+                <div class="my-1" *ngFor="let res of Category">
+                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
+                        (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
+                    <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
+                </div>
+            </p-panel>
+            <p-panel header="Price" [toggleable]="true">
+                <p-slider [(ngModel)]="rangePrice" [range]="true"></p-slider>
+            </p-panel>
+            <div class="filter">
+                <p-button class="filter-btn" (onClick)="filter()" label="Filter" [text]="true"
+                    severity="help"></p-button>
+            </div>
         </div>
         <div class="col-md-10 col-12">
             <ng-container *ngIf="titlePage">
@@ -30,13 +37,17 @@
                                     <div class="brand">{{res.brandName}}</div>
                                     <div class="sub-brand mb-3">{{res.name}}</div>
                                     <div>
+                                        Available Quantity: {{res.qty ? res.qty : 0}}
+                                    </div>
+                                    <div>
                                         <p-rating [(ngModel)]="res.rateValue" [readonly]="true"
                                             [cancel]="false"></p-rating>
                                     </div>
-                                    <div class="price"
-                                        [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                        SAR
-                                        {{res.price}}<span> (VAT included)</span>
+                                    <div class="price">
+                                        <span
+                                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                                            SAR {{res.price}}</span>
+                                        <span> (VAT included)</span>
                                     </div>
                                     <div class="discount" *ngIf="res.discountPercentage">SAR {{(+res.discountPercentage
                                         /
@@ -45,7 +56,10 @@
                             </span>
                             <hr>
                             <div class="footer">
-                                <p-button label="Add To Cart" [text]="true" severity="help"></p-button>
+                                <p-button
+                                    (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                                    [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
+                                    severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
                             </div>
                         </div>
                     </div>

@@ -26,7 +26,8 @@ export class NavbarComponent {
         this.items = [
             {
                 label: 'Categories',
-                items: []
+                items: [],
+                routerLink: 'products'
             }
         ];
         this.getCategories();

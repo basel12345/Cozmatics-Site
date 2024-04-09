@@ -40,10 +40,11 @@
     .footer {
         display: flex;
         justify-content: center;
+
         p-button {
             font-weight: 400 !important;
             font-size: 12px;
-    
+
         }
     }
 
@@ -54,12 +55,22 @@
     }
 }
 
+.filter {
+    ::ng-deep button {
+        width: 100%;
+        text-align: center;
+        color: white;
+        margin-top: 10px;
+        background-color: black !important;
+    }
+}
+
 .not-found {
     height: 100vh;
 }
 
 h3,
 ::ng-deep.p-panel-title,
-::ng-deep.label-checkbox  {
+::ng-deep.label-checkbox {
     font-family: $brand-name-font !important;
 }

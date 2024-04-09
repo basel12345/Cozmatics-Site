@@ -13,22 +13,23 @@ import { RatingModule } from 'primeng/rating';
 import { IBrand } from '../../shared/models/brand';
 import { ProductsService } from '../../shared/services/products/products.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CartService } from '../../shared/services/cart.service';
+import { ICart } from '../../shared/models/cart';
+import { SliderModule } from 'primeng/slider';
+import { ICategory } from '../../shared/models/category';
 
 @Component({
 	selector: 'app-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule],
+	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule],
 	templateUrl: './products.component.html',
 	styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit, OnDestroy {
 	Products$!: Observable<IProducts[]>;
 	subscription!: Subscription;
-	FilterByGender: Array<{ Text: string, Value: number }> = [
-		{ Text: "Men", Value: 0 },
-		{ Text: "woman", Value: 1 },
-	]
-	arrOfFilter: Array<number> = [];
+	arrOfFilterBrand: Array<number> = [];
+	arrOfFilterCategory: Array<number> = [];
 	first: number = 0;
 	rows: number = 10;
 	branId!: string;
@@ -38,12 +39,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	titlePage!: string;
 	isFilterByProducts: boolean = false;
 	queryParams!: { BrandId: any; CatId: any; Discount: any; Tag: any; };
-
+	rangePrice: number[] = [0, 0];
+	Category!: ICategory[];
+;
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private productsService: ProductsService,
-		public sanitizer: DomSanitizer
+		public sanitizer: DomSanitizer,
+		public cartService: CartService
 	) { }
 
 	ngOnInit(): void {
@@ -84,7 +88,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 	getAllData() {
 		this.subscription = this.route.data.subscribe(res => {
-			if(!(res['BrandId'] || res['CatId'] || res['Discount'] || res['Tag'])) {
+			if (!(res['BrandId'] || res['CatId'] || res['Discount'] || res['Tag'])) {
 				if (res['ProductsByBrandId']) {
 					this.Products$ = of(res['ProductsByBrandId']['products']);
 					this.totalCount = res['ProductsByBrandId']?.['totalCount'];
@@ -100,6 +104,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				}
 			}
 			this.Brands = res['Brands'];
+			this.Category = res['Category'];
 		});
 	}
 
@@ -108,9 +113,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	selectSearch(checked: boolean, value: number) {
-		const checkValueInArray = this.arrOfFilter.find((res: number) => res === value);
-		if (checked && !checkValueInArray) this.arrOfFilter.push(value);
-		else this.arrOfFilter = this.arrOfFilter.filter((res: number) => res !== value);
+		const checkValueInArray = this.arrOfFilterBrand.find((res: number) => res === value);
+		if (checked && !checkValueInArray) this.arrOfFilterBrand.push(value);
+		else this.arrOfFilterBrand = this.arrOfFilterBrand.filter((res: number) => res !== value);
+	}
+
+	selectSearchCategory(checked: boolean, value: number) {
+		const checkValueInArray = this.arrOfFilterCategory.find((res: number) => res === value);
+		if (checked && !checkValueInArray) this.arrOfFilterCategory.push(value);
+		else this.arrOfFilterCategory = this.arrOfFilterCategory.filter((res: number) => res !== value);
 	}
 
 	onPageChange(event: any) {
@@ -136,6 +147,33 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				this.Products$ = of(res['products'])
 			});
 		}
+	}
+
+	addCart(cart: ICart) {
+		this.cartService.addCart(cart);
+	}
+
+	filter() {
+		this.productsService.pageNo = 1;
+		const data: {
+			brandIds: number[] | null,
+			categoryIds: number[] | null,
+			minPrice: number | null
+			maxPrice: number | null
+		} = {
+			brandIds: null,
+			categoryIds: null,
+			minPrice: null,
+			maxPrice: null,
+		};
+		data["brandIds"] = this.arrOfFilterBrand;
+		data["categoryIds"] = this.arrOfFilterCategory;
+		data["minPrice"] = this.rangePrice[0] ? this.rangePrice[0] : null;
+		data["maxPrice"] = this.rangePrice[1] ? this.rangePrice[1] : null;
+		this.productsService.filterSpecificProducts(data).subscribe(res => {
+			this.Products$ = of(res.products);
+			this.totalCount = res.totalCount;
+		})
 	}
 
 	ngOnDestroy(): void {
