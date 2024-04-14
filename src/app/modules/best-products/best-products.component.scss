@@ -35,6 +35,16 @@
             font-weight: bold;
             min-height: 25px;
         }
+
+        .tags {
+            font-size: 11px;
+            background: green;
+            width: fit-content;
+            padding: 0 6px;
+            color: white;
+            border-radius: 6px;
+            border: none;
+        }
     }
 
     .footer {
@@ -52,6 +62,16 @@
         cursor: pointer;
         box-shadow: 0 0 10px $base-input-color;
         transition: all ease-in-out .5s;
+    }
+}
+
+.filter {
+    ::ng-deep button {
+        width: 100%;
+        text-align: center;
+        color: white;
+        margin-top: 10px;
+        background-color: black !important;
     }
 }
 

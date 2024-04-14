@@ -40,12 +40,17 @@
             min-height: 25px;
         }
 
+        .description {
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+
         .footer {
             ::ng-deep button {
                 width: 100%;
                 text-align: center;
                 color: white;
-                margin-top: 55%;
+                margin-top: 20%;
             }
         }
     }

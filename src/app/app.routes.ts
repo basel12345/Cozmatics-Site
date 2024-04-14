@@ -46,7 +46,7 @@ export const routes: Routes = [
         loadComponent: () => import("./modules/products/products.component").then(c => c.ProductsComponent),
         resolve: {
             Brands: BrandsResolver,
-            ProductsByBrandId: ProductsByBrandIdResolver
+            Category: CategoryResolver
         }
     },
     {
@@ -81,7 +81,8 @@ export const routes: Routes = [
         loadComponent: () => import("./modules/recent-products/recent-products.component").then(c => c.RecentProductsComponent),
         resolve: {
             RecentProducts: RecentProductsResolver,
-            Brands: BrandsResolver
+            Brands: BrandsResolver,
+            Category: CategoryResolver
         }
     },
     {
@@ -89,7 +90,8 @@ export const routes: Routes = [
         loadComponent: () => import("./modules/best-products/best-products.component").then(c => c.BestProductsComponent),
         resolve: {
             BestProducts: BestProductsResolver,
-            Brands: BrandsResolver
+            Brands: BrandsResolver,
+            Category: CategoryResolver
         }
     },
     {

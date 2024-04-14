@@ -1,22 +1,29 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-2 col-12" *ngIf="Brands">
-            <p-panel header="Brand" [toggleable]="true">
+        <div class="col-md-2 col-12" *ngIf="Brands && !queryParams">
+            <p-panel *ngIf="!branId" header="Brand" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Brands">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel header="Category" [toggleable]="true">
+            <p-panel *ngIf="!categoryId" header="Category" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Category">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
-                        (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
+                        (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
             <p-panel header="Price" [toggleable]="true">
                 <p-slider [(ngModel)]="rangePrice" [range]="true"></p-slider>
+            </p-panel>
+            <p-panel header="Tags" [toggleable]="true">
+                <div class="my-1" *ngFor="let res of TagValues">
+                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res"
+                        (onChange)="selectSearchTags($event.checked, res)"></p-checkbox>
+                    <label class="label-checkbox" style="font-size: 12px;" for="binary">{{Tags[res] | uppercase}}</label>
+                </div>
             </p-panel>
             <div class="filter">
                 <p-button class="filter-btn" (onClick)="filter()" label="Filter" [text]="true"
@@ -43,6 +50,9 @@
                                         <p-rating [(ngModel)]="res.rateValue" [readonly]="true"
                                             [cancel]="false"></p-rating>
                                     </div>
+                                    <div class="tags" *ngIf="res.tag || res.tag === 0">
+                                        {{Tags[res.tag]}}
+                                    </div>
                                     <div class="price">
                                         <span
                                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
@@ -51,7 +61,8 @@
                                     </div>
                                     <div class="discount" *ngIf="res.discountPercentage">SAR {{(+res.discountPercentage
                                         /
-                                        +res.price ) * 100 | trimDecimalPipe}}</div>
+                                        +res.price ) * 100 | trimDecimalPipe}}
+                                    </div>
                                 </div>
                             </span>
                             <hr>

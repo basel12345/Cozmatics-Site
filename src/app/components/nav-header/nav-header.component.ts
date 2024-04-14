@@ -1,6 +1,6 @@
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext'
 import { DropdownModule } from 'primeng/dropdown';
@@ -12,6 +12,9 @@ import { ICart } from '../../shared/models/cart';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { LoadingService } from '../../shared/services/loading/loading.service';
+import { BadgeModule } from 'primeng/badge';
+import { CartService } from '../../shared/services/cart.service';
 
 type Droplist = {
 	name: string;
@@ -21,12 +24,12 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule],
+	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
 
-export class NavHeaderComponent implements OnInit {
+export class NavHeaderComponent implements OnInit, DoCheck {
 	sidebarVisible: boolean = false;
 	countries: Droplist[] | undefined;
 	users: Droplist[] | undefined;
@@ -39,11 +42,19 @@ export class NavHeaderComponent implements OnInit {
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
+		private loadingService: LoadingService,
+		public cartService: CartService
 	) { }
 
 	ngOnInit() {
 		this.handleDroplist();
 		this.getOrdersInCart();
+	}
+
+	ngDoCheck() {
+		const user = localStorage.getItem("user")
+		if (user)
+			this.user = JSON.parse(user);
 	}
 
 	handleDroplist(): void {
@@ -85,6 +96,7 @@ export class NavHeaderComponent implements OnInit {
 	logOut() {
 		localStorage.removeItem("user");
 		localStorage.removeItem("token");
-		this.router.navigate(["home"]);
+		this.loadingService.appearLoading();
+		location.reload();
 	}
 }

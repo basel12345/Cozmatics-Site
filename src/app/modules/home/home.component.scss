@@ -80,6 +80,16 @@
                     font-weight: bold;
                     min-height: 25px;
                 }
+
+                .tags {
+                    font-size: 11px;
+                    background: green;
+                    width: fit-content;
+                    padding: 0 6px;
+                    color: white;
+                    border-radius: 6px;
+                    border: none;
+                }
             }
 
             .footer {

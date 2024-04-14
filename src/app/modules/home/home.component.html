@@ -33,6 +33,9 @@
                         <div>
                             <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
                         </div>
+                        <div class="tags" *ngIf="res.tag || res.tag === 0">
+                            {{Tags[res.tag]}}
+                        </div>
                         <div class="price"
                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
                             SAR
@@ -85,6 +88,58 @@
                         <div class="sub-brand mb-3">{{res.name}}</div>
                         <div>
                             <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
+                        </div>
+                        <div class="tags" *ngIf="res.tag || res.tag === 0">
+                            {{Tags[res.tag]}}
+                        </div>
+                        <div class="price"
+                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                            SAR
+                            {{res.price}}<span> (VAT included)</span>
+                        </div>
+                        <div class="discount">
+                            <span *ngIf="res.discountPercentage">
+                                SAR {{(+res.discountPercentage
+                                /
+                                +res.price ) * 100 | trimDecimalPipe}}
+                            </span>
+                        </div>
+                    </div>
+                </span>
+                <hr>
+                <div class="footer">
+                    <p-button
+                        (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                        [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
+                        severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="recentProducts row" *ngIf="MostPopularProducts?.length">
+        <div class="row">
+            <div class="col-6">
+                <h4>Most Popular Products</h4>
+            </div>
+            <div class="col-6 text-end more">
+                <a (click)="bestProductsPage()">More than</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-2" *ngFor="let res of MostPopularProducts">
+            <div class="m-1 p-2 card">
+                <span (click)="navigateToProduct(res.id)">
+                    <div class="header">
+                        <img [src]="sanitizationImage(res.coverImg)" alt="">
+                    </div>
+                    <div class="body">
+                        <div class="brand">{{res.brandName}}</div>
+                        <div class="sub-brand mb-3">{{res.name}}</div>
+                        <div>
+                            <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
+                        </div>
+                        <div class="tags" *ngIf="res.tag || res.tag === 0">
+                            {{Tags[res.tag]}}
                         </div>
                         <div class="price"
                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">

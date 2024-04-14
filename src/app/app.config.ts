@@ -12,11 +12,12 @@ const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
   anchorScrolling: 'enabled',
 };
-const inMemoryScrollingFeature: InMemoryScrollingFeature =
-  withInMemoryScrolling(scrollConfig);
+const inMemoryScrollingFeature: InMemoryScrollingFeature = withInMemoryScrolling(scrollConfig);
+
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, inMemoryScrollingFeature), provideClientHydration(), provideHttpClient(withFetch(), withInterceptors([
-    authInterceptor
-  ])), provideAnimations(), provideToastr()
+  providers: [
+    provideRouter(routes, inMemoryScrollingFeature), provideClientHydration(), provideHttpClient(withFetch(), withInterceptors([
+      authInterceptor
+    ])), provideAnimations(), provideToastr()
   ]
 };

@@ -15,6 +15,10 @@ export class ReviewService {
 		return this.httpClient.get<IReview[]>("http://localhost:5237/api/Review/GetAll");
 	}
 
+	getReviewByProductId(id: string): Observable<IReview[]> {
+		return this.httpClient.get<IReview[]>(`http://localhost:5237/api/Review/GetByProductId?productId=${id}`);
+	}
+
 	addReview(review: {
 		comment: string | null;
 		rate: number | null;

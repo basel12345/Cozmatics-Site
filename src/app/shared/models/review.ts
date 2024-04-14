@@ -5,4 +5,5 @@ export interface IReview {
     productId: number;
     customerId: number;
     customerName: string;
+    createdOn: string;
 }

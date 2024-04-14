@@ -12,6 +12,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RatingModule } from 'primeng/rating';
 import { CartService } from '../../shared/services/cart.service';
 import { ICart } from '../../shared/models/cart';
+import { Tags } from '../../shared/models/tags';
 
 @Component({
 	selector: 'app-home',
@@ -32,6 +33,8 @@ export class HomeComponent implements OnInit {
 	RecentProducts!: IProducts[];
 	brandIdAdvertisement!: IAdvertisement[];
 	BestProducts!: IProducts[];
+	Tags = Tags;
+	MostPopularProducts!: IProducts[];
 	constructor(
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,
@@ -68,6 +71,7 @@ export class HomeComponent implements OnInit {
 			this.Advertisement = res['Advertisement'];
 			this.RecentProducts = res['RecentProducts']['products'].slice(0, 6);
 			this.BestProducts = res['BestProducts']['products'].slice(0, 6);
+			this.MostPopularProducts = this.products.filter(res => res.tag === 0)?.slice(0, 6);
 			this.discountAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.discount);
 			this.brandIdAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.brandId);
 		});
@@ -112,8 +116,8 @@ export class HomeComponent implements OnInit {
 		});
 	}
 
-	bestProductsPage(){
-		this.router.navigate(["BestProducts"])
+	bestProductsPage() {
+		this.router.navigate(["/BestProducts"])
 	}
 
 	addCart(cart: ICart) {

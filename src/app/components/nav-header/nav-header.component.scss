@@ -28,6 +28,13 @@ nav {
             margin-right: 15px;
             cursor: pointer;
         }
+
+        ::ng-deep .p-badge {
+            min-width: 1rem;
+            height: 1rem;
+            line-height: 1rem;
+            font-size: 12px;
+        }
     }
 
 }

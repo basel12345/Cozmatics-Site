@@ -15,6 +15,10 @@ export class CategoriesService {
 		return this.httpClient.get<ICategory[]>(`http://localhost:5237/api/Category/GetAll`);
 	}
 
+	getAllWithSubCategories(): Observable<ICategory[]> {
+		return this.httpClient.get<ICategory[]>(`http://localhost:5237/api/Category/GetAllWithSubCategories`);
+	}
+
 	getSelectedCategories(): Observable<ICategory[]> {
 		return this.httpClient.get<ICategory[]>(`http://localhost:5237/api/Category/GetSelectedCategories`);
 	}

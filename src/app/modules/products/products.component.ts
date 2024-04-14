@@ -17,6 +17,7 @@ import { CartService } from '../../shared/services/cart.service';
 import { ICart } from '../../shared/models/cart';
 import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
+import { Tags } from '../../shared/models/tags';
 
 @Component({
 	selector: 'app-products',
@@ -41,7 +42,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	queryParams!: { BrandId: any; CatId: any; Discount: any; Tag: any; };
 	rangePrice: number[] = [0, 0];
 	Category!: ICategory[];
-;
+	Tags = Tags;
+	TagValues = [0, 1, 2];
+	best!: boolean;
+	recent!: boolean;
+	mostPopular!: boolean;
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -89,15 +94,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	getAllData() {
 		this.subscription = this.route.data.subscribe(res => {
 			if (!(res['BrandId'] || res['CatId'] || res['Discount'] || res['Tag'])) {
-				if (res['ProductsByBrandId']) {
-					this.Products$ = of(res['ProductsByBrandId']['products']);
-					this.totalCount = res['ProductsByBrandId']?.['totalCount'];
-					this.titlePage = res["ProductsByBrandId"]['products'][0]?.brandName;
-				} else if (res['ProductByCategoryId']) {
-					this.Products$ = of(res['ProductByCategoryId']['products']);
-					this.totalCount = res['ProductByCategoryId']?.['totalCount'];
-					this.titlePage = res["ProductByCategoryId"]['products'][0]?.categoryName;
-				} else if (res['Products']) {
+				if (res['Products']) {
 					this.Products$ = of(res['Products']['products']);
 					this.totalCount = res['Products']['totalCount'];
 					this.titlePage = "Total Products";
@@ -106,6 +103,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			this.Brands = res['Brands'];
 			this.Category = res['Category'];
 		});
+		if (this.branId) {
+			this.productsService.getProductsByBrandId(this.branId).subscribe((res: { products: IProducts[], totalCount: number }) => {
+				this.Products$ = of(res['products']);
+				this.totalCount = res?.['totalCount'];
+				this.titlePage = res['products'][0]?.brandName;
+			});
+		}
+		else if (this.categoryId) {
+			this.productsService.getProductsByCategoryId(this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
+				this.Products$ = of(res['products']);
+				this.titlePage = res['products'][0]?.categoryName;
+				this.totalCount = res?.['totalCount'];
+			});
+		}
 	}
 
 	navigateToProduct(id: number) {
@@ -122,6 +133,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		const checkValueInArray = this.arrOfFilterCategory.find((res: number) => res === value);
 		if (checked && !checkValueInArray) this.arrOfFilterCategory.push(value);
 		else this.arrOfFilterCategory = this.arrOfFilterCategory.filter((res: number) => res !== value);
+	}
+
+	selectSearchTags(checked: boolean, value: number) {
+		if (value === 0) this.mostPopular = checked
+		else if (value === 1) this.recent = checked;
+		else if (value === 2) this.best = checked;
 	}
 
 	onPageChange(event: any) {
@@ -156,24 +173,39 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	filter() {
 		this.productsService.pageNo = 1;
 		const data: {
-			brandIds: number[] | null,
-			categoryIds: number[] | null,
-			minPrice: number | null
-			maxPrice: number | null
+			brandIds?: number[] | null,
+			categoryIds?: number[] | null,
+			minPrice?: number | null
+			maxPrice?: number | null,
+			tags?: number[] | null,
+			best: boolean,
+			recent: boolean,
+			mostPopular: boolean,
 		} = {
 			brandIds: null,
 			categoryIds: null,
-			minPrice: null,
+			minPrice: 0,
 			maxPrice: null,
+			tags: null,
+			best: false,
+			recent: false,
+			mostPopular: false,
 		};
 		data["brandIds"] = this.arrOfFilterBrand;
 		data["categoryIds"] = this.arrOfFilterCategory;
-		data["minPrice"] = this.rangePrice[0] ? this.rangePrice[0] : null;
-		data["maxPrice"] = this.rangePrice[1] ? this.rangePrice[1] : null;
-		this.productsService.filterSpecificProducts(data).subscribe(res => {
-			this.Products$ = of(res.products);
-			this.totalCount = res.totalCount;
-		})
+		data["best"] = this.best;
+		data["recent"] = this.recent;
+		data["mostPopular"] = this.mostPopular;
+		this.rangePrice[1] ? data["minPrice"] = this.rangePrice[0] : delete data["minPrice"];
+		this.rangePrice[1] ? data["maxPrice"] = this.rangePrice[1] : delete data["maxPrice"];
+		if (data["brandIds"].length || data["categoryIds"].length || data["maxPrice"] || data["best"] || data["recent"] || data["mostPopular"]) {
+			this.productsService.filterSpecificProducts(data).subscribe(res => {
+				this.Products$ = of(res.products);
+				this.totalCount = res.totalCount;
+			})
+		} else {
+			this.paginationData()
+		}
 	}
 
 	ngOnDestroy(): void {

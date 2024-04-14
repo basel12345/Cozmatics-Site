@@ -43,9 +43,11 @@ export class NavbarComponent {
             if (this.items?.length) {
                 this.items?.[0]?.items?.push(...category);
                 for (let index = 0; index < 4; index++) {
-                    this.items[index + 1] = {
-                        label: res[index].name, command: (event: any) => {
-                            this.navigateToCategories(res[index])
+                    if (res[index]) {
+                        this.items[index + 1] = {
+                            label: res[index].name, command: (event: any) => {
+                                this.navigateToCategories(res[index])
+                            }
                         }
                     }
                 }

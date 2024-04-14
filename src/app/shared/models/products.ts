@@ -7,11 +7,12 @@ export interface IProducts {
     price: number;
     qty: number;
     discountPercentage: number;
-    tagName: string;
+    tag: number;
     coverImg: string;
     brandImg: string;
     rateValue: number;
     totalRate: number;
+    categoryName: string;
     brandName: string;
     productImgs: [
         {

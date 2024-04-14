@@ -19,13 +19,17 @@
                 <p-rating [(ngModel)]="product.rateValue" [readonly]="true"
                     [cancel]="false"></p-rating>({{product.totalRate}})
             </div>
-            <h4 class="d-inline-block" [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">SAR {{product.price}}</h4> <span> (VAT included)</span>
+            <h4 class="d-inline-block"
+                [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">SAR
+                {{product.price}}</h4> <span> (VAT included)</span>
             <h4 class="discount" *ngIf="product.discountPercentage">SAR {{(+product.discountPercentage
                 /
                 +product.price ) * 100 | trimDecimalPipe}}</h4>
-            <p>{{product.description}}</p>
+            <p class="description">{{product.description}}</p>
             <div class="footer">
-                <p-button  [label]="!cartService.checkInCart(product.id) ? 'Add To Cart' : 'Done'" [raised]="true" [disabled]="cartService.checkInCart(product.id) || !product.qty"></p-button>
+                <p-button [label]="!cartService.checkInCart(product.id) ? 'Add To Cart' : 'Done'" [raised]="true"
+                (onClick)="addCart({id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: product.qty})"
+                    [disabled]="cartService.checkInCart(product.id) || !product.qty"></p-button>
             </div>
         </div>
 
@@ -37,7 +41,7 @@
                 <div class="card p-3 m-2" *ngFor="let res of Review">
                     <div><p-rating [(ngModel)]="res.rate" [readonly]="true" [cancel]="false"></p-rating></div>
                     <div>{{res.customerName}}</div>
-                    <span class="create-date">2024/04/08</span>
+                    <span class="create-date">{{res.createdOn | date}}</span>
                     <div>{{res.comment}}</div>
                 </div>
             </p-tabPanel>

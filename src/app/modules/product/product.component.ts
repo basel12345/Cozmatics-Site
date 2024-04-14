@@ -87,7 +87,7 @@ export class ProductComponent implements OnInit {
 	addReviewToProduct() {
 		this.reviewService.addReview(this.addReview).subscribe(res => {
 			this.toastr.success('Review', 'Success');
-			this.reviewService.getAllReview().subscribe(res => {
+			this.reviewService.getReviewByProductId(""+this.product.id).subscribe(res => {
 				this.Review = res;
 				this.visible = false;
 			})
