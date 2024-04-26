@@ -1,10 +1,10 @@
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext'
 import { DropdownModule } from 'primeng/dropdown';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { Router } from '@angular/router';
 import { IUser } from '../../shared/models/user';
@@ -43,7 +43,8 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 		private router: Router,
 		public sanitizer: DomSanitizer,
 		private loadingService: LoadingService,
-		public cartService: CartService
+		public cartService: CartService,
+		@Inject(PLATFORM_ID) private platformId: object
 	) { }
 
 	ngOnInit() {
@@ -52,9 +53,11 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	}
 
 	ngDoCheck() {
-		const user = localStorage.getItem("user")
-		if (user)
-			this.user = JSON.parse(user);
+		if (isPlatformBrowser(this.platformId)) {
+			const user = localStorage.getItem("user")
+			if (user)
+				this.user = JSON.parse(user);
+		}
 	}
 
 	handleDroplist(): void {
@@ -70,8 +73,10 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	}
 
 	getOrdersInCart() {
-		const carts = localStorage.getItem("carts")
-		if (carts) this.carts = JSON.parse(carts);
+		if (isPlatformBrowser(this.platformId)) {
+			const carts = localStorage.getItem("carts")
+			if (carts) this.carts = JSON.parse(carts);
+		}
 	}
 
 	navigateToSign(path: Droplist) {
@@ -83,19 +88,29 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	}
 
 	showSideBar() {
-		const carts = localStorage.getItem("carts")
-		if (carts) this.carts = JSON.parse(carts);
-		this.sidebarVisible = true
+		if (isPlatformBrowser(this.platformId)) {
+			const carts = localStorage.getItem("carts")
+			if (carts) this.carts = JSON.parse(carts);			
+			this.sidebarVisible = true
+		}
 	}
 
 	clear(id: number) {
 		this.carts = this.carts.filter(res => res.id !== id);
-		localStorage.setItem("carts", JSON.stringify(this.carts));
+		if (isPlatformBrowser(this.platformId)) {
+			localStorage.setItem("carts", JSON.stringify(this.carts));
+		}
+	}
+
+	navigateToHome() {
+		this.router.navigate(['home'])
 	}
 
 	logOut() {
-		localStorage.removeItem("user");
-		localStorage.removeItem("token");
+		if (isPlatformBrowser(this.platformId)) {
+			localStorage.removeItem("user");
+			localStorage.removeItem("token");
+		}
 		this.loadingService.appearLoading();
 		location.reload();
 	}

@@ -120,6 +120,10 @@ export class HomeComponent implements OnInit {
 		this.router.navigate(["/BestProducts"])
 	}
 
+	mostPopularProducts() {
+		this.router.navigate(["/mostPopularProducts"])
+	}
+
 	addCart(cart: ICart) {
 		this.cartService.addCart(cart);
 	}

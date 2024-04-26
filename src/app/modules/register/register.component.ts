@@ -7,6 +7,7 @@ import { DividerModule } from 'primeng/divider';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-register',
@@ -18,7 +19,11 @@ import { AuthService } from '../../shared/services/auth/auth.service';
 export class RegisterComponent implements OnInit {
 	submitted: boolean = false;
 	registerForm!: FormGroup;
-	constructor(private fb: FormBuilder, private service: AuthService) { }
+	constructor(
+		private fb: FormBuilder,
+		private service: AuthService,
+		private router: Router
+	) { }
 
 	ngOnInit(): void {
 		this.createRegisterForm();
@@ -35,11 +40,11 @@ export class RegisterComponent implements OnInit {
 
 	register(): void {
 		this.submitted = true;
-		console.log(this.registerForm);
-		if(this.registerForm.valid) {
+		if (this.registerForm.valid) {
 			this.service.register(this.registerForm.getRawValue()).subscribe(res => {
-				console.log(res);
-				
+				localStorage.setItem('user', JSON.stringify(res));
+				localStorage.setItem('token', JSON.stringify(res.token));
+				this.router.navigate(['home']);
 			})
 		}
 	}

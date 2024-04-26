@@ -5,7 +5,7 @@ import {
 	HttpEvent,
 	HttpResponse,
 } from '@angular/common/http';
-import { map, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { LoadingService } from '../../shared/services/loading/loading.service';
 
 export function authInterceptor(request: HttpRequest<any>, next: HttpHandlerFn) {
@@ -15,10 +15,9 @@ export function authInterceptor(request: HttpRequest<any>, next: HttpHandlerFn) 
 	function handleLoad() {
 		loadingService.appearLoading();
 		return next(request).pipe(tap((event: HttpEvent<any>) => {
+			loadingService.appearLoading();
 			if (event instanceof HttpResponse) {
-				if (event.status === 200) {
-					loadingService.hideLoading();
-				}
+				loadingService.hideLoading();
 			}
 			return event;
 		}));

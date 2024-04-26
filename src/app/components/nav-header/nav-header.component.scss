@@ -4,6 +4,10 @@ nav {
     .row {
         width: 100% !important;
 
+        .logo {
+            cursor: pointer;
+        }
+
         ::ng-deep.p-dropdown {
             border: none;
 
@@ -54,7 +58,9 @@ nav {
             font-weight: bold;
             min-height: 25px;
         }
-        button,input {
+
+        button,
+        input {
             width: 100%;
             height: 40px;
         }

@@ -11,25 +11,43 @@
         </div>
         <div class="col-12 col-md-5 desc">
             <img class="d-block" [src]="sanitizationImage(product.brandImg)" alt="">
-            <h6>{{product.name}}</h6>
-            <div>
+            <h6 class="mt-2">{{product.name}}</h6>
+            <div class="mt-2">
                 Available Quantity: {{product.qty ? product.qty : 0}}
             </div>
-            <div>
+            <div class="mt-2">
                 <p-rating [(ngModel)]="product.rateValue" [readonly]="true"
                     [cancel]="false"></p-rating>({{product.totalRate}})
             </div>
-            <h4 class="d-inline-block"
+            <h4 class="d-inline-block mt-2"
                 [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">SAR
                 {{product.price}}</h4> <span> (VAT included)</span>
-            <h4 class="discount" *ngIf="product.discountPercentage">SAR {{(+product.discountPercentage
+            <h4 class="discount mt-2" *ngIf="product.discountPercentage">SAR {{(+product.discountPercentage
                 /
                 +product.price ) * 100 | trimDecimalPipe}}</h4>
-            <p class="description">{{product.description}}</p>
+            <div class="flex flex-wrap gap-3 mt-2">
+                <div class="flex align-items-center">
+                    <ng-container *ngFor="let res of attributeValuesSizes">
+                        <p-radioButton (ngModelChange)="changeSizes($event)" [name]="res.value" [(ngModel)]="sizes"
+                            [value]="res.value" inputId="ingredient1"></p-radioButton>
+                        <label for="ingredient1" class="ml-2 mx-2">{{res.value}}</label>
+                    </ng-container>
+                </div>
+                <div class="flex align-items-center">
+                    <ng-container *ngFor="let res of attributeValuesColors">
+                        <p-radioButton [name]="res.value" [(ngModel)]="colors" [value]="res.value"
+                            inputId="ingredient2"></p-radioButton>
+                        <label for="ingredient2" class="ml-2 mx-2" [style.color]="res.value">{{res.value}}</label>
+                    </ng-container>
+                </div>
+            </div>
+            <p class="description mt-2">{{product.description}}</p>
+            <span class="danger mt-2" *ngIf="textNotFoundMessageSize">{{textNotFoundMessageSize}}</span>
+            <span class="danger mt-2" *ngIf="textNotFoundMessageColor">{{textNotFoundMessageColor}}</span>
             <div class="footer">
                 <p-button [label]="!cartService.checkInCart(product.id) ? 'Add To Cart' : 'Done'" [raised]="true"
-                (onClick)="addCart({id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: product.qty})"
-                    [disabled]="cartService.checkInCart(product.id) || !product.qty"></p-button>
+                    (onClick)="addCart({id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: product.qty})"
+                    [disabled]="!!textNotFoundMessageSize || !!textNotFoundMessageColor || cartService.checkInCart(product.id) || !product.qty"></p-button>
             </div>
         </div>
 

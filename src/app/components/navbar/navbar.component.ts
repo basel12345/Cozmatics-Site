@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,17 +13,18 @@ import { ICategory } from '../../shared/models/category';
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
     items: MenuItem[] | undefined;
     constructor(
         private categoriesService: CategoriesService,
         private router: Router
     ) {
-
-    }
-
-    ngOnInit() {
         this.items = [
+            {
+                label: 'Home',
+                items: [],
+                routerLink: 'products'
+            },
             {
                 label: 'Categories',
                 items: [],
@@ -33,19 +34,17 @@ export class NavbarComponent {
         this.getCategories();
     }
 
+    ngOnInit() { }
+
     getCategories() {
-        this.categoriesService.getAllCategories().subscribe((res: ICategory[]) => {
-            const category = res.map((data: ICategory, index: number) => ({
-                label: data.name, command: (event: any) => {
-                    this.navigateToCategories(data)
-                }
-            }))
+        this.categoriesService.getAllWithSubCategories().subscribe(res => {
+            const category = this.handleCategories(res);
             if (this.items?.length) {
-                this.items?.[0]?.items?.push(...category);
-                for (let index = 0; index < 4; index++) {
+                this.items?.[1]?.items?.push(...category);
+                for (let index = 1; index < 5; index++) {
                     if (res[index]) {
                         this.items[index + 1] = {
-                            label: res[index].name, command: (event: any) => {
+                            label: res[index - 1].name, command: (event: any) => {
                                 this.navigateToCategories(res[index])
                             }
                         }
@@ -56,7 +55,18 @@ export class NavbarComponent {
                     routerLink: 'brands'
                 })
             }
-        });
+        })
+    }
+
+
+    handleCategories(data: ICategory[]): any {
+        return data.map((data: ICategory, index: number) => {
+            return ({
+                label: data.name, command: (event: any) => {
+                    this.navigateToCategories(data)
+                }, items: data.subCategories.length ? this.handleCategories(data.subCategories) : []
+            })
+        })
     }
 
     navigateToCategories(data: ICategory) {

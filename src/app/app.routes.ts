@@ -42,6 +42,14 @@ export const routes: Routes = [
         },
     },
     {
+        path: "mostPopularProducts",
+        loadComponent: () => import("./modules/most-popular-products/most-popular-products.component").then(c => c.MostPopularProductsComponent),
+        resolve: {
+            Brands: BrandsResolver,
+            Category: CategoryResolver
+        },
+    },
+    {
         path: "productsByBrand",
         loadComponent: () => import("./modules/products/products.component").then(c => c.ProductsComponent),
         resolve: {

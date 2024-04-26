@@ -31,8 +31,8 @@ export class ProductsService {
         return this.http.get<{ products: IProducts[], totalCount: number }>(`http://localhost:5237/api/Product/GetProductsByBrandId?pageNo=${this.pageNo}&pageSize=${this.pageSize}&brandId=${id}`);
     }
 
-    getProductById(id: string) {
-        return this.http.get<IProducts[]>(`http://localhost:5237/api/Product/GetProductDetails?id=${id}`);
+    getProductById(id: string): Observable<IProducts> {
+        return this.http.get<IProducts>(`http://localhost:5237/api/Product/GetProductDetails?id=${id}`);
     }
 
     getRecentProducts(): Observable<{ products: IProducts[], totalCount: number }> {

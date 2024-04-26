@@ -210,6 +210,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.subscription?.unsubscribe();
-		this.productsService.pageNo = 0;
+		this.productsService.pageNo = 1;
 	}
 }

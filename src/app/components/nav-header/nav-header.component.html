@@ -1,9 +1,14 @@
 <nav>
     <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-md-4 text-start logo" (click)="navigateToHome()">
+            <img class="ms-5 my-1" src="assets/ICON.png" width="50px" height="50px" alt="">
         </div>
-        <div class="col-6 text-end">
-            <a (click)="showSideBar()" class="pi pi-shopping-bag" pBadge [value]="'' + cartService.getCartength"></a>
+        <div class="col-12 col-md-4 text-center">
+            <img class="my-1" src="assets/textEN.png" width="300px" height="50px" alt="">
+        </div>
+        <div class="col-12 col-md-4 text-end">
+            <a (click)="showSideBar()" class="pi pi-shopping-bag" severity="warning" pBadge
+                [value]="'' + cartService.getCartength ? cartService.getCartength : 0"></a>
             <p-dropdown [options]="countries" [(ngModel)]="selectedLanguage" optionLabel="name">
                 <ng-template pTemplate="selectedItem">
                     <div class="flex align-items-center gap-2" *ngIf="selectedLanguage">

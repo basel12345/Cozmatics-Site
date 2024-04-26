@@ -5,12 +5,11 @@
 @import "assets/styles/colors.scss";
 @import 'ngx-toastr/toastr';
 
-// @import url(~fullpage.js/dist/fullpage.min.css);
-
 // change default css
 .fp-controlArrow {
     padding: 0 1%;
 }
+
 body {
     background-color: $base-color;
 }

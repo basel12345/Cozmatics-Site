@@ -19,5 +19,7 @@ export interface IProducts {
             image: string;
             isCover: boolean;
         }
-    ]
+    ];
+    attributeValues: Array<any>;
+    hasAttr: boolean;
 }
