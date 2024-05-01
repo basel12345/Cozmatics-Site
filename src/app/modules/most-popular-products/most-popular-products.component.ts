@@ -1,3 +1,4 @@
+import { CartService } from './../../shared/services/cart.service';
 import { IProducts } from './../../shared/models/products';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -16,6 +17,7 @@ import { IBrand } from '../../shared/models/brand';
 import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
+import { ICart } from '../../shared/models/cart';
 
 @Component({
   selector: 'app-most-popular-products',
@@ -27,10 +29,6 @@ import { Tags } from '../../shared/models/tags';
 export class MostPopularProductsComponent {
   subscription!: Subscription;
   totalCount: number = 0;
-  FilterByGender: Array<{ Text: string, Value: number }> = [
-    { Text: "Men", Value: 0 },
-    { Text: "woman", Value: 1 },
-  ]
   titlePage!: string;
   Brands!: IBrand[];
   Products$!: Observable<IProducts[]>;
@@ -46,7 +44,8 @@ export class MostPopularProductsComponent {
     private route: ActivatedRoute,
     private router: Router,
     private productsService: ProductsService,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    public cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -98,6 +97,10 @@ export class MostPopularProductsComponent {
       this.totalCount = res.totalCount;
     })
   }
+
+    addCart(cart: ICart) {
+      this.cartService.addCart(cart);
+    }
 
   filter() {
     this.productsService.pageNo = 1;

@@ -13,7 +13,8 @@
             <img class="d-block" [src]="sanitizationImage(product.brandImg)" alt="">
             <h6 class="mt-2">{{product.name}}</h6>
             <div class="mt-2">
-                Available Quantity: {{product.qty ? product.qty : 0}}
+                Available Total Quantity: {{product.qty ? product.qty : 0}}
+                <span *ngIf="qntySize || qntyColors"> (Available Quantity: {{qntySize ? qntySize : qntyColors}})</span>
             </div>
             <div class="mt-2">
                 <p-rating [(ngModel)]="product.rateValue" [readonly]="true"
@@ -28,15 +29,15 @@
             <div class="flex flex-wrap gap-3 mt-2">
                 <div class="flex align-items-center">
                     <ng-container *ngFor="let res of attributeValuesSizes">
-                        <p-radioButton (ngModelChange)="changeSizes($event)" [name]="res.value" [(ngModel)]="sizes"
+                        <p-radioButton (ngModelChange)="change($event, 'Sizes')" [name]="res.value" [(ngModel)]="sizes"
                             [value]="res.value" inputId="ingredient1"></p-radioButton>
                         <label for="ingredient1" class="ml-2 mx-2">{{res.value}}</label>
                     </ng-container>
                 </div>
                 <div class="flex align-items-center">
                     <ng-container *ngFor="let res of attributeValuesColors">
-                        <p-radioButton [name]="res.value" [(ngModel)]="colors" [value]="res.value"
-                            inputId="ingredient2"></p-radioButton>
+                        <p-radioButton (ngModelChange)="change($event, 'Colors')" [name]="res.value"
+                            [(ngModel)]="colors" [value]="res.value" inputId="ingredient2"></p-radioButton>
                         <label for="ingredient2" class="ml-2 mx-2" [style.color]="res.value">{{res.value}}</label>
                     </ng-container>
                 </div>

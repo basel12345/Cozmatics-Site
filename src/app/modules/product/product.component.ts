@@ -1,11 +1,11 @@
 import { FormsModule } from '@angular/forms';
 import { IProducts } from './../../shared/models/products';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { RatingModule } from 'primeng/rating';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TabViewModule } from 'primeng/tabview';
 import { IReview } from '../../shared/models/review';
@@ -56,29 +56,30 @@ export class ProductComponent implements OnInit {
 		private reviewService: ReviewService,
 		private toastr: ToastrService,
 		public cartService: CartService,
-		private productService: ProductsService
+		private productService: ProductsService,
+		@Inject(PLATFORM_ID) private platformId: object
 	) { }
 
 	ngOnInit(): void {
 		this.getProductById();
-		const user = localStorage.getItem("user");
-		if (user) {
-			this.addReview.customerId = JSON.parse(user).userId;
-			this.addReview.productId = this.product.id;
+		if (isPlatformBrowser(this.platformId)) {
+			const user = localStorage.getItem("user");
+			if (user) {
+				this.addReview.customerId = JSON.parse(user).userId;
+				this.addReview.productId = this.product.id;
+			}
 		}
-
 	}
 
-	changeSizes(event: string) {
-		this.qntySize = this.attributeValuesSizes.find(res => res.value === event)?.qty;
-		this.qntySize ? this.textNotFoundMessageSize = "This Size is not available now" : this.textNotFoundMessageSize = "";
+	change(event: string, type: string) {
+		if(type === "Sizes") {
+			this.qntySize = this.attributeValuesSizes.find(res => res.value === event)?.qty;
+			this.qntySize ? this.textNotFoundMessageSize = "This Size is not available now" : this.textNotFoundMessageSize = "";
+		} else if(type === "Colors") {
+			this.qntyColors = this.attributeValuesColors.find(res => res.value === event)?.qty;
+			this.qntyColors ? this.textNotFoundMessageColor = "This Color is not available now" : this.textNotFoundMessageColor = "";	
+		}
 	}
-
-	changeColors(event: string) {
-		this.qntyColors = this.attributeValuesColors.find(res => res.value === event)?.qty;
-		this.qntyColors ? this.textNotFoundMessageColor = "This Color is not available now" : this.textNotFoundMessageColor = "";
-	}
-
 
 	getProductById() {
 		this.route.data.subscribe(res => {

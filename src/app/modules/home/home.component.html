@@ -52,10 +52,12 @@
                 </span>
                 <hr>
                 <div class="footer">
-                    <p-button
+                    <p-button *ngIf="!res.hasAttr"
                         (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
                         [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
                         severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
+                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'View Product'"
+                        [text]="true" severity="help"></p-button>
                 </div>
             </div>
         </div>
@@ -108,10 +110,12 @@
                 </span>
                 <hr>
                 <div class="footer">
-                    <p-button
+                    <p-button *ngIf="!res.hasAttr"
                         (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
                         [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
                         severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
+                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'View Product'"
+                        [text]="true" severity="help"></p-button>
                 </div>
             </div>
         </div>
@@ -157,10 +161,12 @@
                 </span>
                 <hr>
                 <div class="footer">
-                    <p-button
+                    <p-button *ngIf="!res.hasAttr"
                         (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
                         [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
                         severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
+                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'View Product'"
+                        [text]="true" severity="help"></p-button>
                 </div>
             </div>
         </div>

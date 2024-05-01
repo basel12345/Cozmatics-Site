@@ -16,6 +16,8 @@ import { IBrand } from '../../shared/models/brand';
 import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
+import { ICart } from '../../shared/models/cart';
+import { CartService } from '../../shared/services/cart.service';
 
 @Component({
 	selector: 'app-recent-products',
@@ -27,10 +29,6 @@ import { Tags } from '../../shared/models/tags';
 export class RecentProductsComponent implements OnInit {
 	subscription!: Subscription;
 	totalCount: number = 0;
-	FilterByGender: Array<{ Text: string, Value: number }> = [
-		{ Text: "Men", Value: 0 },
-		{ Text: "woman", Value: 1 },
-	]
 	titlePage!: string;
 	Brands!: IBrand[];
 	Products$!: Observable<IProducts[]>;
@@ -46,7 +44,8 @@ export class RecentProductsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private productsService: ProductsService,
-		public sanitizer: DomSanitizer
+		public sanitizer: DomSanitizer,
+		public cartService: CartService
 	) { }
 
 	ngOnInit(): void {
@@ -87,6 +86,10 @@ export class RecentProductsComponent implements OnInit {
 		this.productsService.getRecentProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
 		});
+	}
+
+	addCart(cart: ICart) {
+		this.cartService.addCart(cart);
 	}
 
 	filter() {

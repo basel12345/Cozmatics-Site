@@ -16,6 +16,8 @@ import { IBrand } from '../../shared/models/brand';
 import { ICategory } from '../../shared/models/category';
 import { SliderModule } from 'primeng/slider';
 import { Tags } from '../../shared/models/tags';
+import { ICart } from '../../shared/models/cart';
+import { CartService } from '../../shared/services/cart.service';
 
 @Component({
 	selector: 'app-best-products',
@@ -27,10 +29,6 @@ import { Tags } from '../../shared/models/tags';
 export class BestProductsComponent {
 	subscription!: Subscription;
 	totalCount: number = 0;
-	FilterByGender: Array<{ Text: string, Value: number }> = [
-		{ Text: "Men", Value: 0 },
-		{ Text: "woman", Value: 1 },
-	]
 	titlePage!: string;
 	Brands!: IBrand[];
 	Products$!: Observable<IProducts[]>;
@@ -45,7 +43,8 @@ export class BestProductsComponent {
 		private route: ActivatedRoute,
 		private router: Router,
 		private productsService: ProductsService,
-		public sanitizer: DomSanitizer
+		public sanitizer: DomSanitizer,
+		public cartService: CartService
 	) { }
 
 	ngOnInit(): void {
@@ -92,6 +91,10 @@ export class BestProductsComponent {
 		this.first = event.first;
 		this.rows = event.rows;
 		this.paginationData();
+	}
+
+	addCart(cart: ICart) {
+		this.cartService.addCart(cart);
 	}
 
 	filter() {
