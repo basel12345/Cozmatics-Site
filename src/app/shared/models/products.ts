@@ -22,4 +22,5 @@ export interface IProducts {
     ];
     attributeValues: Array<any>;
     hasAttr: boolean;
+    creationDate?: string;
 }

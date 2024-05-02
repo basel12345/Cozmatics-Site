@@ -128,6 +128,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		this.router.navigate([`product/${id}`]);
 	}
 
+	handeleDate(date: string): boolean {
+		const creationDate = new Date(date);
+		const today = new Date();
+		const diffTime = today.getTime() - creationDate.getTime();
+		let Difference_In_Days = Math.round(diffTime / (1000 * 3600 * 24));
+		return Difference_In_Days < 8 ? true : false;
+	}
+
 	selectSearch(checked: boolean, value: number) {
 		const checkValueInArray = this.arrOfFilterBrand.find((res: number) => res === value);
 		if (checked && !checkValueInArray) this.arrOfFilterBrand.push(value);

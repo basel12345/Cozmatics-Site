@@ -51,8 +51,12 @@
                                         <p-rating [(ngModel)]="res.rateValue" [readonly]="true"
                                             [cancel]="false"></p-rating>
                                     </div>
-                                    <div class="tags" *ngIf="res.tag || res.tag === 0">
-                                        {{Tags[res.tag]}}
+                                    <div>
+                                        <span class="tags" *ngIf="res.tag || res.tag === 0">{{Tags[res.tag]}}</span>
+                                        <span class="tags" *ngIf="res.rateValue > 4 && res.tag !== 2">
+                                            {{Tags[2]}}</span>
+                                        <span class="tags" *ngIf="res.creationDate && handeleDate(res.creationDate) && res.tag !== 1">
+                                            {{Tags[1]}}</span>
                                     </div>
                                     <div class="price">
                                         <span
