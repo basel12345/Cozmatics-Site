@@ -61,5 +61,8 @@
                     decrementButtonIcon="pi pi-minus"></p-inputNumber>
             </div>
         </div>
+        <div *ngIf="carts?.length" class="footer">
+            <p-button (click)="placeOrder()" [label]="'Place Order'" [raised]="true"></p-button>
+        </div>
     </span>
 </p-sidebar>

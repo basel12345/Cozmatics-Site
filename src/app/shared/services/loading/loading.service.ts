@@ -8,7 +8,9 @@ export class LoadingService {
 	constructor() { }
 
 	hideLoading() {
-		this.show = false;
+		setTimeout(() => {
+			this.show = false;
+		})
 	}
 
 	appearLoading() {

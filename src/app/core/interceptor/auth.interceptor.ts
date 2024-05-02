@@ -16,9 +16,6 @@ export function authInterceptor(request: HttpRequest<any>, next: HttpHandlerFn) 
 		loadingService.appearLoading();
 		return next(request).pipe(tap((event: HttpEvent<any>) => {
 			loadingService.appearLoading();
-			if (event instanceof HttpResponse) {
-				loadingService.hideLoading();
-			}
 			return event;
 		}));
 

@@ -1,3 +1,4 @@
+import { LoadingService } from './../../shared/services/loading/loading.service';
 import { CommonModule } from '@angular/common';
 import { IBrand } from './../../shared/models/brand';
 import { Component, OnInit } from '@angular/core';
@@ -20,7 +21,8 @@ export class BrandsComponent implements OnInit {
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
-		public sanitizer: DomSanitizer
+		public sanitizer: DomSanitizer,
+		private loadingService: LoadingService
 	) { }
 
 	ngOnInit(): void {
@@ -28,7 +30,10 @@ export class BrandsComponent implements OnInit {
 	}
 
 	getAllBrands(): void {
-		this.route.data.subscribe(res => this.Brands = res['Brands']);
+		this.route.data.subscribe(res => {
+			this.Brands = res['Brands'];
+			this.loadingService.hideLoading();
+		});
 	}
 
 	sanitizationImage(image: string): SafeResourceUrl {

@@ -15,6 +15,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { LoadingService } from '../../shared/services/loading/loading.service';
 import { BadgeModule } from 'primeng/badge';
 import { CartService } from '../../shared/services/cart/cart.service';
+import Swal from 'sweetalert2';
 
 type Droplist = {
 	name: string;
@@ -90,7 +91,7 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	showSideBar() {
 		if (isPlatformBrowser(this.platformId)) {
 			const carts = localStorage.getItem("carts")
-			if (carts) this.carts = JSON.parse(carts);			
+			if (carts) this.carts = JSON.parse(carts);
 			this.sidebarVisible = true
 		}
 	}
@@ -104,6 +105,27 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 
 	navigateToHome() {
 		this.router.navigate(['home'])
+	}
+
+	placeOrder() {
+		this.cartService.placeOrder(this.carts).subscribe((res: any) => {
+			if (res?.rejectedProductIds.length) {
+				Swal.fire({
+					title: 'Quantities of these following products is not available now',
+					icon: 'error',
+					html: `
+					${res.rejectedProductIds.map((element: any) => (
+						`<div>
+								<span style="display: block">Product Name: ${element.productId}</span>
+								<span style="display: block">Attribute : ${element.attrValueId}</span>
+						</div>`
+					))
+						}
+					`,
+					confirmButtonText: 'Ok'
+				});
+			}
+		})
 	}
 
 	logOut() {

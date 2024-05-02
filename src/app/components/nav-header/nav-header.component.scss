@@ -70,6 +70,13 @@ nav {
             font-weight: bolder;
             font-size: 20px;
         }
+
+        .footer {
+            ::ng-deep button {
+                background-color: black !important;
+        
+            }
+        }
     }
 
 }

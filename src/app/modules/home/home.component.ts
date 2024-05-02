@@ -1,3 +1,4 @@
+import { LoadingService } from './../../shared/services/loading/loading.service';
 import { FormsModule } from '@angular/forms';
 import { IAdvertisement } from './../../shared/models/advertisement';
 import { IProducts } from './../../shared/models/products';
@@ -39,7 +40,8 @@ export class HomeComponent implements OnInit {
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,
 		private router: Router,
-		public cartService: CartService
+		public cartService: CartService,
+		private loadingService: LoadingService
 	) {
 	}
 	ngOnInit(): void {
@@ -74,6 +76,8 @@ export class HomeComponent implements OnInit {
 			this.MostPopularProducts = this.products.filter(res => res.tag === 0)?.slice(0, 6);
 			this.discountAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.discount);
 			this.brandIdAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.brandId);
+			this.loadingService.hideLoading();
+
 		});
 	}
 

@@ -1,3 +1,4 @@
+import { LoadingService } from './../../shared/services/loading/loading.service';
 import { IProducts } from './../../shared/models/products';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -45,7 +46,8 @@ export class RecentProductsComponent implements OnInit {
 		private router: Router,
 		private productsService: ProductsService,
 		public sanitizer: DomSanitizer,
-		public cartService: CartService
+		public cartService: CartService,
+		private loadingService: LoadingService
 	) { }
 
 	ngOnInit(): void {
@@ -59,6 +61,7 @@ export class RecentProductsComponent implements OnInit {
 			this.titlePage = "Recent Products";
 			this.Brands = res['Brands'];
 			this.Category = res['Category'];
+			this.loadingService.hideLoading();
 		});
 	}
 
@@ -85,6 +88,7 @@ export class RecentProductsComponent implements OnInit {
 	paginationData() {
 		this.productsService.getRecentProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
+			this.loadingService.hideLoading();
 		});
 	}
 
@@ -115,6 +119,7 @@ export class RecentProductsComponent implements OnInit {
 			this.productsService.filterSpecificProducts(data).subscribe(res => {
 				this.Products$ = of(res.products);
 				this.totalCount = res.totalCount;
+				this.loadingService.hideLoading();
 			})
 		} else {
 			this.paginationData()

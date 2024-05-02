@@ -4,4 +4,5 @@ export interface IUser {
     password: string;
     phone?: string;
     token?: string;
+    userId: number;
 }

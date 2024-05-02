@@ -1,6 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ICart } from '../../models/cart';
 import { Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { IUser } from '../../models/user';
 
 @Injectable({
 	providedIn: 'root'
@@ -8,14 +10,18 @@ import { Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
 export class CartService implements OnInit {
 	cart: ICart[] = [];
 	cartsLocalStorage: ICart[] = [];
-	constructor(@Inject(PLATFORM_ID) private platformId: object) {
+	users!: IUser;
+	constructor(
+		@Inject(PLATFORM_ID) private platformId: object,
+		private httpClient: HttpClient
+	) {
 	}
 
 	ngOnInit(): void {
 		if (isPlatformBrowser(this.platformId)) {
 			const carts = localStorage.getItem("carts");
 			if (carts) this.cartsLocalStorage = JSON.parse(carts);
-			this.cart = [...this.cartsLocalStorage];
+			this.cart = [...this.cartsLocalStorage];	
 		}
 	}
 
@@ -39,5 +45,25 @@ export class CartService implements OnInit {
 			const carts = localStorage.getItem("carts");
 			return carts ? JSON.parse(carts).length : 0;
 		}
+	}
+
+	placeOrder(Cart: ICart[]) {
+		const users = localStorage.getItem('user');
+		if (users) this.users = JSON.parse(users);
+		const data = {
+			customerId: this.users.userId,
+			addressId: 0,
+			deliveryType: 0,
+			type: 0,
+			status: 0,
+			items: [{}]
+		};
+		data['items'] = Cart?.map(res => ({
+			productId: res.id,
+			productQty: res.qty,
+			attrValueId: res.attrValueId
+		}));
+		console.log(data);
+		return this.httpClient.post(`http://localhost:5237/PlaceOrder`, data);
 	}
 }

@@ -1,3 +1,4 @@
+import { LoadingService } from './../../shared/services/loading/loading.service';
 import { FormsModule } from '@angular/forms';
 import { IProducts } from './../../shared/models/products';
 import { Component, OnInit, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
@@ -58,7 +59,8 @@ export class ProductComponent implements OnInit {
 		private toastr: ToastrService,
 		public cartService: CartService,
 		private productService: ProductsService,
-		@Inject(PLATFORM_ID) private platformId: object
+		@Inject(PLATFORM_ID) private platformId: object,
+		private loadingService: LoadingService
 	) { }
 
 	ngOnInit(): void {
@@ -98,6 +100,7 @@ export class ProductComponent implements OnInit {
 			this.attributeValuesSizes = this.product.attributeValues.filter(res => (res.filter((data: any) => data.attributeId === 2)[0]))[0];
 			this.attributeValuesColors?.length ? this.colors = this.attributeValuesColors?.[0].value : this.sizes = this.attributeValuesSizes?.[0].value;
 			this.change(this.attributeValuesColors?.length ? this.attributeValuesColors?.[0].value : this.attributeValuesSizes?.[0].value, this.attributeValuesColors?.length ? "Colors" : "Sizes");
+			this.loadingService.hideLoading();
 		});
 	}
 

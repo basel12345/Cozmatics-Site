@@ -1,3 +1,4 @@
+import { LoadingService } from './../../shared/services/loading/loading.service';
 import { IProducts } from './../../shared/models/products';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
@@ -52,7 +53,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private productsService: ProductsService,
 		public sanitizer: DomSanitizer,
-		public cartService: CartService
+		public cartService: CartService,
+		private loadingService: LoadingService
 	) { }
 
 	ngOnInit(): void {
@@ -98,6 +100,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 					this.Products$ = of(res['Products']['products']);
 					this.totalCount = res['Products']['totalCount'];
 					this.titlePage = "Total Products";
+					this.loadingService.hideLoading();
 				}
 			}
 			this.Brands = res['Brands'];
@@ -108,6 +111,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				this.Products$ = of(res['products']);
 				this.totalCount = res?.['totalCount'];
 				this.titlePage = res['products'][0]?.brandName;
+				this.loadingService.hideLoading();
 			});
 		}
 		else if (this.categoryId) {
@@ -115,6 +119,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				this.Products$ = of(res['products']);
 				this.titlePage = res['products'][0]?.categoryName;
 				this.totalCount = res?.['totalCount'];
+				this.loadingService.hideLoading();
 			});
 		}
 	}
@@ -152,16 +157,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		if (this.branId) {
 			this.productsService.getProductsByBrandId(this.branId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
+				this.loadingService.hideLoading();
 			});
 		}
 		else if (this.categoryId) {
 			this.productsService.getProductsByCategoryId(this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
+				this.loadingService.hideLoading();
 			});
 		}
 		else {
 			this.subscription = this.productsService.getAllProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
-				this.Products$ = of(res['products'])
+				this.Products$ = of(res['products']);
+				this.loadingService.hideLoading();
 			});
 		}
 	}
@@ -202,9 +210,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			this.productsService.filterSpecificProducts(data).subscribe(res => {
 				this.Products$ = of(res.products);
 				this.totalCount = res.totalCount;
+				this.loadingService.hideLoading();
 			})
 		} else {
-			this.paginationData()
+			this.paginationData();
 		}
 	}
 
