@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
             {
                 label: 'Home',
                 items: [],
-                routerLink: ''
+                routerLink: 'home'
             },
             {
                 label: 'Categories',
