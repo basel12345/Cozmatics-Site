@@ -46,8 +46,8 @@
             <span class="danger mt-2" *ngIf="textNotFoundMessageSize">{{textNotFoundMessageSize}}</span>
             <span class="danger mt-2" *ngIf="textNotFoundMessageColor">{{textNotFoundMessageColor}}</span>
             <div class="footer">
-                <p-button [label]="!cartService.checkInCart(product.id) ? 'Add To Cart' : 'Done'" [raised]="true"
-                    (onClick)="addCart({id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: product.qty})"
+                <p-button [label]="'Add To Cart'" [raised]="true"
+                    (onClick)="addCart({id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: getQuantityToCart(product.qty), attrValueId: attributeId})"
                     [disabled]="!!textNotFoundMessageSize || !!textNotFoundMessageColor || cartService.checkInCart(product.id) || !product.qty"></p-button>
             </div>
         </div>

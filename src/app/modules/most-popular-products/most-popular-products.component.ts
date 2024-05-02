@@ -1,4 +1,4 @@
-import { CartService } from './../../shared/services/cart.service';
+import { CartService } from '../../shared/services/cart/cart.service';
 import { IProducts } from './../../shared/models/products';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';

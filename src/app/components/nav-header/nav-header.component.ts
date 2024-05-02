@@ -14,7 +14,7 @@ import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { LoadingService } from '../../shared/services/loading/loading.service';
 import { BadgeModule } from 'primeng/badge';
-import { CartService } from '../../shared/services/cart.service';
+import { CartService } from '../../shared/services/cart/cart.service';
 
 type Droplist = {
 	name: string;

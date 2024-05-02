@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ICart } from '../models/cart';
+import { ICart } from '../../models/cart';
 import { Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
 
 @Injectable({

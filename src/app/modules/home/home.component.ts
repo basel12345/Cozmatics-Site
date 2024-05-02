@@ -10,7 +10,7 @@ import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { ICategory } from '../../shared/models/category';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RatingModule } from 'primeng/rating';
-import { CartService } from '../../shared/services/cart.service';
+import { CartService } from '../../shared/services/cart/cart.service';
 import { ICart } from '../../shared/models/cart';
 import { Tags } from '../../shared/models/tags';
 

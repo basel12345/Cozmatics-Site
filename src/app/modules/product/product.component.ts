@@ -14,7 +14,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ReviewService } from '../../shared/services/review/review.service';
 import { ToastrService } from 'ngx-toastr';
 import { ICart } from '../../shared/models/cart';
-import { CartService } from '../../shared/services/cart.service';
+import { CartService } from '../../shared/services/cart/cart.service';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProductsService } from '../../shared/services/products/products.service';
@@ -31,8 +31,8 @@ export class ProductComponent implements OnInit {
 	coverImage!: string;
 	Review!: IReview[];
 	visible: boolean = false;
-	sizes!: number;
-	colors!: number;
+	sizes!: string;
+	colors!: string;
 	addReview: {
 		comment: string | null;
 		rate: number | null;
@@ -50,6 +50,7 @@ export class ProductComponent implements OnInit {
 	textNotFoundMessageSize!: string;
 	qntyColors: number | undefined;
 	textNotFoundMessageColor!: string;
+	attributeId: number | undefined;
 	constructor(
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,
@@ -71,14 +72,21 @@ export class ProductComponent implements OnInit {
 		}
 	}
 
+	getQuantityToCart(qty: number): number {
+		if(this.qntySize) return this.qntySize;
+		else if(this.qntyColors) return this.qntyColors;
+		else return qty;
+	}
+
 	change(event: string, type: string) {
-		if(type === "Sizes") {
+		if (type === "Sizes" && this.attributeValuesSizes) {
 			this.qntySize = this.attributeValuesSizes.find(res => res.value === event)?.qty;
-			this.qntySize ? this.textNotFoundMessageSize = "This Size is not available now" : this.textNotFoundMessageSize = "";
-		} else if(type === "Colors") {
+			!this.qntySize ? this.textNotFoundMessageSize = "This Size is not available now" : this.textNotFoundMessageSize = "";
+		} else if (type === "Colors" && this.attributeValuesColors) {
 			this.qntyColors = this.attributeValuesColors.find(res => res.value === event)?.qty;
-			this.qntyColors ? this.textNotFoundMessageColor = "This Color is not available now" : this.textNotFoundMessageColor = "";	
+			!this.qntyColors ? this.textNotFoundMessageColor = "This Color is not available now" : this.textNotFoundMessageColor = "";
 		}
+		this.attributeId = this.attributeValuesSizes?.find(res => res.value === event)?.attributeId;
 	}
 
 	getProductById() {
@@ -88,6 +96,8 @@ export class ProductComponent implements OnInit {
 			this.coverImage = this.product.productImgs.find(res => res.isCover)?.image ?? "";
 			this.attributeValuesColors = this.product.attributeValues.filter(res => (res.filter((data: any) => data.attributeId === 1)[0]))[0];
 			this.attributeValuesSizes = this.product.attributeValues.filter(res => (res.filter((data: any) => data.attributeId === 2)[0]))[0];
+			this.attributeValuesColors?.length ? this.colors = this.attributeValuesColors?.[0].value : this.sizes = this.attributeValuesSizes?.[0].value;
+			this.change(this.attributeValuesColors?.length ? this.attributeValuesColors?.[0].value : this.attributeValuesSizes?.[0].value, this.attributeValuesColors?.length ? "Colors" : "Sizes");
 		});
 	}
 

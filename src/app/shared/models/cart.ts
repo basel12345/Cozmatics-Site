@@ -5,4 +5,5 @@ export interface ICart {
     qty: number;
     discountPercentage: number;
     coverImg: string;
+    attrValueId?: number | undefined;
 }

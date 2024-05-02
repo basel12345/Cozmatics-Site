@@ -13,7 +13,7 @@ import { RatingModule } from 'primeng/rating';
 import { IBrand } from '../../shared/models/brand';
 import { ProductsService } from '../../shared/services/products/products.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CartService } from '../../shared/services/cart.service';
+import { CartService } from '../../shared/services/cart/cart.service';
 import { ICart } from '../../shared/models/cart';
 import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
