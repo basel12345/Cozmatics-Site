@@ -61,15 +61,13 @@ export class CartService implements OnInit {
 		return this.httpClient.post(`http://localhost:5237/createAddress`, data)
 	}
 
-	placeOrder(Cart: ICart[], addressId: number) {
+	placeOrder(Cart: ICart[], addressId: number, deliveryType: number | string) {
 		const users = localStorage.getItem('user');
 		if (users) this.users = JSON.parse(users);
 		const data = {
 			customerId: this.users?.userId,
 			addressId: addressId,
-			deliveryType: 0,
-			type: 0,
-			status: 0,
+			deliveryType: deliveryType,
 			items: [{}]
 		};
 		data['items'] = Cart?.map(res => ({

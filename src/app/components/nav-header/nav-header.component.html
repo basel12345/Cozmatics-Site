@@ -64,14 +64,20 @@
     </span>
     <div *ngIf="carts?.length" class="footer">
         <div class="row">
-            <div class="col-12 my-1" *ngIf="totalPrice">
+            <div class="col-12 col-md-6 my-1" *ngIf="totalPrice">
                 <h4 style="display: inline-block;">Total Price</h4>: {{totalPrice}}
             </div>
+            <div class="col-12 col-md-6 my-1">
+                <p-dropdown class="deliveryStatus" [(ngModel)]="deliveryType" [options]="deliveryStatus" optionLabel="name"
+                    [showClear]="true" placeholder="Receiving the order"></p-dropdown>
+            </div>
             <div class="col-12 my-2" *ngIf="address">
-                <h4 style="display: inline-block;">Address</h4>: {{address.city}} - {{address.area}} - {{address.street}}
+                <h4 style="display: inline-block;">Address</h4>: {{address.city}} - {{address.area}} -
+                {{address.street}}
             </div>
         </div>
-        <p-button (click)="placeOrder()" [label]="'Place Order'" [raised]="true"></p-button>
+        <p-button [disabled]="deliveryType === null || deliveryType === undefined" (click)="placeOrder()"
+            [label]="'Place Order'" [raised]="true"></p-button>
     </div>
 </p-sidebar>
 

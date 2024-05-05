@@ -16,7 +16,10 @@
                 </div>
             </p-panel>
             <p-panel header="Price" [toggleable]="true">
-                <p-slider [(ngModel)]="rangePrice" [range]="true"></p-slider>
+                <p-slider [(ngModel)]="rangePrice" [range]="true" [max]="100000" [step]="5"></p-slider>
+                <div class="mt-2" *ngIf="rangePrice?.length">
+                    {{rangePrice[0] + "-" +rangePrice[1]}}
+                </div>
             </p-panel>
             <p-panel header="Tags" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of TagValues">
@@ -55,7 +58,8 @@
                                         <span class="tags" *ngIf="res.tag || res.tag === 0">{{Tags[res.tag]}}</span>
                                         <span class="tags" *ngIf="res.rateValue > 4 && res.tag !== 2">
                                             {{Tags[2]}}</span>
-                                        <span class="tags" *ngIf="res.creationDate && handeleDate(res.creationDate) && res.tag !== 1">
+                                        <span class="tags"
+                                            *ngIf="res.creationDate && handeleDate(res.creationDate) && res.tag !== 1">
                                             {{Tags[1]}}</span>
                                     </div>
                                     <div class="price">

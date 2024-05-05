@@ -1,4 +1,4 @@
-export interface City {
+export interface IDropList {
     name: string;
-    code: string;
+    code: string | number;
 }

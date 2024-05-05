@@ -18,7 +18,7 @@ import { CartService } from '../../shared/services/cart/cart.service';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { DialogModule } from 'primeng/dialog';
-import { City } from '../../shared/models/city';
+import { IDropList } from '../../shared/models/city';
 import { IAddress } from '../../shared/models/address';
 
 type Droplist = {
@@ -44,11 +44,13 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	carts!: ICart[];
 	qty: number = 1;
 	visible: boolean = false;
-	cities: City[] | undefined;
+	cities: IDropList[] | undefined;
+	deliveryType!: IDropList;
 	address!: IAddress;
 	AddressForm!: FormGroup;
 	submitted: boolean = false;
 	totalPrice: number = 0;
+	deliveryStatus!: IDropList[];
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -71,6 +73,11 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 			{ name: 'London', code: 'LDN' },
 			{ name: 'Istanbul', code: 'IST' },
 			{ name: 'Paris', code: 'PRS' }
+		];
+
+		this.deliveryStatus = [
+			{ name: 'Home', code: 0 },
+			{ name: 'Shop', code: 1 }
 		];
 	}
 
@@ -180,7 +187,7 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	placeOrder() {
 		if (this.user) {
 			if (this.address?.id) {
-				this.cartService.placeOrder(this.carts, this.address.id).subscribe((res: any) => {
+				this.cartService.placeOrder(this.carts, this.address.id, this.deliveryType.code).subscribe((res: any) => {
 					this.loadingService.hideLoading();
 					if (res?.rejectedProductIds.length) {
 						Swal.fire({

@@ -92,3 +92,9 @@ nav {
         width: 100%;
     }
 }
+
+.deliveryStatus {
+    ::ng-deep .p-dropdown {
+        width: 100%;
+    }
+}

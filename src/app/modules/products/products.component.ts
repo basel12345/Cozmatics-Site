@@ -187,6 +187,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	filter() {
+		console.log(this.rangePrice);
+		
 		this.productsService.pageNo = 1;
 		const data: {
 			brandIds?: number[] | null,
