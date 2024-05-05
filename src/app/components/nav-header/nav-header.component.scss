@@ -70,13 +70,25 @@ nav {
             font-weight: bolder;
             font-size: 20px;
         }
+    }
 
-        .footer {
-            ::ng-deep button {
-                background-color: black !important;
-        
-            }
+    .footer {
+        ::ng-deep button {
+            width: 100%;
+            background-color: black !important;
         }
     }
 
+}
+
+.dialog-address {
+    .address {
+        ::ng-deep button {
+            background-color: black !important;
+        }
+    }
+
+    ::ng-deep .p-dropdown {
+        width: 100%;
+    }
 }

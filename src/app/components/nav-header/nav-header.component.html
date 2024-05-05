@@ -61,8 +61,47 @@
                     decrementButtonIcon="pi pi-minus"></p-inputNumber>
             </div>
         </div>
-        <div *ngIf="carts?.length" class="footer">
-            <p-button (click)="placeOrder()" [label]="'Place Order'" [raised]="true"></p-button>
-        </div>
     </span>
+    <div *ngIf="carts?.length" class="footer">
+        <div class="row">
+            <div class="col-12 my-1" *ngIf="totalPrice">
+                <h4 style="display: inline-block;">Total Price</h4>: {{totalPrice}}
+            </div>
+            <div class="col-12 my-2" *ngIf="address">
+                <h4 style="display: inline-block;">Address</h4>: {{address.city}} - {{address.area}} - {{address.street}}
+            </div>
+        </div>
+        <p-button (click)="placeOrder()" [label]="'Place Order'" [raised]="true"></p-button>
+    </div>
 </p-sidebar>
+
+
+<p-dialog class="dialog-address" header="Address" [(visible)]="visible" [position]="'top'" [style]="{ width: '50vw' }">
+    <form [formGroup]="AddressForm" (ngSubmit)="saveAddress()">
+        <div class="row">
+            <div class="col-12 col-md-6 mt-1">
+                <p-dropdown class="w-100" formControlName="city" [options]="cities" optionLabel="name"
+                    [showClear]="true" placeholder="Select a City"></p-dropdown>
+                <span *ngIf="submitted && AddressForm.get('city')?.errors?.['required']" class="invalid">
+                    City is required
+                </span>
+            </div>
+            <div class="col-12 col-md-6 mt-1">
+                <p-dropdown class="w-100" formControlName="area" [options]="cities" optionLabel="name"
+                    [showClear]="true" placeholder="Select a Area"></p-dropdown>
+                <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']" class="invalid">
+                    Area is required
+                </span>
+            </div>
+            <div class="col-12 col-md-6 mt-1">
+                <input class="w-100" formControlName="street" type="text" pInputText placeholder="street" />
+                <span *ngIf="submitted && AddressForm.get('street')?.errors?.['required']" class="invalid">
+                    Street is required
+                </span>
+            </div>
+            <div class="col-12 address text-end mt-2">
+                <p-button type="submit" [label]="'Save'" [raised]="true"></p-button>
+            </div>
+        </div>
+    </form>
+</p-dialog>

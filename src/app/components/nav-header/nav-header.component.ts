@@ -1,5 +1,5 @@
 import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Component, DoCheck, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext'
@@ -16,6 +16,10 @@ import { LoadingService } from '../../shared/services/loading/loading.service';
 import { BadgeModule } from 'primeng/badge';
 import { CartService } from '../../shared/services/cart/cart.service';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { City } from '../../shared/models/city';
+import { IAddress } from '../../shared/models/address';
 
 type Droplist = {
 	name: string;
@@ -25,7 +29,7 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule],
+	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
@@ -39,26 +43,56 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	selectedUsers!: Droplist;
 	carts!: ICart[];
 	qty: number = 1;
-
+	visible: boolean = false;
+	cities: City[] | undefined;
+	address!: IAddress;
+	AddressForm!: FormGroup;
+	submitted: boolean = false;
+	totalPrice: number = 0;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
 		private loadingService: LoadingService,
 		public cartService: CartService,
-		@Inject(PLATFORM_ID) private platformId: object
+		@Inject(PLATFORM_ID) private platformId: object,
+		private toastrSerice: ToastrService,
+		private fb: FormBuilder
 	) { }
 
 	ngOnInit() {
+		this.getUserInfo();
 		this.handleDroplist();
 		this.getOrdersInCart();
+		this.getAddressByCustNo();
+		this.createAddressForm();
+		this.cities = [
+			{ name: 'New York', code: 'NY' },
+			{ name: 'Rome', code: 'RM' },
+			{ name: 'London', code: 'LDN' },
+			{ name: 'Istanbul', code: 'IST' },
+			{ name: 'Paris', code: 'PRS' }
+		];
 	}
 
-	ngDoCheck() {
+	createAddressForm() {
+		this.AddressForm = this.fb.group({
+			city: ["", Validators.required],
+			area: ["", Validators.required],
+			street: ["", Validators.required],
+			customerId: ["", Validators.required]
+		})
+	}
+
+	getUserInfo() {
 		if (isPlatformBrowser(this.platformId)) {
 			const user = localStorage.getItem("user")
 			if (user)
 				this.user = JSON.parse(user);
 		}
+	}
+
+	ngDoCheck() {
+		this.getUserInfo();
 	}
 
 	handleDroplist(): void {
@@ -68,20 +102,31 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 		];
 		this.users = [
 			{ name: 'Login', code: 'login' },
-			{ name: 'Register', code: 'register' },
+			{ name: 'Register', code: 'register' }
 		];
 		this.selectedLanguage = this.countries[1];
 	}
 
 	getOrdersInCart() {
 		if (isPlatformBrowser(this.platformId)) {
-			const carts = localStorage.getItem("carts")
+			const carts = localStorage.getItem("carts");
 			if (carts) this.carts = JSON.parse(carts);
 		}
 	}
 
+	getAddressByCustNo() {
+		if (this.user?.userId) {
+			this.cartService.addressByCustNo(this.user.userId).subscribe((res: any) => {
+				this.address = res[0];
+				if (this.loadingService.show) {
+					this.loadingService.hideLoading();
+				}
+			})
+		}
+	}
+
 	navigateToSign(path: Droplist) {
-		this.router.navigate([path.code])
+		this.router.navigate([path.code]);
 	}
 
 	sanitizationImage(image: string): SafeResourceUrl {
@@ -91,41 +136,75 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	showSideBar() {
 		if (isPlatformBrowser(this.platformId)) {
 			const carts = localStorage.getItem("carts")
-			if (carts) this.carts = JSON.parse(carts);
-			this.sidebarVisible = true
+			if (carts) {
+				this.carts = JSON.parse(carts);
+				this.totalPrice = this.carts.reduce((accumulator: number, res: ICart) => res.price + accumulator, 0);
+			}
+			this.sidebarVisible = true;
+
 		}
 	}
 
 	clear(id: number) {
 		this.carts = this.carts.filter(res => res.id !== id);
+		this.totalPrice = this.carts.reduce((accumulator: number, res: ICart) => res.price + accumulator, 0);
 		if (isPlatformBrowser(this.platformId)) {
 			localStorage.setItem("carts", JSON.stringify(this.carts));
 		}
 	}
 
 	navigateToHome() {
-		this.router.navigate(['home'])
+		this.router.navigate(['home']);
+	}
+
+	saveAddress() {
+		this.AddressForm.get("customerId")?.patchValue(this.user.userId);
+		this.submitted = true;
+		if (this.AddressForm.valid) {
+			this.submitted = false;
+			this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
+				if (res) {
+					this.getAddressByCustNo();
+					this.visible = false;
+					this.toastrSerice.error("Adrress saved Successfully", "Success");
+				}
+			})
+		}
+
+	}
+
+	showDialog() {
+		this.visible = true;
 	}
 
 	placeOrder() {
-		this.cartService.placeOrder(this.carts).subscribe((res: any) => {
-			if (res?.rejectedProductIds.length) {
-				Swal.fire({
-					title: 'Quantities of these following products is not available now',
-					icon: 'error',
-					html: `
-					${res.rejectedProductIds.map((element: any) => (
-						`<div>
-								<span style="display: block">Product Name: ${element.productId}</span>
-								<span style="display: block">Attribute : ${element.attrValueId}</span>
-						</div>`
-					))
-						}
-					`,
-					confirmButtonText: 'Ok'
-				});
-			}
-		})
+		if (this.user) {
+			if (this.address?.id) {
+				this.cartService.placeOrder(this.carts, this.address.id).subscribe((res: any) => {
+					this.loadingService.hideLoading();
+					if (res?.rejectedProductIds.length) {
+						Swal.fire({
+							title: 'Quantities of these following products is not available now',
+							icon: 'error',
+							html: `
+							${res.rejectedProductIds.map((element: any) => (
+								`<div>
+										<span style="display: block">Product Name: ${element.productId}</span>
+										<span style="display: block">Attribute : ${element.attrValueId}</span>
+								</div>`
+							))
+								}
+							`,
+							confirmButtonText: 'Ok'
+						});
+					}
+				})
+			} else {
+				this.showDialog();
+			};
+		} else {
+			this.toastrSerice.error("Please log in first", "Error");
+		};
 	}
 
 	logOut() {

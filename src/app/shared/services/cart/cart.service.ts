@@ -21,8 +21,12 @@ export class CartService implements OnInit {
 		if (isPlatformBrowser(this.platformId)) {
 			const carts = localStorage.getItem("carts");
 			if (carts) this.cartsLocalStorage = JSON.parse(carts);
-			this.cart = [...this.cartsLocalStorage];	
+			this.cart = [...this.cartsLocalStorage];
 		}
+	}
+
+	addressByCustNo(customerId: number) {
+		return this.httpClient.get(`http://localhost:5237/AddressByCustNo?customerId=${customerId}`)
 	}
 
 	addCart(cart: ICart) {
@@ -47,12 +51,22 @@ export class CartService implements OnInit {
 		}
 	}
 
-	placeOrder(Cart: ICart[]) {
+	createAddress(data: any) {
+		data = {
+			city: data.city.code,
+			area: data.area.code,
+			street: data.street,
+			customerId: data.customerId,
+		};
+		return this.httpClient.post(`http://localhost:5237/createAddress`, data)
+	}
+
+	placeOrder(Cart: ICart[], addressId: number) {
 		const users = localStorage.getItem('user');
 		if (users) this.users = JSON.parse(users);
 		const data = {
-			customerId: this.users.userId,
-			addressId: 0,
+			customerId: this.users?.userId,
+			addressId: addressId,
 			deliveryType: 0,
 			type: 0,
 			status: 0,
@@ -63,7 +77,6 @@ export class CartService implements OnInit {
 			productQty: res.qty,
 			attrValueId: res.attrValueId
 		}));
-		console.log(data);
-		return this.httpClient.post(`http://localhost:5237/PlaceOrder`, data);
+		return this.httpClient.post(`http://localhost:5237/PlaceSalesOrder`, data);
 	}
 }
