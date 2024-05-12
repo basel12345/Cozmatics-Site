@@ -10,6 +10,6 @@ export class BrandsService {
 	constructor(private http: HttpClient) { }
 
 	getAllBrands(): Observable<IBrand[]> {
-		return this.http.get<IBrand[]>(`http://localhost:5237/api/Brand/GetAll`);
+		return this.http.get<IBrand[]>(`http://abaq2023-001-site1.htempurl.com/api/Brand/GetAll`);
 	}
 }

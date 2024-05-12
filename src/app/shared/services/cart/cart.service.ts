@@ -26,7 +26,7 @@ export class CartService implements OnInit {
 	}
 
 	addressByCustNo(customerId: number) {
-		return this.httpClient.get(`http://localhost:5237/AddressByCustNo?customerId=${customerId}`)
+		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/AddressByCustNo?customerId=${customerId}`)
 	}
 
 	addCart(cart: ICart) {
@@ -58,7 +58,7 @@ export class CartService implements OnInit {
 			street: data.street,
 			customerId: data.customerId,
 		};
-		return this.httpClient.post(`http://localhost:5237/createAddress`, data)
+		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/createAddress`, data)
 	}
 
 	placeOrder(Cart: ICart[], addressId: number, deliveryType: number | string) {
@@ -75,6 +75,6 @@ export class CartService implements OnInit {
 			productQty: res.qty,
 			attrValueId: res.attrValueId
 		}));
-		return this.httpClient.post(`http://localhost:5237/PlaceSalesOrder`, data);
+		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/PlaceSalesOrder`, data);
 	}
 }

@@ -12,14 +12,14 @@ export class CategoriesService {
 
 
 	getAllCategories(): Observable<ICategory[]> {
-		return this.httpClient.get<ICategory[]>(`http://localhost:5237/api/Category/GetAll`);
+		return this.httpClient.get<ICategory[]>(`http://abaq2023-001-site1.htempurl.com/api/Category/GetAll`);
 	}
 
 	getAllWithSubCategories(): Observable<ICategory[]> {
-		return this.httpClient.get<ICategory[]>(`http://localhost:5237/api/Category/GetAllWithSubCategories`);
+		return this.httpClient.get<ICategory[]>(`http://abaq2023-001-site1.htempurl.com/api/Category/GetAllWithSubCategories`);
 	}
 
 	getSelectedCategories(): Observable<ICategory[]> {
-		return this.httpClient.get<ICategory[]>(`http://localhost:5237/api/Category/GetSelectedCategories`);
+		return this.httpClient.get<ICategory[]>(`http://abaq2023-001-site1.htempurl.com/api/Category/GetSelectedCategories`);
 	}
 }

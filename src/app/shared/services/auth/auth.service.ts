@@ -11,10 +11,10 @@ export class AuthService {
 	constructor(private http: HttpClient) { }
 
 	register(user: IUser): Observable<IUser> {
-		return this.http.post<IUser>(`http://localhost:5237/api/Account/register`, user)
+		return this.http.post<IUser>(`http://abaq2023-001-site1.htempurl.com/api/Account/register`, user)
 	}
 
 	login(user: IUser): Observable<IUser> {
-		return this.http.post<IUser>(`http://localhost:5237/api/Account/Login`, user)
+		return this.http.post<IUser>(`http://abaq2023-001-site1.htempurl.com/api/Account/Login`, user)
 	}
 }
