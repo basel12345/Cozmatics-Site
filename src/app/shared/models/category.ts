@@ -5,5 +5,6 @@ export interface ICategory {
     icon: string;
     parentId: number;
     isSelected: boolean,
-    subCategories: []
+    subCategories: [],
+    img?: string
 }
