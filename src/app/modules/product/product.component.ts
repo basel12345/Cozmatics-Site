@@ -84,11 +84,12 @@ export class ProductComponent implements OnInit {
 		if (type === "Sizes" && this.attributeValuesSizes) {
 			this.qntySize = this.attributeValuesSizes.find(res => res.value === event)?.qty;
 			!this.qntySize ? this.textNotFoundMessageSize = "This Size is not available now" : this.textNotFoundMessageSize = "";
+			this.attributeId = this.attributeValuesSizes?.find(res => res.value === event)?.attributeId;
 		} else if (type === "Colors" && this.attributeValuesColors) {
 			this.qntyColors = this.attributeValuesColors.find(res => res.value === event)?.qty;
 			!this.qntyColors ? this.textNotFoundMessageColor = "This Color is not available now" : this.textNotFoundMessageColor = "";
+			this.attributeId = this.attributeValuesColors?.find(res => res.value === event)?.attributeId;
 		}
-		this.attributeId = this.attributeValuesSizes?.find(res => res.value === event)?.attributeId;
 	}
 
 	getProductById() {
@@ -119,6 +120,8 @@ export class ProductComponent implements OnInit {
 	}
 
 	addCart(cart: ICart) {
+		console.log(cart);
+		
 		this.cartService.addCart(cart);
 	}
 

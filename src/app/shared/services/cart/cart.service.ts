@@ -61,7 +61,7 @@ export class CartService implements OnInit {
 		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/createAddress`, data)
 	}
 
-	placeOrder(Cart: ICart[], addressId: number, deliveryType: number | string) {
+	placeOrder(Cart: ICart[], addressId: number | null, deliveryType: number | string) {
 		const users = localStorage.getItem('user');
 		if (users) this.users = JSON.parse(users);
 		const data = {
@@ -70,6 +70,8 @@ export class CartService implements OnInit {
 			deliveryType: deliveryType,
 			items: [{}]
 		};
+		console.log(Cart);
+		
 		data['items'] = Cart?.map(res => ({
 			productId: res.id,
 			productQty: res.qty,

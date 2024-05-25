@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row categories" *ngIf="selectedCategories?.length">
-        <a class="col-6 col-md-2" *ngFor="let res of selectedCategories" (click)="categories(res.id)">
+        <a class="col-3 col-md-2" *ngFor="let res of selectedCategories" (click)="categories(res.id)">
             <img [src]="res.img? res.img : 'assets/22171677_RealTechniquesEverydayEyeEssentialsBrushSet-8Pieces--680x680.png'"
                 alt="">
             <h4>{{res.name}}</h4>

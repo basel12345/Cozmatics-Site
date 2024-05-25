@@ -1,6 +1,6 @@
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Component, DoCheck, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext'
 import { DropdownModule } from 'primeng/dropdown';
@@ -145,10 +145,9 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 			const carts = localStorage.getItem("carts")
 			if (carts) {
 				this.carts = JSON.parse(carts);
-				this.totalPrice = this.carts.reduce((accumulator: number, res: ICart) => res.price + accumulator, 0);
+				this.totalPrice = this.carts.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100): res.price) + accumulator, 0);
 			}
 			this.sidebarVisible = true;
-
 		}
 	}
 
@@ -180,35 +179,47 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 
 	}
 
+	changeTotalPrice(event: number, id: number) {
+		this.carts = this.carts.map(res => {
+			if(res.id === id) res.qty = event;
+			return res
+		});
+		this.totalPrice = this.carts.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100): res.price) * res.qty) + accumulator, 0);
+	}
+
 	showDialog() {
 		this.visible = true;
 	}
 
+	placeOrderReq() {
+		this.cartService.placeOrder(this.carts, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
+			this.loadingService.hideLoading();
+			if (res?.rejectedProductIds.length) {
+				Swal.fire({
+					title: 'Quantities of these following products is not available now',
+					icon: 'error',
+					html: `
+					${res.rejectedProductIds.map((element: any) => (
+						`<div>
+								<span style="display: block">Product Name: ${element.productId}</span>
+								<span style="display: block">Attribute : ${element.attrValueId}</span>
+						</div>`
+					))
+						}
+					`,
+					confirmButtonText: 'Ok'
+				});
+			}
+		})
+	}
+
 	placeOrder() {
 		if (this.user) {
-			if (this.address?.id) {
-				this.cartService.placeOrder(this.carts, this.address.id, this.deliveryType.code).subscribe((res: any) => {
-					this.loadingService.hideLoading();
-					if (res?.rejectedProductIds.length) {
-						Swal.fire({
-							title: 'Quantities of these following products is not available now',
-							icon: 'error',
-							html: `
-							${res.rejectedProductIds.map((element: any) => (
-								`<div>
-										<span style="display: block">Product Name: ${element.productId}</span>
-										<span style="display: block">Attribute : ${element.attrValueId}</span>
-								</div>`
-							))
-								}
-							`,
-							confirmButtonText: 'Ok'
-						});
-					}
-				})
-			} else {
+			if (this.deliveryType.code === 0 && !this.address?.id) {
 				this.showDialog();
+				return;
 			};
+			this.placeOrderReq();
 		} else {
 			this.toastrSerice.error("Please log in first", "Error");
 		};

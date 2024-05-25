@@ -1,3 +1,5 @@
+@import "../../../assets/styles/colors.scss";
+
 nav {
     background-color: white;
 
@@ -44,7 +46,7 @@ nav {
 }
 
 ::ng-deep.p-sidebar-left {
-    width: 35rem;
+    width: 26rem;
 
     .card {
         img {
@@ -91,6 +93,14 @@ nav {
     ::ng-deep .p-dropdown {
         width: 100%;
     }
+}
+
+::ng-deep .p-badge.p-badge-warning {
+    background-color: $main-color;
+}
+
+::ng-deep .p-dropdown-items  {
+    padding: 0;
 }
 
 .deliveryStatus {

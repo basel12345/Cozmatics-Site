@@ -55,7 +55,7 @@
             </div>
             <div class="col-2">
                 <div class="text-end mb-2 clear" (click)="clear(res.id)">X</div>
-                <p-inputNumber [max]="res.qty" [min]="1" [(ngModel)]="qty" [showButtons]="true" buttonLayout="vertical"
+                <p-inputNumber (ngModelChange)="changeTotalPrice($event, res.id)"  [min]="1" [(ngModel)]="qty" [showButtons]="true" buttonLayout="vertical"
                     spinnerMode="vertical" inputId="vertical" decrementButtonClass="p-button-secondary"
                     incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus"
                     decrementButtonIcon="pi pi-minus"></p-inputNumber>

@@ -12,8 +12,7 @@ footer {
         ul {
             display: flex;
             justify-content: space-between;
-            padding: 0;
-
+            padding: 0 0 0 13px;
             li {
                 list-style: none;
 
@@ -61,15 +60,21 @@ footer {
                 font-size: 1.5rem
             }
 
-            :where(.pi-facebook, .pi-linkedin) {
+            :where(.pi-facebook) {
                 &:hover {
                     color: cornflowerblue;
                 }
             }
 
-            :where(.pi-youtube, .pi-instagram) {
+            :where(.pi-instagram) {
                 &:hover {
                     color: red;
+                }
+            }
+
+            ::ng-deep :where(.fa-snapchat) {
+                &:hover {
+                    color: yellow !important
                 }
             }
         }

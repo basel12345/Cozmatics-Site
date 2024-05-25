@@ -56,6 +56,9 @@
             font-weight: 400 !important;
             font-size: 12px;
 
+            ::ng-deep .p-button-label {
+                color: $main-color !important;
+            }
         }
     }
 

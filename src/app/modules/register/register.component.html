@@ -10,6 +10,24 @@
                 </div>
             </div>
             <div class="input">
+                <label for="FirstName">First Name</label>
+                <input pInputText
+                    [ngClass]="submitted && registerForm.get('FirstName')?.invalid ? 'ng-invalid ng-dirty' : ''"
+                    id="FirstName" aria-describedby="FirstName-help" formControlName="FirstName" required />
+                <span *ngIf="submitted && registerForm.get('FirstName')?.errors?.['required']" class="invalid">
+                    FirstName is required
+                </span>
+            </div>
+            <div class="input">
+                <label for="LastName">Last Name</label>
+                <input pInputText
+                    [ngClass]="submitted && registerForm.get('LastName')?.invalid ? 'ng-invalid ng-dirty' : ''"
+                    id="LastName" aria-describedby="LastName-help" formControlName="LastName" required />
+                <span *ngIf="submitted && registerForm.get('LastName')?.errors?.['required']" class="invalid">
+                    Last Name is required
+                </span>
+            </div>
+            <div class="input">
                 <label for="username">Username</label>
                 <input pInputText
                     [ngClass]="submitted && registerForm.get('username')?.invalid ? 'ng-invalid ng-dirty' : ''"
