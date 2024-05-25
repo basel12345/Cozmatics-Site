@@ -120,8 +120,6 @@ export class ProductComponent implements OnInit {
 	}
 
 	addCart(cart: ICart) {
-		console.log(cart);
-		
 		this.cartService.addCart(cart);
 	}
 

@@ -90,3 +90,7 @@
         }
     }
 }
+
+::ng-deep .p-rating .p-rating-icon {
+    color: $main-color; 
+}

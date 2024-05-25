@@ -30,9 +30,11 @@ export class CartService implements OnInit {
 	}
 
 	addCart(cart: ICart) {
-		if (this.cart?.length) this.cart.push(cart);
-		else this.cart = [cart];
 		if (isPlatformBrowser(this.platformId)) {
+			const carts = localStorage.getItem("carts");
+			if (carts) this.cart = JSON.parse(carts);
+			if (this.cart?.length) this.cart.push(cart);
+			else this.cart = [cart];
 			if (this.cart) {
 				localStorage.removeItem("carts");
 				localStorage.setItem("carts", JSON.stringify(this.cart));
@@ -71,7 +73,7 @@ export class CartService implements OnInit {
 			items: [{}]
 		};
 		console.log(Cart);
-		
+
 		data['items'] = Cart?.map(res => ({
 			productId: res.id,
 			productQty: res.qty,

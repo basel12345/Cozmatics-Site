@@ -92,3 +92,7 @@ h3,
 ::ng-deep.p-panel-title {
     font-weight: bold;
 }
+
+::ng-deep .p-rating .p-rating-icon {
+    color: $main-color; 
+}
