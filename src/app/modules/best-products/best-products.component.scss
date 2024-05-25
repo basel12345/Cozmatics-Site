@@ -75,7 +75,7 @@
         text-align: center;
         color: white;
         margin-top: 10px;
-        background-color: black !important;
+        background-color: $main-color !important;
     }
 }
 
@@ -86,5 +86,9 @@
 h3,
 ::ng-deep.p-panel-title,
 ::ng-deep.label-checkbox {
-    font-family: $brand-name-font !important;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+::ng-deep.p-panel-title {
+    font-weight: bold;
 }

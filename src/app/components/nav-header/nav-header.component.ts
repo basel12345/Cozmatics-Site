@@ -1,6 +1,6 @@
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Component, DoCheck, EventEmitter, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, EventEmitter, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext'
 import { DropdownModule } from 'primeng/dropdown';
@@ -11,7 +11,7 @@ import { IUser } from '../../shared/models/user';
 import { ICart } from '../../shared/models/cart';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
-import { InputNumberModule } from 'primeng/inputnumber';
+import { InputNumber, InputNumberInputEvent, InputNumberModule } from 'primeng/inputnumber';
 import { LoadingService } from '../../shared/services/loading/loading.service';
 import { BadgeModule } from 'primeng/badge';
 import { CartService } from '../../shared/services/cart/cart.service';
@@ -34,7 +34,7 @@ type Droplist = {
 	styleUrl: './nav-header.component.scss'
 })
 
-export class NavHeaderComponent implements OnInit, DoCheck {
+export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	sidebarVisible: boolean = false;
 	countries: Droplist[] | undefined;
 	users: Droplist[] | undefined;
@@ -42,6 +42,7 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	selectedLanguage!: Droplist;
 	selectedUsers!: Droplist;
 	carts!: ICart[];
+	cartsReq!: ICart[];
 	qty: number = 1;
 	visible: boolean = false;
 	cities: IDropList[] | undefined;
@@ -51,6 +52,7 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	submitted: boolean = false;
 	totalPrice: number = 0;
 	deliveryStatus!: IDropList[];
+
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -79,6 +81,9 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 			{ name: 'Home', code: 0 },
 			{ name: 'Shop', code: 1 }
 		];
+	}
+
+	ngAfterViewInit(): void {
 	}
 
 	createAddressForm() {
@@ -117,7 +122,10 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 	getOrdersInCart() {
 		if (isPlatformBrowser(this.platformId)) {
 			const carts = localStorage.getItem("carts");
-			if (carts) this.carts = JSON.parse(carts);
+			if (carts) {
+				this.carts = JSON.parse(carts);
+				this.cartsReq = JSON.parse(carts);
+			}
 		}
 	}
 
@@ -179,20 +187,20 @@ export class NavHeaderComponent implements OnInit, DoCheck {
 
 	}
 
-	changeTotalPrice(event: number, id: number) {
-		this.carts = this.carts.map(res => {
+	changeTotalPrice(event: number, id: number) {		
+		this.cartsReq = this.cartsReq.map(res => {
 			if(res.id === id) res.qty = event;
 			return res
 		});
-		this.totalPrice = this.carts.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100): res.price) * res.qty) + accumulator, 0);
+		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100): res.price) * res.qty) + accumulator, 0);
 	}
 
 	showDialog() {
-		this.visible = true;
+		this.visible = true;		
 	}
 
 	placeOrderReq() {
-		this.cartService.placeOrder(this.carts, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
+		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
 			this.loadingService.hideLoading();
 			if (res?.rejectedProductIds.length) {
 				Swal.fire({
