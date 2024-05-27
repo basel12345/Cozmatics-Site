@@ -32,7 +32,7 @@
 
 <p-sidebar [(visible)]="sidebarVisible">
     <h3>Cart</h3>
-    <span *ngFor="let res of carts" class="card mb-2">
+    <span *ngFor="let res of carts; index as i" class="card mb-2">
         <div class="row m-2">
             <div class="col-2">
                 <img class="d-block" [src]="sanitizationImage(res.coverImg)" alt="">
@@ -55,7 +55,8 @@
             </div>
             <div class="col-2">
                 <div class="text-end mb-2 clear" (click)="clear(res.id)">X</div>
-                <p-inputNumber (onInput)="changeTotalPrice(+$event.value, res.id)"  [min]="1" [showButtons]="true" buttonLayout="vertical"
+                <p-inputNumber *ngIf="objQty" (onInput)="changeTotalPrice(+$event.value, res.id)" [max]="res.qty"
+                    [(ngModel)]="objQty[i].qty" [min]="1" [showButtons]="true" buttonLayout="vertical"
                     spinnerMode="vertical" inputId="vertical" decrementButtonClass="p-button-secondary"
                     incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus"
                     decrementButtonIcon="pi pi-minus"></p-inputNumber>
@@ -64,16 +65,19 @@
     </span>
     <div *ngIf="carts?.length" class="footer">
         <div class="row">
-            <div class="col-12 col-md-6 my-1" *ngIf="totalPrice">
-                <h4 style="display: inline-block;">Total Price</h4>: {{totalPrice}}
+            <div class="col-12 my-1">
+                <p-dropdown class="deliveryStatus" [(ngModel)]="deliveryType" [options]="deliveryStatus"
+                    optionLabel="name" [showClear]="true" placeholder="Receiving the order"></p-dropdown>
             </div>
-            <div class="col-12 col-md-6 my-1">
-                <p-dropdown class="deliveryStatus" [(ngModel)]="deliveryType" [options]="deliveryStatus" optionLabel="name"
-                    [showClear]="true" placeholder="Receiving the order"></p-dropdown>
+            <div class="col-12 my-1" *ngIf="totalPrice">
+                <h4 style="display: inline-block;">Total Price</h4>: {{totalPrice}} SAR
             </div>
             <div class="col-12 my-2" *ngIf="address">
                 <h4 style="display: inline-block;">Address</h4>: {{address.city}} - {{address.area}} -
                 {{address.street}}
+            </div>
+            <div class="col-12 my-2">
+                <p-button (click)="showCardDialog()" label="Add Card" />
             </div>
         </div>
         <p-button [disabled]="deliveryType === null || deliveryType === undefined" (click)="placeOrder()"
@@ -108,6 +112,44 @@
             <div class="col-12 address text-end mt-2">
                 <p-button type="submit" [label]="'Save'" [raised]="true"></p-button>
             </div>
+        </div>
+    </form>
+</p-dialog>
+
+
+<p-dialog header="Visa Card" [modal]="true" [(visible)]="visibleCardDialog" [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+    <form [formGroup]="cardForm" (ngSubmit)="saveCard()">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-2">
+                <p-inputMask formControlName="Number" class="mask" mask="9999-9999-9999-9999"
+                    placeholder="Card Number"></p-inputMask>
+                <span *ngIf="submittedCardForm && cardForm.get('Number')?.errors?.['required']" class="invalid">
+                    Card Number is required
+                </span>
+            </div>
+            <div class="col-12 col-md-6 mb-2">
+                <p-inputMask formControlName="SecurityCode" class="mask" mask="999" placeholder="CVC"></p-inputMask>
+                <span *ngIf="submittedCardForm && cardForm.get('SecurityCode')?.errors?.['required']"
+                    class="invalid">
+                    CVC is required
+                </span>
+            </div>
+            <div class="col-12 col-md-6 mb-2">
+                <p-inputMask formControlName="ExpiryMonth" class="mask" mask="99"
+                    placeholder="Expiry Month"></p-inputMask>
+                <span *ngIf="submittedCardForm && cardForm.get('ExpiryMonth')?.errors?.['required']" class="invalid">
+                    Expiry Month is required
+                </span>
+            </div>
+            <div class="col-12 col-md-6 mb-2">
+                <p-inputMask formControlName="ExpiryYear" class="mask" mask="99"
+                    placeholder="Expiry Year"></p-inputMask>
+                <span *ngIf="submittedCardForm && cardForm.get('ExpiryYear')?.errors?.['required']" class="invalid">
+                    Expiry Year is required
+                </span>
+            </div>
+            <button type="submit">Save Card</button>
         </div>
     </form>
 </p-dialog>

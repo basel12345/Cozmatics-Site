@@ -6,7 +6,7 @@ import {
 	HttpResponse,
 } from '@angular/common/http';
 import { tap } from 'rxjs';
-import { LoadingService } from '../../shared/services/loading/loading.service';
+import { LoadingService } from '../../../shared/services/loading/loading.service';
 
 export function authInterceptor(request: HttpRequest<any>, next: HttpHandlerFn) {
 	const loadingService = inject(LoadingService);
@@ -18,7 +18,6 @@ export function authInterceptor(request: HttpRequest<any>, next: HttpHandlerFn) 
 			loadingService.appearLoading();
 			return event;
 		}));
-
 	}
 }
 

@@ -11,15 +11,17 @@ import { IUser } from '../../shared/models/user';
 import { ICart } from '../../shared/models/cart';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
-import { InputNumber, InputNumberInputEvent, InputNumberModule } from 'primeng/inputnumber';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { LoadingService } from '../../shared/services/loading/loading.service';
 import { BadgeModule } from 'primeng/badge';
 import { CartService } from '../../shared/services/cart/cart.service';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { DialogModule } from 'primeng/dialog';
 import { IDropList } from '../../shared/models/city';
 import { IAddress } from '../../shared/models/address';
+import { PaymentService } from '../../shared/services/payment/payment.service';
+import { InputMaskModule } from 'primeng/inputmask';
 
 type Droplist = {
 	name: string;
@@ -29,7 +31,7 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule],
+	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
@@ -45,14 +47,17 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	cartsReq!: ICart[];
 	qty: number = 1;
 	visible: boolean = false;
+	visibleCardDialog: boolean = false;
 	cities: IDropList[] | undefined;
 	deliveryType!: IDropList;
 	address!: IAddress;
 	AddressForm!: FormGroup;
 	submitted: boolean = false;
+	submittedCardForm: boolean = false;
 	totalPrice: number = 0;
 	deliveryStatus!: IDropList[];
-
+	objQty!: any[];
+	cardForm!: FormGroup;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -60,7 +65,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		public cartService: CartService,
 		@Inject(PLATFORM_ID) private platformId: object,
 		private toastrSerice: ToastrService,
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		private paymentService: PaymentService
 	) { }
 
 	ngOnInit() {
@@ -69,6 +75,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.getOrdersInCart();
 		this.getAddressByCustNo();
 		this.createAddressForm();
+		this.initCardForm();
 		this.cities = [
 			{ name: 'New York', code: 'NY' },
 			{ name: 'Rome', code: 'RM' },
@@ -81,6 +88,17 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			{ name: 'Home', code: 0 },
 			{ name: 'Shop', code: 1 }
 		];
+	}
+
+
+	pushQty() {
+		if (!this.objQty) {
+			this.objQty = [
+				{ "qty": 1 }
+			]
+		} else {
+			this.objQty.push({ "qty": 1 })
+		}
 	}
 
 	ngAfterViewInit(): void {
@@ -153,7 +171,11 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			const carts = localStorage.getItem("carts")
 			if (carts) {
 				this.carts = JSON.parse(carts);
-				this.totalPrice = this.carts.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100): res.price) + accumulator, 0);
+				this.cartsReq = JSON.parse(carts);
+				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100) : res.price) + accumulator, 0);
+				this.cartsReq.forEach(res => {
+					this.pushQty();
+				})
 			}
 			this.sidebarVisible = true;
 		}
@@ -180,34 +202,48 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 				if (res) {
 					this.getAddressByCustNo();
 					this.visible = false;
-					this.toastrSerice.error("Adrress saved Successfully", "Success");
+					this.toastrSerice.success("Adrress saved Successfully", "Success");
 				}
 			})
 		}
 
 	}
 
-	changeTotalPrice(event: number, id: number) {		
+	changeTotalPrice(event: number, id: number) {
 		this.cartsReq = this.cartsReq.map(res => {
-			if(res.id === id) res.qty = event;
+			if (res.id === id) res.qty = event;
 			return res
 		});
-		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100): res.price) * res.qty) + accumulator, 0);
+		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100) : res.price) * res.qty) + accumulator, 0);
 	}
 
 	showDialog() {
-		this.visible = true;		
+		this.visible = true;
+	}
+
+	paymentOrder(order: any) {
+		this.paymentService.executePayment({ PaymentMethodId: "20", InvoiceValue: this.totalPrice }).subscribe((res: any) => {
+			const data = { PaymentMethodId: 20, InvoiceValue: this.totalPrice, Card: { ...this.cardForm.getRawValue() }, Bypass3DS: false };
+			this.paymentService.DirectPayment(res.Data.PaymentURL, data).subscribe((response: any) => {
+				if (response.IsSuccess) {
+					this.toastrSerice.success("Order saved Successfully", "Success");
+					localStorage.removeItem("carts");
+				} else {
+					this.cartService.cancelOrder(order.OrderID).subscribe();
+				}
+			});
+		})
 	}
 
 	placeOrderReq() {
-		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
+		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((order: any) => {
 			this.loadingService.hideLoading();
-			if (res?.rejectedProductIds.length) {
+			if (order?.rejectedProductIds.length) {
 				Swal.fire({
 					title: 'Quantities of these following products is not available now',
 					icon: 'error',
 					html: `
-					${res.rejectedProductIds.map((element: any) => (
+					${order.rejectedProductIds.map((element: any) => (
 						`<div>
 								<span style="display: block">Product Name: ${element.productId}</span>
 								<span style="display: block">Attribute : ${element.attrValueId}</span>
@@ -216,8 +252,16 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 						}
 					`,
 					confirmButtonText: 'Ok'
+				}).then((res: SweetAlertResult) => {
+					if (res.isConfirmed) {
+						this.paymentOrder(order);
+					} else {
+						this.cartService.cancelOrder(order.OrderID).subscribe();
+					}
 				});
-			}
+			} else {
+				this.paymentOrder(order);
+			};
 		})
 	}
 
@@ -240,5 +284,28 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		}
 		this.loadingService.appearLoading();
 		location.reload();
+	}
+
+	showCardDialog() {
+		this.visibleCardDialog = true;
+	}
+
+
+	initCardForm() {
+		this.cardForm = this.fb.group({
+			Number: ["", Validators.required],
+			ExpiryMonth: ["", Validators.required],
+			ExpiryYear: ["", Validators.required],
+			SecurityCode: ["", Validators.required]
+		})
+	}
+
+
+	saveCard() {
+		this.submittedCardForm = true;
+		if (this.cardForm.status === "VALID") {
+			this.visibleCardDialog = false;
+			this.submittedCardForm = false;
+		}
 	}
 }

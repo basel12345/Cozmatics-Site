@@ -66,19 +66,23 @@ export class CartService implements OnInit {
 	placeOrder(Cart: ICart[], addressId: number | null, deliveryType: number | string) {
 		const users = localStorage.getItem('user');
 		if (users) this.users = JSON.parse(users);
-		const data = {
+		const data: any = {
 			customerId: this.users?.userId,
 			addressId: addressId,
 			deliveryType: deliveryType,
 			items: [{}]
 		};
-		console.log(Cart);
-
 		data['items'] = Cart?.map(res => ({
 			productId: res.id,
 			productQty: res.qty,
 			attrValueId: res.attrValueId
 		}));
-		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/PlaceSalesOrder`, data);
+		if(!addressId) delete data.addressId;
+		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Order/PlaceSalesOrder`, data);
+	}
+
+
+	cancelOrder(id: number) {
+		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Order/CancelOrder?id=${id}`, null);
 	}
 }

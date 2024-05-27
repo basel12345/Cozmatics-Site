@@ -45,6 +45,12 @@ nav {
 
 }
 
+::ng-deep.mask {
+    input {
+        width: 100% !important;
+    }
+}
+
 ::ng-deep.p-sidebar-left {
     width: 26rem;
 
@@ -77,7 +83,10 @@ nav {
     .footer {
         ::ng-deep button {
             width: 100%;
-            background-color: black !important;
+            background-color: $main-color;
+            height: 43px;
+            border: none;
+            border-radius: 150px;
         }
     }
 
@@ -86,7 +95,10 @@ nav {
 .dialog-address {
     .address {
         ::ng-deep button {
-            background-color: black !important;
+            background-color: $main-color;
+            height: 43px;
+            border: none;
+            border-radius: 150px;
         }
     }
 
@@ -95,8 +107,12 @@ nav {
     }
 }
 
-::ng-deep .p-badge.p-badge-warning {
+::ng-deep .p-badge.p-badge-warning,
+button {
     background-color: $main-color;
+    height: 43px;
+    border: none;
+    border-radius: 150px;
 }
 
 ::ng-deep .p-dropdown-items  {
