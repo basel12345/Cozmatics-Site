@@ -1,8 +1,6 @@
 <p-menubar [model]="items" [lang]="'ar'">
     <ng-template pTemplate="end">
-        <span class="p-input-icon-left">
-            <i class="pi pi-search"></i>
-            <input type="text" pInputText />
-        </span>
+        <p-autoComplete [placeholder]="'Search' | translate " [suggestions]="resultSearch" (onSelect)="selectValue($event)" (input)="searchGolbal($event)"
+            field="name" />
     </ng-template>
 </p-menubar>

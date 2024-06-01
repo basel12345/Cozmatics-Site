@@ -51,4 +51,8 @@ export class ProductsService {
         return this.http.post<{ products: IProducts[], totalCount: number }>(`http://abaq2023-001-site1.htempurl.com/api/Product/FilterProducts?pageNo=${this.pageNo}&pageSize=${this.pageSize}`, filter);
     }
 
+    searchGolbal(text: string) {
+        return this.http.get(`http://abaq2023-001-site1.htempurl.com/api/Product/Search/${text}`);
+    }
+
 }

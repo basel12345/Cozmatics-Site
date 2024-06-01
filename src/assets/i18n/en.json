@@ -55,5 +55,6 @@
     "FirstName": "First Name",
     "LastName": "Last Name",
     "Username": "Username",
-    "Phone": "Phone"
+    "Phone": "Phone",
+    "Search": "Search"
 }

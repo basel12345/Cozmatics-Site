@@ -1,6 +1,6 @@
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, EventEmitter, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext'
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
@@ -173,6 +173,9 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			localStorage.setItem("lang", "ar");
 		}
 		this.direction = localStorage.getItem("lang") === 'ar' ? "rtl" : "ltr";
+		console.log("tesst");
+		
+		window.location.reload();
 	}
 
 	sanitizationImage(image: string): SafeResourceUrl {
@@ -245,6 +248,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 				if (response.IsSuccess) {
 					this.toastrSerice.success("Order saved Successfully", "Success");
 					localStorage.removeItem("carts");
+					this.cartService.cart = [];
 				} else {
 					this.cartService.cancelOrder(order.OrderID).subscribe();
 				}
