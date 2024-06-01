@@ -14,11 +14,12 @@ import { RatingModule } from 'primeng/rating';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { ICart } from '../../shared/models/cart';
 import { Tags } from '../../shared/models/tags';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-home',
 	standalone: true,
-	imports: [CarouselModule, ButtonModule, TrimDecimalPipe, RatingModule, FormsModule],
+	imports: [CarouselModule, ButtonModule, TrimDecimalPipe, RatingModule, FormsModule, TranslateModule],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss'
 })

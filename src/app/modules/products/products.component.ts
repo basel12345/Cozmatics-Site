@@ -19,11 +19,12 @@ import { ICart } from '../../shared/models/cart';
 import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule],
+	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
 	templateUrl: './products.component.html',
 	styleUrl: './products.component.scss'
 })
@@ -187,8 +188,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	filter() {
-		console.log(this.rangePrice);
-		
 		this.productsService.pageNo = 1;
 		const data: {
 			brandIds?: number[] | null,

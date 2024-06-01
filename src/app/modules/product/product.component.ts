@@ -19,11 +19,12 @@ import { CartService } from '../../shared/services/cart/cart.service';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProductsService } from '../../shared/services/products/products.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-product',
 	standalone: true,
-	imports: [CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule],
+	imports: [CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule, TranslateModule],
 	templateUrl: './product.component.html',
 	styleUrl: './product.component.scss'
 })

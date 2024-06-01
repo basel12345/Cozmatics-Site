@@ -12,7 +12,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     handleError(error: any): void {
         if (error instanceof HttpErrorResponse) {
             this.loadingService.hideLoading();
-            alert(error.message);
+            console.error(error.message);
+            
+            // alert(error.message);
         }
     }
 }

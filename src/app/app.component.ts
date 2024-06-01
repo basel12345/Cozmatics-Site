@@ -1,5 +1,5 @@
 import { NavHeaderComponent } from './components/nav-header/nav-header.component';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -14,7 +14,12 @@ import { NgIf } from '@angular/common';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
     title = 'E-Commerce-Angular';
+    direction!: string | null;
     constructor(public loadingService: LoadingService) { }
+    ngOnInit(): void {
+        
+        this.direction = localStorage.getItem("lang") === "en" ? "ltr" : "rtl";
+    }
 }

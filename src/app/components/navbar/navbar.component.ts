@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
@@ -17,16 +18,17 @@ export class NavbarComponent implements OnInit {
     items: MenuItem[] | undefined;
     constructor(
         private categoriesService: CategoriesService,
-        private router: Router
+        private router: Router,
+        private translateService: TranslateService
     ) {
         this.items = [
             {
-                label: 'Home',
+                label: this.translateService.instant('Home'),
                 items: [],
                 routerLink: 'home'
             },
             {
-                label: 'Categories',
+                label: this.translateService.instant('Categories'),
                 items: [],
                 routerLink: 'products'
             }
@@ -51,7 +53,7 @@ export class NavbarComponent implements OnInit {
                     }
                 }
                 this.items.push({
-                    label: 'Brands',
+                    label: this.translateService.instant('Brands'),
                     routerLink: 'brands'
                 })
             }

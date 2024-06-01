@@ -3,7 +3,7 @@ import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } 
 import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, EventEmitter, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext'
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { CommonModule, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { Router } from '@angular/router';
@@ -22,6 +22,7 @@ import { IDropList } from '../../shared/models/city';
 import { IAddress } from '../../shared/models/address';
 import { PaymentService } from '../../shared/services/payment/payment.service';
 import { InputMaskModule } from 'primeng/inputmask';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 type Droplist = {
 	name: string;
@@ -31,7 +32,7 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule],
+	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
@@ -58,6 +59,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	deliveryStatus!: IDropList[];
 	objQty!: any[];
 	cardForm!: FormGroup;
+	direction!: string;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -66,7 +68,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		@Inject(PLATFORM_ID) private platformId: object,
 		private toastrSerice: ToastrService,
 		private fb: FormBuilder,
-		private paymentService: PaymentService
+		private paymentService: PaymentService,
+		private translate: TranslateService
 	) { }
 
 	ngOnInit() {
@@ -82,11 +85,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			{ name: 'London', code: 'LDN' },
 			{ name: 'Istanbul', code: 'IST' },
 			{ name: 'Paris', code: 'PRS' }
-		];
-
-		this.deliveryStatus = [
-			{ name: 'Home', code: 0 },
-			{ name: 'Shop', code: 1 }
 		];
 	}
 
@@ -131,10 +129,13 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			{ name: 'English', code: 'EN', image: "assets/download.png" },
 		];
 		this.users = [
-			{ name: 'Login', code: 'login' },
-			{ name: 'Register', code: 'register' }
+			{ name: this.translate.instant('Login'), code: 'login' },
+			{ name: this.translate.instant('Register'), code: 'register' }
 		];
-		this.selectedLanguage = this.countries[1];
+		const lang = localStorage.getItem("lang");
+		this.selectedLanguage = lang === 'ar' ? this.countries[0] : this.countries[1];
+		this.direction = lang === 'ar' ? "rtl" : "ltr";
+		this.translate.use(lang ? lang : 'en');
 	}
 
 	getOrdersInCart() {
@@ -162,6 +163,18 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.router.navigate([path.code]);
 	}
 
+	changeLanguage(lang: DropdownChangeEvent) {
+		this.selectedLanguage = lang.value;
+		if (lang.value.code === "EN") {
+			this.translate.use("en");
+			localStorage.setItem("lang", "en");
+		} else {
+			this.translate.use("ar");
+			localStorage.setItem("lang", "ar");
+		}
+		this.direction = localStorage.getItem("lang") === 'ar' ? "rtl" : "ltr";
+	}
+
 	sanitizationImage(image: string): SafeResourceUrl {
 		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
 	}
@@ -179,6 +192,10 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			}
 			this.sidebarVisible = true;
 		}
+		this.deliveryStatus = [
+			{ name: this.translate.instant('Home'), code: 0 },
+			{ name: this.translate.instant('Shop'), code: 1 }
+		];
 	}
 
 	clear(id: number) {

@@ -1,32 +1,32 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 col-12" *ngIf="Brands">
-            <p-panel header="Brand" [toggleable]="true">
+            <p-panel [header]="'Brand' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Brands">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel header="Category" [toggleable]="true">
+            <p-panel [header]="'Category' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Category">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel header="Price" [toggleable]="true">
+            <p-panel [header]="'Price' | translate" [toggleable]="true">
                 <p-slider [(ngModel)]="rangePrice" [range]="true"></p-slider>
             </p-panel>
             <div class="filter">
-                <p-button class="filter-btn" (onClick)="filter()" label="Filter" [text]="true"
+                <p-button class="filter-btn" (onClick)="filter()" [label]="'Filter' | translate" [text]="true"
                     severity="help"></p-button>
             </div>
         </div>
         <div class="col-md-10 col-12">
             <ng-container *ngIf="titlePage">
                 <div class="row">
-                    <h3>{{titlePage}}</h3>
+                    <h3>{{titlePage | translate}}</h3>
                     <div class="col-12 col-sm-6 col-md-3" *ngFor="let res of Products$ | async">
                         <div class="m-1 p-2 card">
                             <span (click)="navigateToProduct(res.id)">
@@ -60,7 +60,7 @@
                                     [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
                                     severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
                                 <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
-                                    [label]="'View Product'" [text]="true" severity="help"></p-button>
+                                    [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
                             </div>
                         </div>
                     </div>

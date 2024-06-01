@@ -26,7 +26,7 @@ export class CartService implements OnInit {
 	}
 
 	addressByCustNo(customerId: number) {
-		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/AddressByCustNo?customerId=${customerId}`)
+		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/Location/AddressByCustNo?customerId=${customerId}`)
 	}
 
 	addCart(cart: ICart) {

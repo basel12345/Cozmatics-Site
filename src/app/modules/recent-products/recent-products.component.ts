@@ -19,11 +19,12 @@ import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
 import { ICart } from '../../shared/models/cart';
 import { CartService } from '../../shared/services/cart/cart.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-recent-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule],
+	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
 	templateUrl: './recent-products.component.html',
 	styleUrl: './recent-products.component.scss'
 })
@@ -58,7 +59,7 @@ export class RecentProductsComponent implements OnInit {
 		this.subscription = this.route.data.subscribe(res => {
 			this.Products$ = of(res['RecentProducts']['products']);
 			this.totalCount = res['RecentProducts']['totalCount'];
-			this.titlePage = "Recent Products";
+			this.titlePage = "RecentProducts";
 			this.Brands = res['Brands'];
 			this.Category = res['Category'];
 			this.loadingService.hideLoading();

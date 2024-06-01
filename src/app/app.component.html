@@ -1,12 +1,14 @@
-<app-nav-header></app-nav-header>
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<div [dir]="direction ? direction : 'ltr'">
+    <app-nav-header></app-nav-header>
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
 
-<div *ngIf="loadingService.show" class="overlay">
-</div>
+    <div *ngIf="loadingService.show" class="overlay">
+    </div>
 
-<div *ngIf="loadingService.show" class="flex justify-content-center align-items-center loader">
-    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="transparent"
-        animationDuration=".5s"></p-progressSpinner>
+    <div *ngIf="loadingService.show" class="flex justify-content-center align-items-center loader">
+        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="transparent"
+            animationDuration=".5s"></p-progressSpinner>
+    </div>
 </div>

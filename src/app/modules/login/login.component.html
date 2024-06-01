@@ -10,44 +10,44 @@
                 </div>
             </div>
             <div class="input">
-                <label for="email">Email</label>
+                <label for="email">{{"Email" | translate}}</label>
                 <input pInputText type="email"
                     [ngClass]="submitted && loginForm.get('email')?.invalid ? 'ng-invalid ng-dirty' : ''" id="email"
                     aria-describedby="email-help" formControlName="email" />
                 <span *ngIf="submitted && loginForm.get('email')?.errors?.['required']" class="invalid">
-                    Email is required
+                    {{"Email" | translate}} {{"isRequired" | translate}}
                 </span>
                 <span *ngIf="submitted && loginForm.get('email')?.errors?.['email']" class="invalid">
-                    Enter a valid email address
+                    {{"EnterAValidEmailAddress" | translate}}
                 </span>
             </div>
             <div class="input">
-                <label for="password">Password</label>
+                <label for="password">{{"Password" | translate}}</label>
                 <p-password formControlName="password">
                     <ng-template pTemplate="header">
-                        <h6>Pick a password</h6>
+                        <h6>{{"PickAPassword" | translate}}</h6>
                     </ng-template>
                     <ng-template pTemplate="footer">
                         <p-divider></p-divider>
-                        <p class="mt-2">Suggestions</p>
+                        <p class="mt-2">{{"Suggestions" | translate}}</p>
                         <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                            <li>At least one lowercase</li>
-                            <li>At least one uppercase</li>
-                            <li>At least one numeric</li>
-                            <li>Minimum 8 characters</li>
+                            <li>{{"AtLeastOneLowercase" | translate}}</li>
+                            <li>{{"AtLeastOneUppercase" | translate}}</li>
+                            <li>{{"AtLeastOneNumeric" | translate}}</li>
+                            <li>{{"Minimum8Characters" | translate}}</li>
                         </ul>
                     </ng-template>
                 </p-password>
                 <span *ngIf="submitted && loginForm.get('password')?.errors?.['required']" class="invalid">
-                    Password is required
+                    {{"Password" | translate}} {{"isRequired" | translate}}
                 </span>
                 <span *ngIf="submitted && loginForm.get('password')?.errors?.['pattern']?.['requiredPattern']"
                     class="invalid">
                     <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                        <li>At least one lowercase</li>
-                        <li>At least one uppercase</li>
-                        <li>At least one numeric</li>
-                        <li>Minimum 8 characters</li>
+                        <li>{{"AtLeastOneLowercase" | translate}}</li>
+                        <li>{{"AtLeastOneUppercase" | translate}}</li>
+                        <li>{{"AtLeastOneNumeric" | translate}}</li>
+                        <li>{{"Minimum8Characters" | translate}}</li>
                     </ul>
                 </span>
             </div>

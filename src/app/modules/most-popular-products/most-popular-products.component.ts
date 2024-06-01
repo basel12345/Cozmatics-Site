@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { LoadingService } from './../../shared/services/loading/loading.service';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { IProducts } from './../../shared/models/products';
@@ -23,7 +24,7 @@ import { ICart } from '../../shared/models/cart';
 @Component({
     selector: 'app-most-popular-products',
     standalone: true,
-    imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule],
+    imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
     templateUrl: './most-popular-products.component.html',
     styleUrl: './most-popular-products.component.scss'
 })
@@ -57,7 +58,7 @@ export class MostPopularProductsComponent {
     getAllData() {
         this.getData();
         this.subscription = this.route.data.subscribe(res => {
-            this.titlePage = "Most Popular Products";
+            this.titlePage = "MostPopularProducts";
             this.Brands = res['Brands'];
             this.Category = res['Category'];
         });

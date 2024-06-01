@@ -7,7 +7,7 @@
         </a>
     </div>
     <div class="row advertisement" *ngIf="discountAdvertisement?.length">
-        <h4>Discounts</h4>
+        <h4>{{"Discounts" | translate}}</h4>
         <div *ngFor="let res of discountAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
             (click)="advertisement(res.brandId, res.categoryId, res.discount, res.tag)">
             <img [src]="sanitizationImage(res.img)" alt="">
@@ -16,10 +16,10 @@
     <div class="recentProducts row" *ngIf="RecentProducts?.length">
         <div class="row">
             <div class="col-6">
-                <h4>Recent Products</h4>
+                <h4>{{"RecentProducts" | translate}}</h4>
             </div>
             <div class="col-6 text-end more">
-                <a (click)="recentProductsPage()">More than</a>
+                <a (click)="recentProductsPage()">{{"MoreThan" | translate}}</a>
             </div>
         </div>
         <div class="col-12 col-md-2" *ngFor="let res of RecentProducts">
@@ -39,12 +39,12 @@
                         </div>
                         <div class="price"
                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            SAR
-                            {{res.price}}<span> (VAT included)</span>
+                            {{"SAR" | translate}}
+                            {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
                         </div>
                         <div class="discount">
                             <span *ngIf="res.discountPercentage">
-                                SAR {{(+res.discountPercentage
+                                {{"SAR" | translate}} {{(+res.discountPercentage
                                 /
                                 +res.price ) * 100 | trimDecimalPipe}}
                             </span>
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="row advertisement" *ngIf="brandIdAdvertisement?.length">
-        <h4>Brands</h4>
+        <h4>{{"Brands" | translate}}</h4>
         <div *ngFor="let res of brandIdAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
             (click)="navigateToBrands(res.brandId)">
             <img [src]="sanitizationImage(res.img)" alt="">
@@ -74,10 +74,10 @@
     <div class="recentProducts row" *ngIf="BestProducts?.length">
         <div class="row">
             <div class="col-6">
-                <h4>Best Products</h4>
+                <h4>{{"BestProducts" | translate}}</h4>
             </div>
             <div class="col-6 text-end more">
-                <a (click)="bestProductsPage()">More than</a>
+                <a (click)="bestProductsPage()">{{"MoreThan" | translate}}</a>
             </div>
         </div>
         <div class="col-12 col-md-2" *ngFor="let res of BestProducts">
@@ -97,12 +97,12 @@
                         </div>
                         <div class="price"
                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            SAR
-                            {{res.price}}<span> (VAT included)</span>
+                            {{"SAR" | translate}}
+                            {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
                         </div>
                         <div class="discount">
                             <span *ngIf="res.discountPercentage">
-                                SAR {{(+res.discountPercentage
+                                {{"SAR" | translate}} {{(+res.discountPercentage
                                 /
                                 +res.price ) * 100 | trimDecimalPipe}}
                             </span>
@@ -125,10 +125,10 @@
     <div class="recentProducts row" *ngIf="MostPopularProducts?.length">
         <div class="row">
             <div class="col-6">
-                <h4>Most Popular Products</h4>
+                <h4>{{"MostPopularProducts" | translate}}</h4>
             </div>
             <div class="col-6 text-end more">
-                <a (click)="mostPopularProducts()">More than</a>
+                <a (click)="mostPopularProducts()">{{"MoreThan" | translate}}</a>
             </div>
         </div>
         <div class="col-12 col-md-2" *ngFor="let res of MostPopularProducts">
@@ -148,12 +148,12 @@
                         </div>
                         <div class="price"
                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            SAR
-                            {{res.price}}<span> (VAT included)</span>
+                            {{"SAR" | translate}}
+                            {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
                         </div>
                         <div class="discount">
                             <span *ngIf="res.discountPercentage">
-                                SAR {{(+res.discountPercentage
+                                {{"SAR" | translate}} {{(+res.discountPercentage
                                 /
                                 +res.price ) * 100 | trimDecimalPipe}}
                             </span>
@@ -164,9 +164,9 @@
                 <div class="footer">
                     <p-button *ngIf="!res.hasAttr"
                         (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                        [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
+                        [label]="!cartService.checkInCart(res.id) ? ('AddToCart' | translate) : ('Done' | translate)" [text]="true"
                         severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
-                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'View Product'"
+                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'ViewProduct' | translate"
                         [text]="true" severity="help"></p-button>
                 </div>
             </div>

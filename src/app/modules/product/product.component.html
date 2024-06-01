@@ -13,17 +13,17 @@
             <img class="d-block" [src]="sanitizationImage(product.brandImg)" alt="">
             <h6 class="mt-2">{{product.name}}</h6>
             <div class="mt-2">
-                Available Total Quantity: {{product.qty ? product.qty : 0}}
-                <span *ngIf="qntySize || qntyColors"> (Available Quantity: {{qntySize ? qntySize : qntyColors}})</span>
+                {{"AvailableTotalQuantity" | translate}}: {{product.qty ? product.qty : 0}}
+                <span *ngIf="qntySize || qntyColors"> ({{"AvailableQuantity" | translate}}: {{qntySize ? qntySize : qntyColors}})</span>
             </div>
             <div class="mt-2">
                 <p-rating [(ngModel)]="product.rateValue" [readonly]="true"
                     [cancel]="false"></p-rating>({{product.totalRate}})
             </div>
             <h4 class="d-inline-block mt-2"
-                [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">SAR
-                {{product.price}}</h4> <span> (VAT included)</span>
-            <h4 class="discount mt-2" *ngIf="product.discountPercentage">SAR {{(+product.discountPercentage
+                [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">{{"SAR" | translate}}
+                {{product.price}}</h4> <span> ({{"VATIncluded" | translate}})</span>
+            <h4 class="discount mt-2" *ngIf="product.discountPercentage">{{"SAR" | translate}} {{(+product.discountPercentage
                 /
                 +product.price ) * 100 | trimDecimalPipe}}</h4>
             <div class="flex flex-wrap gap-3 mt-2">
@@ -55,7 +55,7 @@
         <p-tabView>
             <p-tabPanel header="Reviews">
                 <div class="row text-end">
-                    <p-button label="Add Review" (click)="showDialog()" [raised]="true"></p-button>
+                    <p-button [label]="'AddReview' | translate" (click)="showDialog()" [raised]="true"></p-button>
                 </div>
                 <div class="card p-3 m-2" *ngFor="let res of Review">
                     <div><p-rating [(ngModel)]="res.rate" [readonly]="true" [cancel]="false"></p-rating></div>
@@ -68,15 +68,15 @@
     </div>
 </div>
 
-<p-dialog header="Add Review" [(visible)]="visible" [style]="{width: '50vw'}">
+<p-dialog [header]="'AddReview' | translate" [(visible)]="visible" [style]="{width: '50vw'}">
     <div>
         <p-rating [(ngModel)]="addReview.rate" [cancel]="false"></p-rating>
     </div>
     <div>
-        <label style="display: block;">Comment</label>
+        <label style="display: block;">{{"Comment" | translate}}</label>
         <textarea rows="5" cols="50" pInputTextarea [(ngModel)]="addReview.comment"></textarea>
     </div>
     <div class="text-end add-review">
-        <p-button label="Add" (click)="addReviewToProduct()" [raised]="true"></p-button>
+        <p-button [label]="'Add' | translate" (click)="addReviewToProduct()" [raised]="true"></p-button>
     </div>
 </p-dialog>

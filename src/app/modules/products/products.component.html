@@ -1,27 +1,27 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 col-12" *ngIf="Brands && !queryParams">
-            <p-panel *ngIf="!branId" header="Brand" [toggleable]="true">
+            <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Brands">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel *ngIf="!categoryId" header="Category" [toggleable]="true">
+            <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Category">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel header="Price" [toggleable]="true">
+            <p-panel [header]="'Price'| translate" [toggleable]="true">
                 <p-slider [(ngModel)]="rangePrice" [range]="true" [max]="100000" [step]="5"></p-slider>
                 <div class="mt-2" *ngIf="rangePrice?.length">
                     {{rangePrice[0] + "-" +rangePrice[1]}}
                 </div>
             </p-panel>
-            <p-panel header="Tags" [toggleable]="true">
+            <p-panel [header]="'Tags' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of TagValues">
                     <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res"
                         (onChange)="selectSearchTags($event.checked, res)"></p-checkbox>
@@ -30,14 +30,14 @@
                 </div>
             </p-panel>
             <div class="filter">
-                <p-button class="filter-btn" (onClick)="filter()" label="Filter" [text]="true"
+                <p-button class="filter-btn" (onClick)="filter()" [label]="'Filter' | translate" [text]="true"
                     severity="help"></p-button>
             </div>
         </div>
         <div class="col-md-10 col-12">
             <ng-container *ngIf="titlePage">
                 <div class="row">
-                    <h3>{{titlePage}}</h3>
+                    <h3>{{titlePage | translate}}</h3>
                     <div class="col-12 col-sm-6 col-md-3" *ngFor="let res of Products$ | async">
                         <div class="m-1 p-2 card">
                             <span (click)="navigateToProduct(res.id)">
@@ -48,7 +48,7 @@
                                     <div class="brand">{{res.brandName}}</div>
                                     <div class="sub-brand mb-3">{{res.name}}</div>
                                     <div>
-                                        Available Quantity: {{res.qty ? res.qty : 0}}
+                                        {{"AvailableQuantity" | translate}}: {{res.qty ? res.qty : 0}}
                                     </div>
                                     <div>
                                         <p-rating [(ngModel)]="res.rateValue" [readonly]="true"
@@ -65,10 +65,10 @@
                                     <div class="price">
                                         <span
                                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                            SAR {{res.price}}</span>
-                                        <span> (VAT included)</span>
+                                            {{"SAR" | translate}} {{res.price}}</span>
+                                        <span> ({{"VATIncluded" | translate}})</span>
                                     </div>
-                                    <div class="discount" *ngIf="res.discountPercentage">SAR {{(+res.discountPercentage
+                                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{(+res.discountPercentage
                                         /
                                         +res.price ) * 100 | trimDecimalPipe}}
                                     </div>
@@ -78,10 +78,10 @@
                             <div class="footer">
                                 <p-button *ngIf="!res.hasAttr"
                                     (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                                    [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
+                                    [label]="!cartService.checkInCart(res.id) ? ('AddToCart' | translate) : ('Done' | translate)" [text]="true"
                                     severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
                                 <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
-                                    [label]="'View Product'" [text]="true" severity="help"></p-button>
+                                    [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
                             </div>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="!totalCount">
-                <h3 class="text-center my-5 not-found">Not Found Products</h3>
+                <h3 class="text-center my-5 not-found">{{"NotFoundProducts" | translate}}</h3>
             </ng-container>
         </div>
     </div>

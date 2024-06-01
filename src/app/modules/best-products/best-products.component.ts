@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { LoadingService } from './../../shared/services/loading/loading.service';
 import { IProducts } from './../../shared/models/products';
 import { CommonModule } from '@angular/common';
@@ -23,7 +24,7 @@ import { CartService } from '../../shared/services/cart/cart.service';
 @Component({
 	selector: 'app-best-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule],
+	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
 	templateUrl: './best-products.component.html',
 	styleUrl: './best-products.component.scss'
 })
@@ -57,7 +58,7 @@ export class BestProductsComponent {
 		this.subscription = this.route.data.subscribe((res) => {
 			this.Products$ = of(res['BestProducts']['products']);
 			this.totalCount = res['BestProducts']['totalCount'];
-			this.titlePage = "Best Products";
+			this.titlePage = "BestProducts";
 			this.Brands = res['Brands'];
 			this.Category = res['Category'];
 			this.loadingService.hideLoading();
