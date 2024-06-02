@@ -129,6 +129,7 @@ export class ProductComponent implements OnInit {
 			this.toastr.success('Review', 'Success');
 			this.reviewService.getReviewByProductId("" + this.product.id).subscribe(res => {
 				this.productService.getProductById("" + this.product.id).subscribe((product: IProducts) => {
+					this.loadingService.hideLoading();
 					this.Review = res;
 					this.visible = false;
 					this.product = product;
