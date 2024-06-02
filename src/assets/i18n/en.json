@@ -57,5 +57,18 @@
     "Username": "Username",
     "Phone": "Phone",
     "Search": "Search",
-    "CardRegistration": "Card Registration"
+    "CardRegistration": "Card Registration",
+    "ShipmentCost": "Shipment Cost",
+    "totalPriceAndShipment": "Total Price And Shipment",
+    "ProductName": "Product Name",
+    "And": "And",
+    "Quantitiesofthesefollowingproductsisnotavailablenow": "Quantities of these following products is not available now",
+    "Error": "Error",
+    "PleaseEnterCardNumber": "Please Enter Card Number",
+    "PleaseLogInFirst": "Please Log In First",
+    "Success": "Success",
+    "AdrressSavedSuccessfully": "Address Saved Successfully",
+    "OrderSavedSuccessfully": "Order Saved Successfully",
+    "DoYouWantToRegisterTheCard?": "Do You Want To Register The Card ?",
+    "VisaCard": "Visa Card"
 }

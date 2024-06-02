@@ -17,6 +17,6 @@ export class CardService {
 	}
 
 	deleteCard(id: any) {
-		return this.httpClient.delete(`http://abaq2023-001-site1.htempurl.com/api/CardToken/Delete?id=${id}`);
+		return this.httpClient.delete(`http://abaq2023-001-site1.htempurl.com/api/CardToken/Delete?Id=${id}`);
 	}
 }

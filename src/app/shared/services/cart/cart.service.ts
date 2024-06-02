@@ -85,4 +85,9 @@ export class CartService implements OnInit {
 	cancelOrder(id: number) {
 		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Order/CancelOrder?id=${id}`, null);
 	}
+
+
+	GetshipmentCostByAddresssID(id: number) {
+		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/GetshipmentCostByAddresssID?id=${id}`);
+	}
 }

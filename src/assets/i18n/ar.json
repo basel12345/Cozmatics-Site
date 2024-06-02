@@ -57,5 +57,18 @@
     "Username": "اسم المستخدم",
     "Phone": "موبيل",
     "Search": "بحث",
-    "CardRegistration": "تسجيل الكارت"
+    "CardRegistration": "تسجيل الكارت",
+    "ShipmentCost": "تكلفة الشحن",
+    "totalPriceAndShipment": "السعر الإجمالي والشحن",
+    "ProductName": "اسم المنتج",
+    "And": "و",
+    "Quantitiesofthesefollowingproductsisnotavailablenow": "كميات هذه المنتجات التالية غير متوفرة الآن",
+    "Error": "خطأ",
+    "PleaseEnterCardNumber": "الرجاء إدخال رقم البطاقة",
+    "PleaseLogInFirst": "الرجاء تسجيل الدخول أولا",
+    "Success": "نجاح",
+    "AdrressSavedSuccessfully": "تم حفظ العنوان بنجاح",
+    "OrderSavedSuccessfully": "تم حفظ الطلب بنجاح",
+    "DoYouWantToRegisterTheCard?": "هل تريد تسجيل البطاقة ؟",
+    "VisaCard": "بطاقة فيزا"
 }

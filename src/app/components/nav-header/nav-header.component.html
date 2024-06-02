@@ -72,11 +72,18 @@
                     optionLabel="name" [showClear]="true" [placeholder]="'ReceivingTheOrder' | translate"></p-dropdown>
             </div>
             <div class="col-12 my-1" *ngIf="totalPrice">
-                <h4 style="display: inline-block;">{{"TotalPrice" | translate }}</h4>: {{totalPrice}} {{"SAR" |
+                <h6 style="display: inline-block;">{{"TotalPrice" | translate }}</h6>: {{totalPrice}} {{"SAR" |
+                translate }}
+            </div>
+             <div class="col-12 my-2" *ngIf="deliveryType?.code === 0">
+                <h6 style="display: inline-block;">{{"ShipmentCost" | translate}}</h6>: {{shipmentCost}}
+            </div>
+            <div class="col-12 my-1" *ngIf="deliveryType?.code === 0">
+                <h6 style="display: inline-block;">{{"totalPriceAndShipment" | translate }}</h6>: {{totalPriceAndShipment}} {{"SAR" |
                 translate }}
             </div>
             <div class="col-12 my-2" *ngIf="address">
-                <h4 style="display: inline-block;">{{"Address" | translate}}</h4>: {{address.city}} - {{address.area}} -
+                <h6 style="display: inline-block;">{{"Address" | translate}}</h6>: {{address.city}} - {{address.area}} -
                 {{address.street}}
             </div>
             <div class="col-12 my-2 card p-3">
@@ -88,7 +95,7 @@
                             </label>
                             <div>
                                 <p-radioButton [value]="res.token" [(ngModel)]="tokenCard" [inputId]="'' + i" />
-                                <button (click)="deleteCard(res.token)"
+                                <button (click)="deleteCard(res.id)"
                                     style="color: black;background: transparent; width: auto; height: auto;">
                                     <fa-icon [icon]="faDelete"></fa-icon>
                                 </button>
@@ -105,7 +112,7 @@
 </p-sidebar>
 
 
-<p-dialog class="dialog-address" header="Address" [(visible)]="visible" [position]="'top'" [style]="{ width: '50vw' }">
+<p-dialog class="dialog-address" [header]="'Address' | translate" [(visible)]="visible" [position]="'top'" [style]="{ width: '50vw' }">
     <form [formGroup]="AddressForm" (ngSubmit)="saveAddress()">
         <div class="row">
             <div class="col-12 col-md-6 mt-1">
@@ -137,7 +144,7 @@
 </p-dialog>
 
 
-<p-dialog header="Visa Card" [modal]="true" [(visible)]="visibleCardDialog" [style]="{ width: '30rem' }"
+<p-dialog [header]="'VisaCard' | translate" [modal]="true" [(visible)]="visibleCardDialog" [style]="{ width: '30rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
     <form [formGroup]="cardForm" (ngSubmit)="saveCard()">
         <div class="row">

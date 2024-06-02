@@ -68,6 +68,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	cards: any;
 	tokenCard!: string;
 	lastFourCard!: number;
+	totalPriceAndShipment: number = 0;
+	shipmentCost: number = 0;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -182,8 +184,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			localStorage.setItem("lang", "ar");
 		}
 		this.direction = localStorage.getItem("lang") === 'ar' ? "rtl" : "ltr";
-		console.log("tesst");
-
 		window.location.reload();
 	}
 
@@ -209,6 +209,17 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			{ name: this.translate.instant('Shop'), code: 1 }
 		];
 		this.getCardTokenByCustomerId();
+		this.getshipmentCostByAddresssID();
+	}
+
+
+	getshipmentCostByAddresssID() {
+		if (this.address.id) {
+			this.cartService.GetshipmentCostByAddresssID(this.address.id).subscribe(res => {
+				this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
+				this.loadingService.hideLoading();
+			})
+		}
 	}
 
 
@@ -240,7 +251,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 				if (res) {
 					this.getAddressByCustNo();
 					this.visible = false;
-					this.toastrSerice.success("Adrress saved Successfully", "Success");
+					this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"), this.translate.instant("Success"));
 				}
 			})
 		}
@@ -265,8 +276,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		})
 	}
 
-	deleteCard(token: string) {
-		this.cardService.deleteCard(token).subscribe(res => {
+	deleteCard(id: number) {
+		this.cardService.deleteCard(id).subscribe(res => {
 			this.getCardTokenByCustomerId();
 		})
 	}
@@ -282,23 +293,23 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			}
 			this.paymentService.DirectPayment(res.Data.PaymentURL, data).subscribe((response: any) => {
 				if (response.IsSuccess) {
-					this.toastrSerice.success("Order saved Successfully", "Success");
+					this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"), this.translate.instant("Success"));
 					localStorage.removeItem("carts");
 					this.cartService.cart = [];
 					this.carts = [];
 					if (res.Data['Token']) {
 						Swal.fire({
-							title: 'Do you want to register the card?',
+							title: this.translate.instant('DoYouWantToRegisterTheCard?'),
 							showCancelButton: true,
 							confirmButtonText: "Yes",
 							cancelButtonText: "No",
-					}).then((response) => {
-						if(response.isConfirmed) {
-							this.tokenCard = res.Data['Token'];
-							this.lastFourCard = cardNum.substr(-4);
-							this.saveCardReq({ customerId: this.user.userId, token: this.tokenCard, LastDigits: this.lastFourCard });
-						}
-					})
+						}).then((response) => {
+							if (response.isConfirmed) {
+								this.tokenCard = res.Data['Token'];
+								this.lastFourCard = cardNum.substr(-4);
+								this.saveCardReq({ customerId: this.user.userId, token: this.tokenCard, LastDigits: this.lastFourCard });
+							}
+						})
 					}
 				} else {
 					if (order.OrderID) this.cartService.cancelOrder(order.OrderID).subscribe();
@@ -312,23 +323,29 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			this.loadingService.hideLoading();
 			if (order?.rejectedProductIds.length) {
 				Swal.fire({
-					title: 'Quantities of these following products is not available now',
-					icon: 'error',
+					title: `${this.translate.instant('Quantitiesofthesefollowingproductsisnotavailablenow')}`,
+					icon: `error`,
 					html: `
 					${order.rejectedProductIds.map((element: any) => (
 						`<div>
-								<span style="display: block">Product Name: ${element.productName}</span>
-								<span style="display: block">Attribute : ${element.attrName}</span>
-						</div>`
+								<span style="display: block">${this.translate.instant('ProductName')}: ${element.productName} ${this.translate.instant('And')} ${this.translate.instant('AvailableQuantity')}: ${element.qty} </span>
+						</div>
+						${this.handleAttributeNameFaild(element)}
+						`
 					))
 						}
+						<span style="display: block">${this.translate.instant('TotalPrice')}: ${order.totalPrice}</span>
 					`,
-					confirmButtonText: 'Ok'
+					confirmButtonText: 'Ok',
+					cancelButtonText: 'Cancel',
+					showCancelButton: true
 				}).then((res: SweetAlertResult) => {
-					if (res.isConfirmed) {
-						this.paymentOrder(order);
+					if (res.isConfirmed && order) {
+						this.paymentOrder(order.orderID);
+						if (this.deliveryType.code === 0) this.totalPriceAndShipment = order.totalPrice;
+						else this.totalPrice = order.totalPrice;
 					} else if (order.OrderID) {
-						this.cartService.cancelOrder(order.OrderID).subscribe();
+						this.cartService.cancelOrder(order.orderID).subscribe();
 					}
 				});
 			} else {
@@ -337,15 +354,25 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		})
 	}
 
+
+	handleAttributeNameFaild(element: any) {
+		if (element.attrName) return `<span style="display: block">${this.translate.instant('ProductName')}: ${element.attrName}</span>`;
+		return ``;
+	}
+
 	placeOrder() {
 		if (this.user) {
 			if (this.deliveryType.code === 0 && !this.address?.id) {
 				this.showDialog();
 				return;
 			};
+			if (!this.cardForm.get("Number")?.getRawValue() && !this.tokenCard) {
+				this.toastrSerice.error(this.translate.instant("PleaseEnterCardNumber"), this.translate.instant("Error"));
+				return;
+			};
 			this.placeOrderReq();
 		} else {
-			this.toastrSerice.error("Please log in first", "Error");
+			this.toastrSerice.error(this.translate.instant("PleaseLogInFirst"), this.translate.instant("Error"));
 		};
 	}
 
