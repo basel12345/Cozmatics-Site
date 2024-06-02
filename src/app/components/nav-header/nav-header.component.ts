@@ -23,6 +23,10 @@ import { IAddress } from '../../shared/models/address';
 import { PaymentService } from '../../shared/services/payment/payment.service';
 import { InputMaskModule } from 'primeng/inputmask';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CardService } from '../../shared/services/card/card.service';
 
 type Droplist = {
 	name: string;
@@ -32,7 +36,7 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule],
+	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
@@ -60,6 +64,10 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	objQty!: any[];
 	cardForm!: FormGroup;
 	direction!: string;
+	faDelete = faTrash;
+	cards: any;
+	tokenCard!: string;
+	lastFourCard!: number;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -69,7 +77,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		private toastrSerice: ToastrService,
 		private fb: FormBuilder,
 		private paymentService: PaymentService,
-		private translate: TranslateService
+		private translate: TranslateService,
+		private cardService: CardService
 	) { }
 
 	ngOnInit() {
@@ -174,7 +183,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		}
 		this.direction = localStorage.getItem("lang") === 'ar' ? "rtl" : "ltr";
 		console.log("tesst");
-		
+
 		window.location.reload();
 	}
 
@@ -199,6 +208,15 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			{ name: this.translate.instant('Home'), code: 0 },
 			{ name: this.translate.instant('Shop'), code: 1 }
 		];
+		this.getCardTokenByCustomerId();
+	}
+
+
+	getCardTokenByCustomerId() {
+		this.cardService.getCardTokenByCustomerId(this.user.userId).subscribe(res => {
+			this.cards = res;
+			this.loadingService.hideLoading();
+		});
 	}
 
 	clear(id: number) {
@@ -241,16 +259,49 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.visible = true;
 	}
 
+	saveCardReq(data: any) {
+		this.cardService.saveCard(data).subscribe(res => {
+			this.getCardTokenByCustomerId();
+		})
+	}
+
+	deleteCard(token: string) {
+		this.cardService.deleteCard(token).subscribe(res => {
+			this.getCardTokenByCustomerId();
+		})
+	}
+
 	paymentOrder(order: any) {
+		const cardNum = this.cardForm.get("Number")?.getRawValue();
 		this.paymentService.executePayment({ PaymentMethodId: "20", InvoiceValue: this.totalPrice }).subscribe((res: any) => {
-			const data = { PaymentMethodId: 20, InvoiceValue: this.totalPrice, Card: { ...this.cardForm.getRawValue() }, Bypass3DS: false };
+			var data;
+			if (this.tokenCard) {
+				data = { PaymentMethodId: 20, InvoiceValue: this.totalPrice, Card: { SecurityCode: this.cardForm.get("SecurityCode")?.getRawValue() }, Bypass3DS: false };
+			} else {
+				data = { PaymentMethodId: 20, InvoiceValue: this.totalPrice, Card: { ...this.cardForm.getRawValue() }, Bypass3DS: false, SaveToken: true };
+			}
 			this.paymentService.DirectPayment(res.Data.PaymentURL, data).subscribe((response: any) => {
 				if (response.IsSuccess) {
 					this.toastrSerice.success("Order saved Successfully", "Success");
 					localStorage.removeItem("carts");
 					this.cartService.cart = [];
+					this.carts = [];
+					if (res.Data['Token']) {
+						Swal.fire({
+							title: 'Do you want to register the card?',
+							showCancelButton: true,
+							confirmButtonText: "Yes",
+							cancelButtonText: "No",
+					}).then((response) => {
+						if(response.isConfirmed) {
+							this.tokenCard = res.Data['Token'];
+							this.lastFourCard = cardNum.substr(-4);
+							this.saveCardReq({ customerId: this.user.userId, token: this.tokenCard, LastDigits: this.lastFourCard });
+						}
+					})
+					}
 				} else {
-					this.cartService.cancelOrder(order.OrderID).subscribe();
+					if (order.OrderID) this.cartService.cancelOrder(order.OrderID).subscribe();
 				}
 			});
 		})
@@ -266,8 +317,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 					html: `
 					${order.rejectedProductIds.map((element: any) => (
 						`<div>
-								<span style="display: block">Product Name: ${element.productId}</span>
-								<span style="display: block">Attribute : ${element.attrValueId}</span>
+								<span style="display: block">Product Name: ${element.productName}</span>
+								<span style="display: block">Attribute : ${element.attrName}</span>
 						</div>`
 					))
 						}
@@ -276,7 +327,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 				}).then((res: SweetAlertResult) => {
 					if (res.isConfirmed) {
 						this.paymentOrder(order);
-					} else {
+					} else if (order.OrderID) {
 						this.cartService.cancelOrder(order.OrderID).subscribe();
 					}
 				});

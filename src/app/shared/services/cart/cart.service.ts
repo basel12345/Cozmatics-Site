@@ -60,7 +60,7 @@ export class CartService implements OnInit {
 			street: data.street,
 			customerId: data.customerId,
 		};
-		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/createAddress`, data)
+		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Location/createAddress`, data)
 	}
 
 	placeOrder(Cart: ICart[], addressId: number | null, deliveryType: number | string) {

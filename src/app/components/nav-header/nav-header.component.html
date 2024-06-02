@@ -72,13 +72,30 @@
                     optionLabel="name" [showClear]="true" [placeholder]="'ReceivingTheOrder' | translate"></p-dropdown>
             </div>
             <div class="col-12 my-1" *ngIf="totalPrice">
-                <h4 style="display: inline-block;">{{"TotalPrice" | translate }}</h4>: {{totalPrice}} {{"SAR" | translate }}
+                <h4 style="display: inline-block;">{{"TotalPrice" | translate }}</h4>: {{totalPrice}} {{"SAR" |
+                translate }}
             </div>
             <div class="col-12 my-2" *ngIf="address">
                 <h4 style="display: inline-block;">{{"Address" | translate}}</h4>: {{address.city}} - {{address.area}} -
                 {{address.street}}
             </div>
-            <div class="col-12 my-2">
+            <div class="col-12 my-2 card p-3">
+                <ng-container *ngFor="let res of cards; index as i">
+                    <div class="card p-2 m-2" *ngIf="res.lastDigit">
+                        <div style="display: flex;justify-content: space-between;">
+                            <label [for]="'' + i" class="ml-2">
+                                ************{{res.lastDigit}}
+                            </label>
+                            <div>
+                                <p-radioButton [value]="res.token" [(ngModel)]="tokenCard" [inputId]="'' + i" />
+                                <button (click)="deleteCard(res.token)"
+                                    style="color: black;background: transparent; width: auto; height: auto;">
+                                    <fa-icon [icon]="faDelete"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
                 <p-button (click)="showCardDialog()" label="Add Card" />
             </div>
         </div>
@@ -106,7 +123,8 @@
                 </span>
             </div>
             <div class="col-12 col-md-6 mt-1">
-                <input class="w-100" formControlName="street" type="text" pInputText [placeholder]="'street' | translate" />
+                <input class="w-100" formControlName="street" type="text" pInputText
+                    [placeholder]="'street' | translate" />
                 <span *ngIf="submitted && AddressForm.get('street')?.errors?.['required']" class="invalid">
                     {{"Street" | translate}} {{"isRequired" | translate}}
                 </span>
@@ -153,7 +171,7 @@
                     {{"ExpiryYear" | translate}} {{"isRequired" | translate}}
                 </span>
             </div>
-            <button type="submit">{{"SaveCard" | translate}}</button>
+            <button type="submit">{{"CardRegistration" | translate}}</button>
         </div>
     </form>
 </p-dialog>
