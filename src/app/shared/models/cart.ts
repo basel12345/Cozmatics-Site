@@ -6,4 +6,5 @@ export interface ICart {
     discountPercentage: number;
     coverImg: string;
     attrValueId?: number | undefined;
+    num?: number;
 }

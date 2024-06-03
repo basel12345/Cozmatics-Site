@@ -57,8 +57,8 @@
                             <div class="footer">
                                 <p-button *ngIf="!res.hasAttr"
                                     (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                                    [label]="!cartService.checkInCart(res.id) ? 'Add To Cart' : 'Done'" [text]="true"
-                                    severity="help" [disabled]="cartService.checkInCart(res.id) || !res.qty"></p-button>
+                                    [label]="'Add To Cart'" [text]="true"
+                                    severity="help" [disabled]="!res.qty"></p-button>
                                 <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
                                     [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
                             </div>

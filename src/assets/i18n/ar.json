@@ -70,5 +70,11 @@
     "AdrressSavedSuccessfully": "تم حفظ العنوان بنجاح",
     "OrderSavedSuccessfully": "تم حفظ الطلب بنجاح",
     "DoYouWantToRegisterTheCard?": "هل تريد تسجيل البطاقة ؟",
-    "VisaCard": "بطاقة فيزا"
+    "VisaCard": "بطاقة فيزا",
+    "status": "الحالة",
+    "Open": "مفتوح",
+    "Confirmed": "مؤكد",
+    "Canceled": "ملغى",
+    "Delivered": "تم التسليم",
+    "Closed": "مغلق"
 }

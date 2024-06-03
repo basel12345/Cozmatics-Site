@@ -33,8 +33,17 @@ export class CartService implements OnInit {
 		if (isPlatformBrowser(this.platformId)) {
 			const carts = localStorage.getItem("carts");
 			if (carts) this.cart = JSON.parse(carts);
-			if (this.cart?.length) this.cart.push(cart);
-			else this.cart = [cart];
+			const index = this.cart.findIndex(res => res.id === cart.id);
+			if (index === -1) {
+				if (this.cart?.length) this.cart.push(cart);
+				else this.cart = [cart];
+			} else {
+				let num = this.cart[index].num;
+				if(num === undefined) num = 2;
+				else num += 1;
+				this.cart[index].num = num;
+			}
+
 			if (this.cart) {
 				localStorage.removeItem("carts");
 				localStorage.setItem("carts", JSON.stringify(this.cart));
@@ -42,9 +51,7 @@ export class CartService implements OnInit {
 		}
 	}
 
-	checkInCart(id: number) {
-		return this.cart.some(res => res.id === id);
-	}
+
 
 	get getCartength() {
 		if (isPlatformBrowser(this.platformId)) {
@@ -77,17 +84,19 @@ export class CartService implements OnInit {
 			productQty: res.qty,
 			attrValueId: res.attrValueId
 		}));
-		if(!addressId) delete data.addressId;
+		if (!addressId) delete data.addressId;
 		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Order/PlaceSalesOrder`, data);
 	}
-
 
 	cancelOrder(id: number) {
 		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Order/CancelOrder?id=${id}`, null);
 	}
 
-
 	GetshipmentCostByAddresssID(id: number) {
-		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/GetshipmentCostByAddresssID?id=${id}`);
+		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/ShipmentCost/GetshipmentCostByAddresssID?id=${id}`);
+	}
+
+	GetSalesOrdersByCustomerId(id: number) {
+		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/Order/GetSalesOrdersByCustomerId?Id=${id}`);
 	}
 }

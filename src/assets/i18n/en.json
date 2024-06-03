@@ -70,5 +70,11 @@
     "AdrressSavedSuccessfully": "Address Saved Successfully",
     "OrderSavedSuccessfully": "Order Saved Successfully",
     "DoYouWantToRegisterTheCard?": "Do You Want To Register The Card ?",
-    "VisaCard": "Visa Card"
+    "VisaCard": "Visa Card",
+    "status": "status",
+    "Open": "Open",
+    "Confirmed": "Confirmed",
+    "Canceled": "Canceled",
+    "Delivered": "Delivered",
+    "Closed": "Closed"
 }

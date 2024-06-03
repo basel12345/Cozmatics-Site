@@ -70,6 +70,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	lastFourCard!: number;
 	totalPriceAndShipment: number = 0;
 	shipmentCost: number = 0;
+	ordersByCustomerId: any;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -100,13 +101,13 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	}
 
 
-	pushQty() {
+	pushQty(num: number | undefined) {
 		if (!this.objQty) {
 			this.objQty = [
-				{ "qty": 1 }
+				{ "qty": num ? num : 1 }
 			]
 		} else {
-			this.objQty.push({ "qty": 1 })
+			this.objQty.push({ "qty": num ? num : 1 })
 		}
 	}
 
@@ -193,13 +194,15 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	showSideBar() {
 		if (isPlatformBrowser(this.platformId)) {
-			const carts = localStorage.getItem("carts")
+			const carts = localStorage.getItem("carts");
 			if (carts) {
 				this.carts = JSON.parse(carts);
 				this.cartsReq = JSON.parse(carts);
 				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100) : res.price) + accumulator, 0);
 				this.cartsReq.forEach(res => {
-					this.pushQty();
+					this.pushQty(res.num);
+					res.qty = res.num ? res.num : 1;
+					return res
 				})
 			}
 			this.sidebarVisible = true;
@@ -210,12 +213,21 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		];
 		this.getCardTokenByCustomerId();
 		this.getshipmentCostByAddresssID();
+		this.getSalesOrdersByCustomerId();
+	}
+
+	getSalesOrdersByCustomerId() {
+		this.cartService.GetSalesOrdersByCustomerId(this.user.userId).subscribe(res => {
+			this.ordersByCustomerId = res;
+			this.loadingService.hideLoading();
+		})
 	}
 
 
 	getshipmentCostByAddresssID() {
 		if (this.address.id) {
-			this.cartService.GetshipmentCostByAddresssID(this.address.id).subscribe(res => {
+			this.cartService.GetshipmentCostByAddresssID(this.address.id).subscribe((res: any) => {
+				this.shipmentCost = res?.['cost'] ? res?.['cost'] : 0
 				this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
 				this.loadingService.hideLoading();
 			})
@@ -226,6 +238,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	getCardTokenByCustomerId() {
 		this.cardService.getCardTokenByCustomerId(this.user.userId).subscribe(res => {
 			this.cards = res;
+			this.getSalesOrdersByCustomerId()
 			this.loadingService.hideLoading();
 		});
 	}

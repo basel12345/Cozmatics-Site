@@ -94,8 +94,6 @@ export class NavbarComponent implements OnInit {
     }
 
     selectValue(event: AutoCompleteSelectEvent) {
-        console.log(event.value);
-
         if (event.value.type === 0)
             this.router.navigate([`product/${event.value.key}`]);
         else if (event.value.type === 1) {

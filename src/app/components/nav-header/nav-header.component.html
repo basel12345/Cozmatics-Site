@@ -75,11 +75,12 @@
                 <h6 style="display: inline-block;">{{"TotalPrice" | translate }}</h6>: {{totalPrice}} {{"SAR" |
                 translate }}
             </div>
-             <div class="col-12 my-2" *ngIf="deliveryType?.code === 0">
+            <div class="col-12 my-2" *ngIf="deliveryType?.code === 0">
                 <h6 style="display: inline-block;">{{"ShipmentCost" | translate}}</h6>: {{shipmentCost}}
             </div>
             <div class="col-12 my-1" *ngIf="deliveryType?.code === 0">
-                <h6 style="display: inline-block;">{{"totalPriceAndShipment" | translate }}</h6>: {{totalPriceAndShipment}} {{"SAR" |
+                <h6 style="display: inline-block;">{{"totalPriceAndShipment" | translate }}</h6>:
+                {{totalPriceAndShipment}} {{"SAR" |
                 translate }}
             </div>
             <div class="col-12 my-2" *ngIf="address">
@@ -109,10 +110,50 @@
         <p-button [disabled]="deliveryType === null || deliveryType === undefined" (click)="placeOrder()"
             [label]="'Place Order'" [raised]="true"></p-button>
     </div>
+    <div *ngIf="ordersByCustomerId?.length" class="history-order">
+        <div class="card m-2 p-2" *ngFor="let order of ordersByCustomerId">
+            <div class="row">
+                <h4>#{{order.id}}</h4>
+                <div class="col-12 col-md-6">
+                    {{"TotalPrice" | translate}}: {{order.totalPrice}} {{"SAR" | translate}}
+                </div>
+                <div class="col-12 col-md-6 text-end">
+                    <span class="status" style="background-color: #0284C7;" *ngIf="order.status === 0">{{"Open" |
+                        translate}}</span>
+                    <span class="status" style="background-color: green;" *ngIf="order.status === 1">{{"Confirmed" |
+                        translate}}</span>
+                    <span class="status" style="background-color: #DC2626;" *ngIf="order.status === 2">{{"Canceled" |
+                        translate}}</span>
+                    <span class="status" style="background-color: green;" *ngIf="order.status === 3">{{"Delivered" |
+                        translate}}</span>
+                    <span class="status" style="background-color: gray;" *ngIf="order.status === 4">{{"Closed" |
+                        translate}}</span>
+                </div>
+            </div>
+            <div class="card row m-2" *ngFor="let res of order?.items; index as i">
+                <div class="col-2">
+                    <img class="d-block" [src]="sanitizationImage(res.productImage)" alt="">
+                </div>
+                <div class="col-12">
+                    <div>
+                        {{"ProductName" | translate}}: {{res.productName}}
+                    </div>
+                    <div>
+                        {{"Quantity" | translate}}: {{res.productQty}}
+                    </div>
+                    <div class="price">
+                        <span> {{"Price" | translate}}: {{res.productPrice}} {{"SAR" | translate}} </span>
+                        <span> ({{"VATIncluded" | translate}})</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </p-sidebar>
 
 
-<p-dialog class="dialog-address" [header]="'Address' | translate" [(visible)]="visible" [position]="'top'" [style]="{ width: '50vw' }">
+<p-dialog class="dialog-address" [header]="'Address' | translate" [(visible)]="visible" [position]="'top'"
+    [style]="{ width: '50vw' }">
     <form [formGroup]="AddressForm" (ngSubmit)="saveAddress()">
         <div class="row">
             <div class="col-12 col-md-6 mt-1">
