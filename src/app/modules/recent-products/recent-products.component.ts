@@ -89,6 +89,7 @@ export class RecentProductsComponent implements OnInit {
 	paginationData() {
 		this.productsService.getRecentProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
+			this.totalCount = res.totalCount;
 			this.loadingService.hideLoading();
 		});
 	}

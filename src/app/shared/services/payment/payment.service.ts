@@ -19,4 +19,8 @@ export class PaymentService {
 	DirectPayment(url: string, data: any) {
 		return this.http.post(url, data, { headers: this.headers });
 	}
+
+	paymentUrl(data: any) {
+		return this.http.post(`http://localhost:5237/api/Payment/ExecutePayment`, data);
+	}
 }

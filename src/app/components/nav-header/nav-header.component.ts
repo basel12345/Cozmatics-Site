@@ -27,6 +27,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardService } from '../../shared/services/card/card.service';
+import { EncryptionService } from '../../shared/services/encryption/encryption.service';
 
 type Droplist = {
 	name: string;
@@ -81,7 +82,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		private fb: FormBuilder,
 		private paymentService: PaymentService,
 		private translate: TranslateService,
-		private cardService: CardService
+		private cardService: CardService,
+		private encryptionService: EncryptionService
 	) { }
 
 	ngOnInit() {
@@ -296,45 +298,33 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	}
 
 	paymentOrder(order: any) {
-		const cardNum = this.cardForm.get("Number")?.getRawValue();
-		this.paymentService.executePayment({ PaymentMethodId: "20", InvoiceValue: this.totalPrice }).subscribe((res: any) => {
-			var data;
-			if (this.tokenCard) {
-				data = { PaymentMethodId: 20, InvoiceValue: this.totalPrice, Card: { SecurityCode: this.cardForm.get("SecurityCode")?.getRawValue() }, Bypass3DS: false };
-			} else {
-				data = { PaymentMethodId: 20, InvoiceValue: this.totalPrice, Card: { ...this.cardForm.getRawValue() }, Bypass3DS: false, SaveToken: true };
+		console.log(this.cardForm.getRawValue());
+		
+		const data = {
+			OrderId: order.orderID,
+			CardNumber: this.encryptionService.encryptData(this.cardForm.getRawValue().Number.replaceAll("-", '')),
+			ExpiryMonth: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryMonthP),
+			ExpiryYear: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryYearP),
+			SecurityCode: this.encryptionService.encryptData(this.cardForm.getRawValue().SecurityCodeP)
+		}
+		console.log(data);
+		
+		this.paymentService.paymentUrl(data).subscribe((res: any) => {
+			this.loadingService.hideLoading();
+			if (res['IsSuccess']) {
+				this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"), this.translate.instant("Success"));
+				localStorage.removeItem("carts");
+				this.cartService.cart = [];
+				this.carts = [];
+				window.open(res['Data'].PaymentURL, "_blank")
 			}
-			this.paymentService.DirectPayment(res.Data.PaymentURL, data).subscribe((response: any) => {
-				if (response.IsSuccess) {
-					this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"), this.translate.instant("Success"));
-					localStorage.removeItem("carts");
-					this.cartService.cart = [];
-					this.carts = [];
-					if (res.Data['Token']) {
-						Swal.fire({
-							title: this.translate.instant('DoYouWantToRegisterTheCard?'),
-							showCancelButton: true,
-							confirmButtonText: "Yes",
-							cancelButtonText: "No",
-						}).then((response) => {
-							if (response.isConfirmed) {
-								this.tokenCard = res.Data['Token'];
-								this.lastFourCard = cardNum.substr(-4);
-								this.saveCardReq({ customerId: this.user.userId, token: this.tokenCard, LastDigits: this.lastFourCard });
-							}
-						})
-					}
-				} else {
-					if (order.OrderID) this.cartService.cancelOrder(order.OrderID).subscribe();
-				}
-			});
 		})
 	}
 
 	placeOrderReq() {
 		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((order: any) => {
-			this.loadingService.hideLoading();
 			if (order?.rejectedProductIds.length) {
+				this.loadingService.hideLoading();
 				Swal.fire({
 					title: `${this.translate.instant('Quantitiesofthesefollowingproductsisnotavailablenow')}`,
 					icon: `error`,

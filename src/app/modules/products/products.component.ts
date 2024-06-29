@@ -166,18 +166,21 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		if (this.branId) {
 			this.productsService.getProductsByBrandId(this.branId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
+				this.totalCount = res.totalCount;
 				this.loadingService.hideLoading();
 			});
 		}
 		else if (this.categoryId) {
 			this.productsService.getProductsByCategoryId(this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
+				this.totalCount = res.totalCount;
 				this.loadingService.hideLoading();
 			});
 		}
 		else {
 			this.subscription = this.productsService.getAllProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
+				this.totalCount = res.totalCount;
 				this.loadingService.hideLoading();
 			});
 		}

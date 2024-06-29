@@ -12,14 +12,20 @@ export class CategoriesService {
 
 
 	getAllCategories(): Observable<ICategory[]> {
-		return this.httpClient.get<ICategory[]>(`http://abaq2023-001-site1.htempurl.com/api/Category/GetAll`);
+		const uniqueParam = `cahceBuster=${new Date().getTime()}`;
+		const cacheBusterUrl = `http://abaq2023-001-site1.htempurl.com/api/Category/GetAll?${uniqueParam}`
+		return this.httpClient.get<ICategory[]>(`${cacheBusterUrl}`);
 	}
 
 	getAllWithSubCategories(): Observable<ICategory[]> {
-		return this.httpClient.get<ICategory[]>(`http://abaq2023-001-site1.htempurl.com/api/Category/GetAllWithSubCategories`);
+		const uniqueParam = `cahceBuster=${new Date().getTime()}`;
+		const cacheBusterUrl = `http://abaq2023-001-site1.htempurl.com/api/Category/GetAllWithSubCategories?${uniqueParam}`
+		return this.httpClient.get<ICategory[]>(`${cacheBusterUrl}`);
 	}
 
 	getSelectedCategories(): Observable<ICategory[]> {
-		return this.httpClient.get<ICategory[]>(`http://abaq2023-001-site1.htempurl.com/api/Category/GetSelectedCategories`);
+		const uniqueParam = `cahceBuster=${new Date().getTime()}`;
+		const cacheBusterUrl = `http://abaq2023-001-site1.htempurl.com/api/Category/GetSelectedCategories?${uniqueParam}`
+		return this.httpClient.get<ICategory[]>(`${cacheBusterUrl}`);
 	}
 }

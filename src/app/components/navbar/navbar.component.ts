@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -10,36 +10,43 @@ import { ICategory } from '../../shared/models/category';
 import { ProductsService } from '../../shared/services/products/products.service';
 import { LoadingService } from '../../shared/services/loading/loading.service';
 import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-navbar',
     standalone: true,
-    imports: [MenubarModule, InputTextModule, AutoCompleteModule, FormsModule, TranslateModule],
+    imports: [MenubarModule, InputTextModule, AutoCompleteModule, FormsModule, TranslateModule, CommonModule],
     templateUrl: './navbar.component.html',
-    styleUrl: './navbar.component.scss'
+    styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnInit {
     items: MenuItem[] | undefined;
     resultSearch: any;
+    lang!: string | null;
     constructor(
         private categoriesService: CategoriesService,
         private router: Router,
         private translateService: TranslateService,
         private productService: ProductsService,
-        private loadingService: LoadingService
+        private loadingService: LoadingService,
+        @Inject(PLATFORM_ID) private platformId: object,
+
     ) {
-        this.items = [
-            {
-                label: this.translateService.instant('Home'),
-                items: [],
-                routerLink: 'home'
-            },
-            {
-                label: this.translateService.instant('Categories'),
-                items: [],
-                routerLink: 'products'
-            }
-        ];
+        if (isPlatformBrowser(this.platformId)) {
+            this.lang = localStorage.getItem("lang");
+            this.items = [
+                {
+                    label: this.lang === "en" ? this.translateService.instant('Home') : "الصفحة الرئيسية",
+                    items: [],
+                    routerLink: 'home'
+                },
+                {
+                    label: this.lang === "en" ? this.translateService.instant('Categories') : "الأقسام",
+                    items: [],
+                    routerLink: 'products'
+                }
+            ];
+        }
         this.getCategories();
     }
 
@@ -60,7 +67,7 @@ export class NavbarComponent implements OnInit {
                     }
                 }
                 this.items.push({
-                    label: this.translateService.instant('Brands'),
+                    label: this.lang === "en" ? this.translateService.instant('Brands') : "العلامات التجارية",
                     routerLink: 'brands'
                 })
             }

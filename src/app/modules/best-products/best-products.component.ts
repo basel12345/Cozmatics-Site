@@ -87,6 +87,7 @@ export class BestProductsComponent {
 	paginationData() {
 		this.productsService.getBestProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
+			this.totalCount = res.totalCount;
 			this.loadingService.hideLoading();
 		})
 	}

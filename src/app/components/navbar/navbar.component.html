@@ -1,6 +1,6 @@
-<p-menubar [model]="items" [lang]="'ar'">
+<p-menubar *ngIf="items?.[1]?.items?.length" [model]="items">
     <ng-template pTemplate="end">
-        <p-autoComplete [placeholder]="'Search' | translate " [suggestions]="resultSearch" (onSelect)="selectValue($event)" (input)="searchGolbal($event)"
-            field="name" />
+        <p-autoComplete [placeholder]="'Search' | translate " [suggestions]="resultSearch"
+            (onSelect)="selectValue($event)" (input)="searchGolbal($event)" field="name" />
     </ng-template>
 </p-menubar>
