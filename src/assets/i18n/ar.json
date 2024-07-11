@@ -22,6 +22,7 @@
     "SelectAArea": "اختر المنطقة",
     "SelectAStree": "اختر الشارع",
     "Home": "الصفحة الرئيسية",
+    "HomeAddress": "المنزل",
     "Categories": "فئات",
     "Brands": "العلامات التجارية",
     "Shop": "المحل",
@@ -50,7 +51,9 @@
     "AddReview": "إضافة مراجعة",
     "Comment": "تعليق",
     "Add": "اضافة",
+    "AddCard": "اضافة كارت الفيزا",
     "Tags": "العلامات",
+    "PlaceOrder": "شراء",
     "TotalProducts": "كل المنتجات",
     "FirstName": "الأسم الأول",
     "LastName": " الأسم الأخير",
@@ -61,6 +64,9 @@
     "ShipmentCost": "تكلفة الشحن",
     "totalPriceAndShipment": "السعر الإجمالي والشحن",
     "ProductName": "اسم المنتج",
+    "Price": "السعر",
+    "Brand": "الماركه",
+    "Category": "قسم",
     "And": "و",
     "Quantitiesofthesefollowingproductsisnotavailablenow": "كميات هذه المنتجات التالية غير متوفرة الآن",
     "Error": "خطأ",
@@ -71,6 +77,8 @@
     "OrderSavedSuccessfully": "تم حفظ الطلب بنجاح",
     "DoYouWantToRegisterTheCard?": "هل تريد تسجيل البطاقة ؟",
     "VisaCard": "بطاقة فيزا",
+    "From": "من",
+    "To": "الى",
     "status": "الحالة",
     "Open": "مفتوح",
     "Confirmed": "مؤكد",
@@ -78,5 +86,5 @@
     "Delivered": "تم التسليم",
     "Closed": "مغلق",
     "OrderAddToInart": "الطلب تم اضافة في العربة",
-    "OrderAlreadyToCart" : "تم اضافة الطلب في عربة التسوق مسبقا"
+    "OrderAlreadyToCart": "تم اضافة الطلب في عربة التسوق مسبقا"
 }

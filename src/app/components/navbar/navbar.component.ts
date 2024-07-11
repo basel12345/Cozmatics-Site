@@ -54,7 +54,6 @@ export class NavbarComponent implements OnInit {
 
     getCategories() {
         this.categoriesService.getAllWithSubCategories().subscribe(res => {
-            this.loadingService.hideLoading()
             const category = this.handleCategories(res);
             if (this.items?.length) {
                 this.items?.[1]?.items?.push(...category);

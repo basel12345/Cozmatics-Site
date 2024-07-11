@@ -70,7 +70,7 @@
         <div class="row">
             <div class="col-12 my-1">
                 <p-dropdown class="deliveryStatus" [(ngModel)]="deliveryType" [options]="deliveryStatus"
-                    optionLabel="name" [showClear]="true" [placeholder]="'ReceivingTheOrder' | translate"></p-dropdown>
+                    optionLabel="name"  [placeholder]="'ReceivingTheOrder' | translate"></p-dropdown>
             </div>
             <div class="col-12 my-1" *ngIf="totalPrice">
                 <h6 style="display: inline-block;">{{"TotalPrice" | translate }}</h6>: {{totalPrice}} {{"SAR" |
@@ -105,11 +105,11 @@
                         </div>
                     </div>
                 </ng-container>
-                <p-button (click)="showCardDialog()" label="Add Card" />
+                <p-button (click)="showCardDialog()" [label]="'AddCard' | translate" />
             </div>
         </div>
         <p-button [disabled]="deliveryType === null || deliveryType === undefined" (click)="placeOrder()"
-            [label]="'Place Order'" [raised]="true"></p-button>
+            [label]="'PlaceOrder' | translate" [raised]="true"></p-button>
     </div>
     <div *ngIf="ordersByCustomerId?.length" class="history-order">
         <div class="card m-2 p-2" *ngFor="let order of ordersByCustomerId">
@@ -159,21 +159,21 @@
         <div class="row">
             <div class="col-12 col-md-6 mt-1">
                 <p-dropdown class="w-100" formControlName="city" [options]="cities" optionLabel="name"
-                    [showClear]="true" [placeholder]="'SelectACity' | translate"></p-dropdown>
+                     [placeholder]="'SelectACity' | translate"></p-dropdown>
                 <span *ngIf="submitted && AddressForm.get('city')?.errors?.['required']" class="invalid">
                     {{"City" | translate}} {{"isRequired" | translate}}
                 </span>
             </div>
             <div class="col-12 col-md-6 mt-1">
-                <p-dropdown class="w-100" formControlName="area" [options]="cities" optionLabel="name"
-                    [showClear]="true" [placeholder]="'SelectAArea '| translate"></p-dropdown>
+                <p-dropdown class="w-100" formControlName="area" [options]="areas" optionLabel="area" optionValue="id"
+                     [placeholder]="'SelectAArea'| translate"></p-dropdown>
                 <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']" class="invalid">
                     {{"Area" | translate}} {{"isRequired" | translate}}
                 </span>
             </div>
             <div class="col-12 col-md-6 mt-1">
                 <input class="w-100" formControlName="street" type="text" pInputText
-                    [placeholder]="'street' | translate" />
+                    [placeholder]="'Street' | translate" />
                 <span *ngIf="submitted && AddressForm.get('street')?.errors?.['required']" class="invalid">
                     {{"Street" | translate}} {{"isRequired" | translate}}
                 </span>
@@ -201,7 +201,7 @@
                 </span>
             </div>
             <div class="col-12 mb-2">
-                <input formControlName="SecurityCode" class="mask" mask="999" placeholder="CVC"/>
+                <p-inputMask formControlName="SecurityCode" class="mask" mask="999" placeholder="CVC"></p-inputMask>
                 <span *ngIf="submittedCardForm && cardForm.get('SecurityCode')?.errors?.['required']" class="invalid">
                     CVC {{"isRequired" | translate}}
                 </span>

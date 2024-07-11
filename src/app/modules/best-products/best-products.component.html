@@ -3,20 +3,31 @@
         <div class="col-md-2 col-12" *ngIf="Brands">
             <p-panel [header]="'Brand' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Brands">
-                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
+                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
             <p-panel [header]="'Category' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Category">
-                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
+                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
             <p-panel [header]="'Price' | translate" [toggleable]="true">
-                <p-slider [(ngModel)]="rangePrice" [range]="true"></p-slider>
+                <p-panel [header]="'Price' | translate" [toggleable]="true">
+                    <div>
+                        <div>
+                            <label>{{"From" | translate}}</label>
+                            <input type="number" class="form-control" [placeholder]="'From' | translate" [(ngModel)]="rangePrice[0]">
+                        </div>
+                        <div>
+                            <label>{{"To" | translate}}</label>
+                            <input type="number" class="form-control" [placeholder]="'To' | translate" [(ngModel)]="rangePrice[1]">
+                        </div>
+                    </div>
+                </p-panel>
             </p-panel>
             <div class="filter">
                 <p-button class="filter-btn" (onClick)="filter()" [label]="'Filter' | translate" [text]="true"

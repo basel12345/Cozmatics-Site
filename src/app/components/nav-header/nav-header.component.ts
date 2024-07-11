@@ -72,6 +72,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	totalPriceAndShipment: number = 0;
 	shipmentCost: number = 0;
 	ordersByCustomerId: any;
+	areas: any;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -187,7 +188,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			localStorage.setItem("lang", "ar");
 		}
 		this.direction = localStorage.getItem("lang") === 'ar' ? "rtl" : "ltr";
-		window.location.reload();
+		window.location.replace('home');
 	}
 
 	sanitizationImage(image: string): SafeResourceUrl {
@@ -213,6 +214,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			{ name: this.translate.instant('Home'), code: 0 },
 			{ name: this.translate.instant('Shop'), code: 1 }
 		];
+		this.getShipmentCost();
 		this.getCardTokenByCustomerId();
 		this.getshipmentCostByAddresssID();
 		this.getSalesOrdersByCustomerId();
@@ -227,7 +229,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 
 	getshipmentCostByAddresssID() {
-		if (this.address.id) {
+		if (this.address?.id) {
 			this.cartService.GetshipmentCostByAddresssID(this.address.id).subscribe((res: any) => {
 				this.shipmentCost = res?.['cost'] ? res?.['cost'] : 0
 				this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
@@ -316,6 +318,14 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			}
 		})
 	}
+
+	getShipmentCost() {
+		this.cartService.getShipmentCost().subscribe((res: any) => {
+		  this.areas = res?.flat();
+		  console.log(this.areas );
+		  
+		})
+	  }
 
 	placeOrderReq() {
 		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((order: any) => {

@@ -109,4 +109,8 @@ export class CartService implements OnInit {
 	GetSalesOrdersByCustomerId(id: number) {
 		return this.httpClient.get(`http://localhost:5237/api/Order/GetSalesOrdersByCustomerId?Id=${id}`);
 	}
+
+	getShipmentCost() {
+		return this.httpClient.get(`http://localhost:5237/api/ShipmentCost/GetShipmentLocations`); 
+	  }
 }

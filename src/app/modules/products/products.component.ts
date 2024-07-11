@@ -19,7 +19,7 @@ import { ICart } from '../../shared/models/cart';
 import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-products',
@@ -55,7 +55,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		private productsService: ProductsService,
 		public sanitizer: DomSanitizer,
 		public cartService: CartService,
-		private loadingService: LoadingService
+		private loadingService: LoadingService,
+		private translateService: TranslateService
 	) { }
 
 	ngOnInit(): void {
@@ -85,7 +86,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		this.subscription = this.productsService.filterProducts(data).subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
 			this.totalCount = res['totalCount'];
-			this.titlePage = "Total Products";
+			this.titlePage = "TotalProducts";
 		})
 	}
 
@@ -96,11 +97,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 	getAllData() {
 		this.subscription = this.route.data.subscribe(res => {
+			this.loadingService.appearLoading();
 			if (!(res['BrandId'] || res['CatId'] || res['Discount'] || res['Tag'])) {
 				if (res['Products']) {
 					this.Products$ = of(res['Products']['products']);
 					this.totalCount = res['Products']['totalCount'];
-					this.titlePage = "Total Products";
+					this.titlePage = "TotalProducts";
 					this.loadingService.hideLoading();
 				}
 			}
@@ -216,7 +218,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		data["best"] = this.best;
 		data["recent"] = this.recent;
 		data["mostPopular"] = this.mostPopular;
-		this.rangePrice[1] ? data["minPrice"] = this.rangePrice[0] : delete data["minPrice"];
+		this.rangePrice[0] ? data["minPrice"] = this.rangePrice[0] : delete data["minPrice"];
 		this.rangePrice[1] ? data["maxPrice"] = this.rangePrice[1] : delete data["maxPrice"];
 		if (data["brandIds"].length || data["categoryIds"].length || data["maxPrice"] || data["best"] || data["recent"] || data["mostPopular"]) {
 			this.productsService.filterSpecificProducts(data).subscribe(res => {

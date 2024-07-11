@@ -3,27 +3,33 @@
         <div class="col-md-2 col-12" *ngIf="Brands && !queryParams">
             <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Brands">
-                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
+                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
             <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of Category">
-                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res.id"
+                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
             <p-panel [header]="'Price'| translate" [toggleable]="true">
-                <p-slider [(ngModel)]="rangePrice" [range]="true" [max]="100000" [step]="5"></p-slider>
-                <div class="mt-2" *ngIf="rangePrice?.length">
-                    {{rangePrice[0] + "-" +rangePrice[1]}}
+                <div>
+                    <div>
+                        <label for="">{{"From" | translate}}</label>
+                        <input type="number" class="form-control" [placeholder]="'From' | translate" [(ngModel)]="rangePrice[0]">
+                    </div>
+                    <div>
+                        <label for="">{{"To" | translate}}</label>
+                        <input type="number" class="form-control" [placeholder]="'To' | translate" [(ngModel)]="rangePrice[1]">
+                    </div>
                 </div>
             </p-panel>
             <p-panel [header]="'Tags' | translate" [toggleable]="true">
                 <div class="my-1" *ngFor="let res of TagValues">
-                    <p-checkbox class="me-2" [binary]="true" inputId="binary" [value]="res"
+                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res"
                         (onChange)="selectSearchTags($event.checked, res)"></p-checkbox>
                     <label class="label-checkbox" style="font-size: 12px;" for="binary">{{Tags[res] |
                         uppercase}}</label>
