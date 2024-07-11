@@ -12,11 +12,11 @@ export class ReviewService {
 
 
 	getAllReview(): Observable<IReview[]> {
-		return this.httpClient.get<IReview[]>("http://abaq2023-001-site1.htempurl.com/api/Review/GetAll");
+		return this.httpClient.get<IReview[]>("http://localhost:5237/api/Review/GetAll");
 	}
 
 	getReviewByProductId(id: string): Observable<IReview[]> {
-		return this.httpClient.get<IReview[]>(`http://abaq2023-001-site1.htempurl.com/api/Review/GetByProductId?productId=${id}`);
+		return this.httpClient.get<IReview[]>(`http://localhost:5237/api/Review/GetByProductId?productId=${id}`);
 	}
 
 	addReview(review: {
@@ -25,6 +25,6 @@ export class ReviewService {
 		productId: number | null;
 		customerId: number | null;
 	}) {
-		return this.httpClient.post("http://abaq2023-001-site1.htempurl.com/api/Review/Add", review);
+		return this.httpClient.post("http://localhost:5237/api/Review/Add", review);
 	}
 }

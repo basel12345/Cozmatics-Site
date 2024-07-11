@@ -68,9 +68,9 @@
                                             {{"SAR" | translate}} {{res.price}}</span>
                                         <span> ({{"VATIncluded" | translate}})</span>
                                     </div>
-                                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{(+res.discountPercentage
+                                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price - ((+res.discountPercentage
                                         /
-                                        +res.price ) * 100 | trimDecimalPipe}}
+                                        +res.price ) * 100) | trimDecimalPipe}}
                                     </div>
                                 </div>
                             </span>

@@ -200,7 +200,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			if (carts) {
 				this.carts = JSON.parse(carts);
 				this.cartsReq = JSON.parse(carts);
-				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100) : res.price) + accumulator, 0);
+				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? +res.price -((+res.discountPercentage / +res.price) * 100) : res.price) + accumulator, 0);
 				this.cartsReq.forEach(res => {
 					this.pushQty(res.num);
 					res.qty = res.num ? res.num : 1;
@@ -278,7 +278,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			if (res.id === id) res.qty = event;
 			return res
 		});
-		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? ((+res.discountPercentage / +res.price) * 100) : res.price) * res.qty) + accumulator, 0);
+		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? (res.price - (+res.discountPercentage / +res.price) * 100) : res.price) * res.qty) + accumulator, 0);
 	}
 
 	showDialog() {
@@ -297,18 +297,14 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		})
 	}
 
-	paymentOrder(order: any) {
-		console.log(this.cardForm.getRawValue());
-		
+	async paymentOrder(order: any) {
 		const data = {
 			OrderId: order.orderID,
 			CardNumber: this.encryptionService.encryptData(this.cardForm.getRawValue().Number.replaceAll("-", '')),
-			ExpiryMonth: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryMonthP),
-			ExpiryYear: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryYearP),
-			SecurityCode: this.encryptionService.encryptData(this.cardForm.getRawValue().SecurityCodeP)
+			ExpiryMonth: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryMonth),
+			ExpiryYear: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryYear),
+			SecurityCode: this.encryptionService.encryptData(this.cardForm.getRawValue().SecurityCode)
 		}
-		console.log(data);
-		
 		this.paymentService.paymentUrl(data).subscribe((res: any) => {
 			this.loadingService.hideLoading();
 			if (res['IsSuccess']) {

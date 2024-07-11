@@ -76,5 +76,7 @@
     "Confirmed": "Confirmed",
     "Canceled": "Canceled",
     "Delivered": "Delivered",
-    "Closed": "Closed"
+    "Closed": "Closed",
+    "OrderAddToInart": "Order Add In Cart",
+    "OrderAlreadyToCart" : "Order Already To Cart"
 }

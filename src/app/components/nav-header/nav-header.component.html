@@ -41,7 +41,7 @@
             </div>
             <div class="col-8">
                 <div>
-                    {{res.name}}
+                    {{res.name}} <span *ngIf="res.attributeValue">({{res.attributeValue}})</span>
                 </div>
                 <div>
                     {{"AvailableQuantity" | translate}}: {{res.qty}}
@@ -51,9 +51,10 @@
                         {{"SAR" | translate}} {{res.price}}</span>
                     <span> ({{"VATIncluded" | translate}})</span>
                 </div>
-                <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{(+res.discountPercentage
+                <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price - ((+res.discountPercentage
                     /
-                    +res.price ) * 100 | trimDecimalPipe}}</div>
+                    +res.price ) * 100) | trimDecimalPipe}}
+                </div>
             </div>
             <div class="col-2">
                 <div class="text-end mb-2 clear" (click)="clear(res.id)">X</div>
@@ -200,7 +201,7 @@
                 </span>
             </div>
             <div class="col-12 mb-2">
-                <p-inputMask formControlName="SecurityCode" class="mask" mask="999" placeholder="CVC"></p-inputMask>
+                <input formControlName="SecurityCode" class="mask" mask="999" placeholder="CVC"/>
                 <span *ngIf="submittedCardForm && cardForm.get('SecurityCode')?.errors?.['required']" class="invalid">
                     CVC {{"isRequired" | translate}}
                 </span>

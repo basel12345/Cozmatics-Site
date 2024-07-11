@@ -10,6 +10,6 @@ export class AdvertisementService {
     constructor(private http: HttpClient) { }
 
     getAllAdvertisement(): Observable<IAdvertisement[]> {
-        return this.http.get<IAdvertisement[]>(`http://abaq2023-001-site1.htempurl.com/api/Advertisement/GetAll`);
+        return this.http.get<IAdvertisement[]>(`http://localhost:5237/api/Advertisement/GetAll`);
     }
 }

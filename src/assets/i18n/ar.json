@@ -76,5 +76,7 @@
     "Confirmed": "مؤكد",
     "Canceled": "ملغى",
     "Delivered": "تم التسليم",
-    "Closed": "مغلق"
+    "Closed": "مغلق",
+    "OrderAddToInart": "الطلب تم اضافة في العربة",
+    "OrderAlreadyToCart" : "تم اضافة الطلب في عربة التسوق مسبقا"
 }

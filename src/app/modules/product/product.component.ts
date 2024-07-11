@@ -19,7 +19,7 @@ import { CartService } from '../../shared/services/cart/cart.service';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProductsService } from '../../shared/services/products/products.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-product',
@@ -46,13 +46,15 @@ export class ProductComponent implements OnInit {
 			productId: null,
 			customerId: null,
 		}
-	attributeValuesColors!: { attributeId: number; productId: number; attributeName: string; qty: number; value: string; }[];
-	attributeValuesSizes!: { attributeId: number; productId: number; attributeName: string; qty: number; value: string; }[];
+	attributeValuesColors!: { attributeId: number; productId: number; attributeName: string; qty: number; value: string; id: number }[];
+	attributeValuesSizes!: { attributeId: number; productId: number; attributeName: string; qty: number; value: string; id: number }[];
 	qntySize: number | undefined;
 	textNotFoundMessageSize!: string;
 	qntyColors: number | undefined;
 	textNotFoundMessageColor!: string;
 	attributeId: number | undefined;
+	selectedImage!: SafeResourceUrl;
+	attributeValue: string | undefined;
 	constructor(
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,
@@ -61,7 +63,8 @@ export class ProductComponent implements OnInit {
 		public cartService: CartService,
 		private productService: ProductsService,
 		@Inject(PLATFORM_ID) private platformId: object,
-		private loadingService: LoadingService
+		private loadingService: LoadingService,
+		private translateService: TranslateService
 	) { }
 
 	ngOnInit(): void {
@@ -76,8 +79,8 @@ export class ProductComponent implements OnInit {
 	}
 
 	getQuantityToCart(qty: number): number {
-		if(this.qntySize) return this.qntySize;
-		else if(this.qntyColors) return this.qntyColors;
+		if (this.qntySize) return this.qntySize;
+		else if (this.qntyColors) return this.qntyColors;
 		else return qty;
 	}
 
@@ -85,11 +88,13 @@ export class ProductComponent implements OnInit {
 		if (type === "Sizes" && this.attributeValuesSizes) {
 			this.qntySize = this.attributeValuesSizes.find(res => res.value === event)?.qty;
 			!this.qntySize ? this.textNotFoundMessageSize = "This Size is not available now" : this.textNotFoundMessageSize = "";
-			this.attributeId = this.attributeValuesSizes?.find(res => res.value === event)?.attributeId;
+			this.attributeId = this.attributeValuesSizes?.find(res => res.value === event)?.id;
+			this.attributeValue = this.attributeValuesColors?.find(res => res.value === event)?.value;
 		} else if (type === "Colors" && this.attributeValuesColors) {
 			this.qntyColors = this.attributeValuesColors.find(res => res.value === event)?.qty;
 			!this.qntyColors ? this.textNotFoundMessageColor = "This Color is not available now" : this.textNotFoundMessageColor = "";
-			this.attributeId = this.attributeValuesColors?.find(res => res.value === event)?.attributeId;
+			this.attributeId = this.attributeValuesColors?.find(res => res.value === event)?.id;
+			this.attributeValue = this.attributeValuesColors?.find(res => res.value === event)?.value;
 		}
 	}
 
@@ -108,6 +113,10 @@ export class ProductComponent implements OnInit {
 
 	sanitizationImage(image: string): SafeResourceUrl {
 		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
+	}
+
+	selectImage(image: string) {
+		this.selectedImage = this.sanitizationImage(image);
 	}
 
 

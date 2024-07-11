@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
 			phone: ['', Validators.required],
 			FirstName: ['', Validators.required],
 			LastName: ['', Validators.required],
+			role: [2, Validators.required],
 		})
 	}
 
