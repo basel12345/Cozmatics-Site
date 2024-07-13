@@ -1,3 +1,4 @@
+import { LoadingService } from './../../shared/services/loading/loading.service';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -7,7 +8,7 @@ import { DividerModule } from 'primeng/divider';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -23,7 +24,9 @@ export class RegisterComponent implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private service: AuthService,
-		private router: Router
+		private router: Router,
+		private loadingService: LoadingService,
+		private route: ActivatedRoute
 	) { }
 
 	ngOnInit(): void {
@@ -38,7 +41,7 @@ export class RegisterComponent implements OnInit {
 			phone: ['', Validators.required],
 			FirstName: ['', Validators.required],
 			LastName: ['', Validators.required],
-			role: [2, Validators.required],
+			role: [3, Validators.required],
 		})
 	}
 

@@ -119,11 +119,16 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	createAddressForm() {
 		this.AddressForm = this.fb.group({
-			city: ["", Validators.required],
+			city: [{value: '', disabled: true}, Validators.required],
 			area: ["", Validators.required],
 			street: ["", Validators.required],
 			customerId: ["", Validators.required]
 		})
+	}
+
+	SelectArea(event: DropdownChangeEvent) {
+		const area = this.areas.find((res: any) => res.id === event.value);
+		this.AddressForm.patchValue(area);
 	}
 
 	getUserInfo() {
@@ -167,6 +172,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		if (this.user?.userId) {
 			this.cartService.addressByCustNo(this.user.userId).subscribe((res: any) => {
 				this.address = res[0];
+				this.getshipmentCostByAddresssID()
 				if (this.loadingService.show) {
 					this.loadingService.hideLoading();
 				}
@@ -201,7 +207,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			if (carts) {
 				this.carts = JSON.parse(carts);
 				this.cartsReq = JSON.parse(carts);
-				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? +res.price -((+res.discountPercentage / +res.price) * 100) : res.price) + accumulator, 0);
+				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? +res.price - ((+res.discountPercentage / 100 ) * +res.price) : res.price) + accumulator, 0);
 				this.cartsReq.forEach(res => {
 					this.pushQty(res.num);
 					res.qty = res.num ? res.num : 1;
@@ -211,7 +217,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			this.sidebarVisible = true;
 		}
 		this.deliveryStatus = [
-			{ name: this.translate.instant('Home'), code: 0 },
+			{ name: this.translate.instant('HomeAddress'), code: 0 },
 			{ name: this.translate.instant('Shop'), code: 1 }
 		];
 		this.getShipmentCost();
@@ -229,9 +235,9 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 
 	getshipmentCostByAddresssID() {
-		if (this.address?.id) {
+		if (this.address?.id) {			
 			this.cartService.GetshipmentCostByAddresssID(this.address.id).subscribe((res: any) => {
-				this.shipmentCost = res?.['cost'] ? res?.['cost'] : 0
+				this.shipmentCost = res?.['cost'] ? res?.['cost'] : 0;				
 				this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
 				this.loadingService.hideLoading();
 			})
@@ -263,7 +269,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.AddressForm.get("customerId")?.patchValue(this.user.userId);
 		this.submitted = true;
 		if (this.AddressForm.valid) {
-			this.submitted = false;
+			this.submitted = false;			
 			this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
 				if (res) {
 					this.getAddressByCustNo();
@@ -280,7 +286,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			if (res.id === id) res.qty = event;
 			return res
 		});
-		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? (res.price - (+res.discountPercentage / +res.price) * 100) : res.price) * res.qty) + accumulator, 0);
+		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? +res.price - ((+res.discountPercentage / 100 ) * +res.price) : res.price) * res.qty) + accumulator, 0);
+		this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
 	}
 
 	showDialog() {
@@ -321,11 +328,9 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	getShipmentCost() {
 		this.cartService.getShipmentCost().subscribe((res: any) => {
-		  this.areas = res?.flat();
-		  console.log(this.areas );
-		  
+			this.areas = res?.flat();
 		})
-	  }
+	}
 
 	placeOrderReq() {
 		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((order: any) => {

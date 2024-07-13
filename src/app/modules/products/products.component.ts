@@ -78,15 +78,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	filterProducts(BrandId: number, CatId: number, Discount: number, Tag: string) {
-		const data: { brandIds?: number[], categoryIds?: number[], discount?: number, tags?: string[] } = {}
-		if (BrandId) data["brandIds"] = [BrandId];
-		if (CatId) data["categoryIds"] = [CatId];
-		if (Discount) data["discount"] = Discount;
-		if (Tag) data["tags"] = [Tag];
+		const data: { brandIds?: number[], categoryIds?: number[], discount?: number, tags?: number[] } = {}
+		if (BrandId) data["brandIds"] = [+BrandId];
+		if (CatId) data["categoryIds"] = [+CatId];
+		if (Discount) data["discount"] = +Discount;
+		if (Tag) data["tags"] = [+Tag];
+		this.loadingService.appearLoading();
 		this.subscription = this.productsService.filterProducts(data).subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
 			this.totalCount = res['totalCount'];
 			this.titlePage = "TotalProducts";
+			this.loadingService.hideLoading();
 		})
 	}
 

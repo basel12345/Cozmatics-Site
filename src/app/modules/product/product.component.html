@@ -28,8 +28,8 @@
                 {{product.price}}</h4> <span> ({{"VATIncluded" | translate}})</span>
             <h4 class="discount mt-2" *ngIf="product.discountPercentage">{{"SAR" | translate}}
                 {{+product.price - ((+product.discountPercentage
-                /
-                +product.price ) * 100) | trimDecimalPipe}}</h4>
+                    /
+                    100 ) * +product.price) | trimDecimalPipe}}</h4>
             <div class="flex flex-wrap gap-3 mt-2">
                 <div class="flex align-items-center">
                     <ng-container *ngFor="let res of attributeValuesSizes">

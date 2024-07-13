@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
 	BestProducts!: IProducts[];
 	Tags = Tags;
 	MostPopularProducts!: IProducts[];
+	lang!: string | null;
 	constructor(
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,
@@ -78,7 +79,7 @@ export class HomeComponent implements OnInit {
 			this.discountAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.discount);
 			this.brandIdAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.brandId);
 			this.loadingService.hideLoading();
-
+			this.lang = localStorage.getItem("lang");
 		});
 	}
 

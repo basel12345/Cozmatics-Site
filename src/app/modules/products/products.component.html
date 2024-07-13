@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price - ((+res.discountPercentage
                                         /
-                                        +res.price ) * 100) | trimDecimalPipe}}
+                                        100 ) * +res.price) | trimDecimalPipe}}
                                     </div>
                                 </div>
                             </span>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="flex-auto mt-4">
-                    <p-paginator locale="en-US" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+                    <p-paginator dir="auto" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
                         [totalRecords]="totalCount"></p-paginator>
                 </div>
             </ng-container>

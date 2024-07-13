@@ -72,8 +72,10 @@ export class CartService implements OnInit {
 
 	createAddress(data: any) {
 		data = {
-			city: data.city.code,
-			area: data.area.code,
+			city: data.city,
+			area: data.area,
+			areaAr: data.areaAr,
+			cityAr: data.cityAr,
 			street: data.street,
 			customerId: data.customerId,
 		};
