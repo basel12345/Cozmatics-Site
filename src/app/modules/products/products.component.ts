@@ -72,8 +72,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
 					Tag: res['Tag'],
 				}
 				this.filterProducts(res['BrandId'], res['CatId'], res['Discount'], res['Tag']);
+			} else {
+				this.getAllData();
 			}
-			this.getAllData();
 		})
 	}
 

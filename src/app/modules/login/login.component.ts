@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { IUser } from './../../shared/models/user';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -10,6 +11,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { LoadingService } from '../../shared/services/loading/loading.service';
 
 @Component({
 	selector: 'app-login',
@@ -21,7 +23,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class LoginComponent implements OnInit {
 	submitted: boolean = false;
 	loginForm!: FormGroup;
-	constructor(private fb: FormBuilder, private service: AuthService, private router: Router) { }
+	constructor(private fb: FormBuilder, private service: AuthService, private router: Router, private toastr: ToastrService, private loadingService: LoadingService) { }
 
 	ngOnInit(): void {
 		this.createLoginForm();
@@ -41,6 +43,9 @@ export class LoginComponent implements OnInit {
 				localStorage.setItem('user', JSON.stringify(res));
 				localStorage.setItem('token', JSON.stringify(res.token));
 				this.router.navigate(['home']);
+			}, err => {
+				this.toastr.error('Please verify your email and password', 'Error');
+				this.loadingService.hideLoading();
 			});
 		}
 	}
