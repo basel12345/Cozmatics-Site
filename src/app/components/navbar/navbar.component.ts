@@ -36,12 +36,12 @@ export class NavbarComponent implements OnInit {
             this.lang = localStorage.getItem("lang");
             this.items = [
                 {
-                    label: this.lang === "en" ? this.translateService.instant('Home') : "الصفحة الرئيسية",
+                    label: this.lang === "ar" ? "الصفحة الرئيسية" : this.translateService.instant('Home'),
                     items: [],
                     routerLink: 'home'
                 },
                 {
-                    label: this.lang === "en" ? this.translateService.instant('Categories') : "الأقسام",
+                    label: this.lang === "ar" ? "الأقسام" : this.translateService.instant('Categories'),
                     items: [],
                     routerLink: 'products'
                 }
@@ -54,7 +54,7 @@ export class NavbarComponent implements OnInit {
 
     getCategories() {
         this.categoriesService.getAllWithSubCategories().subscribe(res => {
-		this.loadingService.hideLoading()
+            this.loadingService.hideLoading()
             const category = this.handleCategories(res);
             if (this.items?.length) {
                 this.items?.[1]?.items?.push(...category);
@@ -68,7 +68,7 @@ export class NavbarComponent implements OnInit {
                     }
                 }
                 this.items.push({
-                    label: this.lang === "en" ? this.translateService.instant('Brands') : "العلامات التجارية",
+                    label: this.lang === "ar" ? "العلامات التجارية" : this.translateService.instant('Brands'),
                     routerLink: 'brands'
                 })
             }

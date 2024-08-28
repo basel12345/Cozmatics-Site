@@ -20,6 +20,6 @@ export class AppComponent implements OnInit{
     constructor(public loadingService: LoadingService) { }
     ngOnInit(): void {
         
-        this.direction = localStorage.getItem("lang") === "en" ? "ltr" : "rtl";
+        this.direction = localStorage.getItem("lang") === "ar" ? "rtl" : "ltr";
     }
 }

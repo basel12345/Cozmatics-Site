@@ -94,5 +94,9 @@ h3,
 }
 
 ::ng-deep .p-rating .p-rating-icon {
-    color: $main-color; 
+    color: $main-color;
+}
+
+label {
+    font-size: 12px;
 }

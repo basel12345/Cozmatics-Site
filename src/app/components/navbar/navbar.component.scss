@@ -64,3 +64,12 @@
         }
     }
 }
+
+::ng-deep .p-menubar {
+    height: 70px;
+
+    p-menubarsub {
+        position: relative;
+        right: 40px;
+    }
+}
