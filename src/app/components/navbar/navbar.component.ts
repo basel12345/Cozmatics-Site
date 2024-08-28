@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
                     if (res[index]) {
                         this.items[index + 1] = {
                             label: res[index - 1].name, command: (event: any) => {
-                                this.navigateToCategories(res[index])
+                                this.navigateToCategories(res[index - 1])
                             }
                         }
                     }
