@@ -11,7 +11,7 @@ export class BrandsService {
 
 	getAllBrands(): Observable<IBrand[]> {
 		const uniqueParam = `cahceBuster=${new Date().getTime()}`;
-		const cacheBusterUrl = `http://localhost:5237/api/Brand/GetAll?${uniqueParam}`
+		const cacheBusterUrl = `http://abaq2023-001-site1.htempurl.com/api/Brand/GetAll?${uniqueParam}`
 		return this.http.get<IBrand[]>(`${cacheBusterUrl}`);
 	}
 }

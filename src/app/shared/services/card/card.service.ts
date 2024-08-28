@@ -9,14 +9,14 @@ export class CardService {
 	constructor(private httpClient: HttpClient) { }
 
 	getCardTokenByCustomerId(id: number) {
-		return this.httpClient.get(`http://localhost:5237/api/CardToken/GetCardTokensByCustomerId?id=${id}`);
+		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/CardToken/GetCardTokensByCustomerId?id=${id}`);
 	}
 
 	saveCard(data: any) {
-		return this.httpClient.post(`http://localhost:5237/api/CardToken/Add`, data);
+		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/CardToken/Add`, data);
 	}
 
 	deleteCard(id: any) {
-		return this.httpClient.delete(`http://localhost:5237/api/CardToken/Delete?Id=${id}`);
+		return this.httpClient.delete(`http://abaq2023-001-site1.htempurl.com/api/CardToken/Delete?Id=${id}`);
 	}
 }

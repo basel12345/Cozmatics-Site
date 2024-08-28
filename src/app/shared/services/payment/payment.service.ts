@@ -21,6 +21,6 @@ export class PaymentService {
 	}
 
 	paymentUrl(data: any) {
-		return this.http.post(`http://localhost:5237/api/Payment/ExecutePayment`, data);
+		return this.http.post(`http://abaq2023-001-site1.htempurl.com/api/Payment/ExecutePayment`, data);
 	}
 }
