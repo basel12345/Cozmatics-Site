@@ -98,7 +98,6 @@ export class MostPopularProductsComponent {
         this.productsService.filterSpecificProducts(data).subscribe(res => {
             this.Products$ = of(res.products);
             this.totalCount = res.totalCount;
-            this.loadingService.hideLoading();
         })
     }
 
@@ -129,7 +128,6 @@ export class MostPopularProductsComponent {
             this.productsService.filterSpecificProducts(data).subscribe(res => {
                 this.Products$ = of(res.products);
                 this.totalCount = res.totalCount;
-                this.loadingService.hideLoading();
             })
         } else {
             this.getData()

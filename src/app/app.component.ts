@@ -5,12 +5,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingService } from './shared/services/loading/loading.service';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [NgIf, RouterOutlet, NavbarComponent, FooterComponent, ProgressSpinnerModule, NavHeaderComponent],
+    imports: [NgIf, RouterOutlet, NavbarComponent, FooterComponent, ProgressSpinnerModule, NavHeaderComponent, CommonModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

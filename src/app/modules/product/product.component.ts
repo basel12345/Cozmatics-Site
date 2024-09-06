@@ -107,7 +107,6 @@ export class ProductComponent implements OnInit {
 			this.attributeValuesSizes = this.product.attributeValues.filter(res => (res.filter((data: any) => data.attributeId === 2)[0]))[0];
 			this.attributeValuesColors?.length ? this.colors = this.attributeValuesColors?.[0].value : this.sizes = this.attributeValuesSizes?.[0].value;
 			this.change(this.attributeValuesColors?.length ? this.attributeValuesColors?.[0].value : this.attributeValuesSizes?.[0].value, this.attributeValuesColors?.length ? "Colors" : "Sizes");
-			this.loadingService.hideLoading();
 		});
 	}
 
@@ -138,7 +137,6 @@ export class ProductComponent implements OnInit {
 			this.toastr.success('Review', 'Success');
 			this.reviewService.getReviewByProductId("" + this.product.id).subscribe(res => {
 				this.productService.getProductById("" + this.product.id).subscribe((product: IProducts) => {
-					this.loadingService.hideLoading();
 					this.Review = res;
 					this.visible = false;
 					this.product = product;

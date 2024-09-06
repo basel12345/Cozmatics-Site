@@ -84,12 +84,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		if (CatId) data["categoryIds"] = [+CatId];
 		if (Discount) data["discount"] = +Discount;
 		if (Tag) data["tags"] = [+Tag];
-		this.loadingService.appearLoading();
 		this.subscription = this.productsService.filterProducts(data).subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
 			this.totalCount = res['totalCount'];
 			this.titlePage = "TotalProducts";
-			this.loadingService.hideLoading();
 		})
 	}
 
@@ -100,13 +98,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 	getAllData() {
 		this.subscription = this.route.data.subscribe(res => {
-			this.loadingService.appearLoading();
 			if (!(res['BrandId'] || res['CatId'] || res['Discount'] || res['Tag'])) {
 				if (res['Products']) {
 					this.Products$ = of(res['Products']['products']);
 					this.totalCount = res['Products']['totalCount'];
 					this.titlePage = "TotalProducts";
-					this.loadingService.hideLoading();
 				}
 			}
 			this.Brands = res['Brands'];
@@ -117,7 +113,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				this.Products$ = of(res['products']);
 				this.totalCount = res?.['totalCount'];
 				this.titlePage = res['products'][0]?.brandName;
-				this.loadingService.hideLoading();
 			});
 		}
 		else if (this.categoryId) {
@@ -125,7 +120,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				this.Products$ = of(res['products']);
 				this.titlePage = res['products'][0]?.categoryName;
 				this.totalCount = res?.['totalCount'];
-				this.loadingService.hideLoading();
 			});
 		}
 	}
@@ -172,21 +166,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			this.productsService.getProductsByBrandId(this.branId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
 				this.totalCount = res.totalCount;
-				this.loadingService.hideLoading();
 			});
 		}
 		else if (this.categoryId) {
 			this.productsService.getProductsByCategoryId(this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
 				this.totalCount = res.totalCount;
-				this.loadingService.hideLoading();
 			});
 		}
 		else {
 			this.subscription = this.productsService.getAllProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
 				this.totalCount = res.totalCount;
-				this.loadingService.hideLoading();
 			});
 		}
 	}
@@ -227,7 +218,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			this.productsService.filterSpecificProducts(data).subscribe(res => {
 				this.Products$ = of(res.products);
 				this.totalCount = res.totalCount;
-				this.loadingService.hideLoading();
 			})
 		} else {
 			this.paginationData();

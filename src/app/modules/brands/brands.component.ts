@@ -32,7 +32,6 @@ export class BrandsComponent implements OnInit {
 	getAllBrands(): void {
 		this.route.data.subscribe(res => {
 			this.Brands = res['Brands'];
-			this.loadingService.hideLoading();
 		});
 	}
 

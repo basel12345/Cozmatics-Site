@@ -61,7 +61,6 @@ export class BestProductsComponent {
 			this.titlePage = "BestProducts";
 			this.Brands = res['Brands'];
 			this.Category = res['Category'];
-			this.loadingService.hideLoading();
 		});
 	}
 
@@ -88,7 +87,6 @@ export class BestProductsComponent {
 		this.productsService.getBestProducts().subscribe((res: { products: IProducts[], totalCount: number }) => {
 			this.Products$ = of(res['products']);
 			this.totalCount = res.totalCount;
-			this.loadingService.hideLoading();
 		})
 	}
 
@@ -126,7 +124,6 @@ export class BestProductsComponent {
 			this.productsService.filterSpecificProducts(data).subscribe(res => {
 				this.Products$ = of(res.products);
 				this.totalCount = res.totalCount;
-				this.loadingService.hideLoading();
 			})
 		} else {
 			this.paginationData();

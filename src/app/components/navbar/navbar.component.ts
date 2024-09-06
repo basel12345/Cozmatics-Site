@@ -54,7 +54,6 @@ export class NavbarComponent implements OnInit {
 
     getCategories() {
         this.categoriesService.getAllWithSubCategories().subscribe(res => {
-            this.loadingService.hideLoading()
             const category = this.handleCategories(res);
             if (this.items?.length) {
                 this.items?.[1]?.items?.push(...category);
@@ -96,7 +95,6 @@ export class NavbarComponent implements OnInit {
 
     searchGolbal(event: any) {
         this.productService.searchGolbal(event.target.value).subscribe(res => {
-            this.loadingService.hideLoading();
             this.resultSearch = res;
         })
     }

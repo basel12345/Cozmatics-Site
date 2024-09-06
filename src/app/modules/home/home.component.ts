@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit {
 			this.MostPopularProducts = this.products.filter(res => res.tag === 0)?.slice(0, 6);
 			this.discountAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.discount);
 			this.brandIdAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.brandId);
-			this.loadingService.hideLoading();
 			this.lang = localStorage.getItem("lang");
 		});
 	}

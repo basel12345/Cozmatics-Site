@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit {
 				this.router.navigate(['home']);
 			}, err => {
 				this.toastr.error('Please verify your email and password', 'Error');
-				this.loadingService.hideLoading();
 			});
 		}
 	}

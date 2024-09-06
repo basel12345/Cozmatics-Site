@@ -173,9 +173,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			this.cartService.addressByCustNo(this.user.userId).subscribe((res: any) => {
 				this.address = res[0];
 				this.getshipmentCostByAddresssID()
-				if (this.loadingService.show) {
-					this.loadingService.hideLoading();
-				}
 			})
 		}
 	}
@@ -229,7 +226,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	getSalesOrdersByCustomerId() {
 		this.cartService.GetSalesOrdersByCustomerId(this.user.userId).subscribe(res => {
 			this.ordersByCustomerId = res;
-			this.loadingService.hideLoading();
 		})
 	}
 
@@ -239,7 +235,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			this.cartService.GetshipmentCostByAddresssID(this.address.id).subscribe((res: any) => {
 				this.shipmentCost = res?.['cost'] ? res?.['cost'] : 0;				
 				this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
-				this.loadingService.hideLoading();
 			})
 		}
 	}
@@ -249,7 +244,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.cardService.getCardTokenByCustomerId(this.user.userId).subscribe(res => {
 			this.cards = res;
 			this.getSalesOrdersByCustomerId()
-			this.loadingService.hideLoading();
 		});
 	}
 
@@ -315,7 +309,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			SecurityCode: this.encryptionService.encryptData(this.cardForm.getRawValue().SecurityCode)
 		}
 		this.paymentService.paymentUrl(data).subscribe((res: any) => {
-			this.loadingService.hideLoading();
 			if (res['IsSuccess']) {
 				this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"), this.translate.instant("Success"));
 				localStorage.removeItem("carts");
@@ -335,7 +328,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	placeOrderReq() {
 		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((order: any) => {
 			if (order?.rejectedProductIds.length) {
-				this.loadingService.hideLoading();
 				Swal.fire({
 					title: `${this.translate.instant('Quantitiesofthesefollowingproductsisnotavailablenow')}`,
 					icon: `error`,
@@ -395,7 +387,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			localStorage.removeItem("user");
 			localStorage.removeItem("token");
 		}
-		this.loadingService.appearLoading();
 		location.reload();
 	}
 
