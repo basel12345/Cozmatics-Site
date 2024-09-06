@@ -2,10 +2,12 @@
     <div class="row">
         <div class="col-12 col-md-4 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
             (click)="navigateToHome()">
-            <img class="ms-5 my-1" src="assets/ICON.png" width="50px" height="50px" alt="">
+            <img class="ms-5 my-1" src="assets/ICON Yellow.png" width="50px" height="50px" alt="">
         </div>
         <div class="col-12 col-md-4 text-center">
-            <img class="my-1" src="assets/textEN.png" width="300px" height="50px" alt="">
+            <img class="my-1"
+                [src]="direction === 'rtl' ? 'assets/عبق العنايه-03-03.png' :'assets/Abaq Elanayah-03.png'"
+                width="300px" height="50px" alt="">
         </div>
         <div class="col-12 col-md-4" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
             <a (click)="showSideBar()" class="pi pi-shopping-bag" severity="warning" pBadge
@@ -51,7 +53,8 @@
                         {{"SAR" | translate}} {{res.price}}</span>
                     <span> ({{"VATIncluded" | translate}})</span>
                 </div>
-                <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price - ((+res.discountPercentage
+                <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price -
+                    ((+res.discountPercentage
                     /
                     100 ) * +res.price) | trimDecimalPipe}}
                 </div>
@@ -70,7 +73,7 @@
         <div class="row">
             <div class="col-12 my-1">
                 <p-dropdown class="deliveryStatus" [(ngModel)]="deliveryType" [options]="deliveryStatus"
-                    optionLabel="name"  [placeholder]="'ReceivingTheOrder' | translate"></p-dropdown>
+                    optionLabel="name" [placeholder]="'ReceivingTheOrder' | translate"></p-dropdown>
             </div>
             <div class="col-12 my-1" *ngIf="totalPrice">
                 <h6 style="display: inline-block;">{{"TotalPrice" | translate }}</h6>: {{totalPrice}} {{"SAR" |
@@ -164,8 +167,8 @@
                 </span>
             </div> -->
             <div class="col-12 col-md-6 mt-1">
-                <p-dropdown class="w-100" (onChange)="SelectArea($event)" formControlName="area" [options]="areas" optionLabel="area" optionValue="id"
-                     [placeholder]="'SelectAArea'| translate"></p-dropdown>
+                <p-dropdown class="w-100" (onChange)="SelectArea($event)" formControlName="area" [options]="areas"
+                    optionLabel="area" optionValue="id" [placeholder]="'SelectAArea'| translate"></p-dropdown>
                 <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']" class="invalid">
                     {{"Area" | translate}} {{"isRequired" | translate}}
                 </span>

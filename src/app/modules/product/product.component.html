@@ -57,7 +57,7 @@
         </div>
 
         <p-tabView>
-            <p-tabPanel header="Reviews">
+            <p-tabPanel [header]="'Reviews' | translate">
                 <div class="row text-end">
                     <p-button [label]="'AddReview' | translate" (click)="showDialog()" [raised]="true"></p-button>
                 </div>

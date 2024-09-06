@@ -53,8 +53,8 @@
                 <div class="footer">
                     <p-button *ngIf="!res.hasAttr"
                         (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                        [label]="'Add To Cart'" [text]="true" severity="help" [disabled]="!res.qty"></p-button>
-                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'View Product'"
+                        [label]="'AddToCart' | translate" [text]="true" severity="help" [disabled]="!res.qty"></p-button>
+                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'ViewProduct' | translate"
                         [text]="true" severity="help"></p-button>
                 </div>
             </div>
@@ -108,8 +108,8 @@
                 <div class="footer">
                     <p-button *ngIf="!res.hasAttr"
                         (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                        [label]="'Add To Cart'" [text]="true" severity="help" [disabled]="!res.qty"></p-button>
-                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'View Product'"
+                        [label]="'AddToCart' | translate" [text]="true" severity="help" [disabled]="!res.qty"></p-button>
+                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'ViewProduct' | translate"
                         [text]="true" severity="help"></p-button>
                 </div>
             </div>

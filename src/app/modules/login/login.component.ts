@@ -23,9 +23,11 @@ import { LoadingService } from '../../shared/services/loading/loading.service';
 export class LoginComponent implements OnInit {
 	submitted: boolean = false;
 	loginForm!: FormGroup;
+	direction!: string;
 	constructor(private fb: FormBuilder, private service: AuthService, private router: Router, private toastr: ToastrService, private loadingService: LoadingService) { }
 
 	ngOnInit(): void {
+		this.direction = localStorage.getItem("lang") === "ar" ? "rtl" : "ltr";
 		this.createLoginForm();
 	}
 

@@ -3,10 +3,11 @@
         <div class="flex flex-column gap-2">
             <div class="text-center">
                 <div>
-                    <img class="mt-4" src="assets/ICON.png" width="50px" height="50px" alt="">
+                    <img class="mt-4" src="assets/ICON Yellow.png" width="100px" height="100px" alt="">
                 </div>
-                <div class="mt-2 title">
-                    <img src="assets/textEN.png" max-width="50px" height="50px" alt="">
+                <div class="mt-2">
+                    <img [src]="direction === 'rtl' ? 'assets/عبق العنايه-03-03.png' :'assets/Abaq Elanayah-03.png'"
+                        width="300px" height="100px" alt="">
                 </div>
             </div>
             <div class="input">
@@ -87,7 +88,7 @@
             </div>
         </div>
         <div class="footer">
-            <p-button type="submit" label="Register"></p-button>
+            <p-button type="submit" [label]="'Register' | translate"></p-button>
         </div>
     </form>
 </div>

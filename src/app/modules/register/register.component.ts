@@ -21,6 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class RegisterComponent implements OnInit {
 	submitted: boolean = false;
 	registerForm!: FormGroup;
+	direction!: string;
 	constructor(
 		private fb: FormBuilder,
 		private service: AuthService,
@@ -30,6 +31,7 @@ export class RegisterComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
+		this.direction = localStorage.getItem("lang") === "ar" ? "rtl" : "ltr";
 		this.createRegisterForm();
 	}
 

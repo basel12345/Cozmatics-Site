@@ -30,7 +30,7 @@
     "MyAccount": "حسابي",
     "AddToCart": "اضافة الى العربة",
     "Done": "تم",
-    "NotFoundProducts": "لا يزجد منتجات",
+    "NotFoundProducts": "لا يوجد منتجات",
     "ViewProduct": "عرض المنتج",
     "MoreThan": "المزيد",
     "MostPopularProducts": "المنتجات الأكثر شعبية",
@@ -86,5 +86,8 @@
     "Delivered": "تم التسليم",
     "Closed": "مغلق",
     "OrderAddToInart": "الطلب تم اضافة في العربة",
-    "OrderAlreadyToCart": "تم اضافة الطلب في عربة التسوق مسبقا"
+    "OrderAlreadyToCart": "تم اضافة الطلب في عربة التسوق مسبقا",
+    "Register": "تسجيل",
+    "Login": "تسجيل دخول",
+    "Reviews": "المراجعات"
 }
