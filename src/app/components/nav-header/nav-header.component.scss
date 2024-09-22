@@ -1,7 +1,7 @@
 @import "../../../assets/styles/colors.scss";
 
 nav {
-    background-color: white;
+    background-color: #ffdd01;
 
     .row {
         width: 100% !important;
@@ -12,7 +12,7 @@ nav {
 
         ::ng-deep.p-dropdown {
             border: none;
-
+            background: transparent;
 
             ul {
                 padding-left: 0;
@@ -110,14 +110,14 @@ nav {
 
 ::ng-deep .p-badge.p-badge-warning,
 button {
-    background-color: $main-color;
+    background-color: black;
     height: 43px;
     border: none;
     border-radius: 150px;
     color: white;
 }
 
-::ng-deep .p-dropdown-items  {
+::ng-deep .p-dropdown-items {
     padding: 0;
 }
 

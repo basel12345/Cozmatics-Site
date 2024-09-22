@@ -30,7 +30,7 @@ export class CartService implements OnInit {
 	}
 
 	addressByCustNo(customerId: number) {
-		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/Location/AddressByCustNo?customerId=${customerId}`)
+		return this.httpClient.get(`https://api-endpoint.abaqelanayah.com/api/Location/AddressByCustNo?customerId=${customerId}`)
 	}
 
 	addCart(cart: ICart) {
@@ -79,7 +79,7 @@ export class CartService implements OnInit {
 			street: data.street,
 			customerId: data.customerId,
 		};
-		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Location/createAddress`, data)
+		return this.httpClient.post(`https://api-endpoint.abaqelanayah.com/api/Location/createAddress`, data)
 	}
 
 	placeOrder(Cart: ICart[], addressId: number | null, deliveryType: number | string) {
@@ -97,22 +97,22 @@ export class CartService implements OnInit {
 			attrValueId: res.attrValueId
 		}));
 		if (!addressId) delete data.addressId;
-		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Order/PlaceSalesOrder`, data);
+		return this.httpClient.post(`https://api-endpoint.abaqelanayah.com/api/Order/PlaceSalesOrder`, data);
 	}
 
 	cancelOrder(id: number) {
-		return this.httpClient.post(`http://abaq2023-001-site1.htempurl.com/api/Order/CancelOrder?id=${id}`, null);
+		return this.httpClient.post(`https://api-endpoint.abaqelanayah.com/api/Order/CancelOrder?id=${id}`, null);
 	}
 
 	GetshipmentCostByAddresssID(id: number) {
-		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/ShipmentCost/GetshipmentCostByAddresssID?id=${id}`);
+		return this.httpClient.get(`https://api-endpoint.abaqelanayah.com/api/ShipmentCost/GetshipmentCostByAddresssID?id=${id}`);
 	}
 
 	GetSalesOrdersByCustomerId(id: number) {
-		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/Order/GetSalesOrdersByCustomerId?Id=${id}`);
+		return this.httpClient.get(`https://api-endpoint.abaqelanayah.com/api/Order/GetSalesOrdersByCustomerId?Id=${id}`);
 	}
 
 	getShipmentCost() {
-		return this.httpClient.get(`http://abaq2023-001-site1.htempurl.com/api/ShipmentCost/GetShipmentLocations`); 
+		return this.httpClient.get(`https://api-endpoint.abaqelanayah.com/api/ShipmentCost/GetShipmentLocations`); 
 	  }
 }
