@@ -15,7 +15,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { LoadingService } from '../../shared/services/loading/loading.service';
 import { BadgeModule } from 'primeng/badge';
 import { CartService } from '../../shared/services/cart/cart.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { DialogModule } from 'primeng/dialog';
 import { IDropList } from '../../shared/models/city';
@@ -93,7 +92,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.getOrdersInCart();
 		this.getAddressByCustNo();
 		this.createAddressForm();
-		this.initCardForm();
+		// this.initCardForm();
 		this.cities = [
 			{ name: 'New York', code: 'NY' },
 			{ name: 'Rome', code: 'RM' },
@@ -119,7 +118,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	createAddressForm() {
 		this.AddressForm = this.fb.group({
-			city: [{value: '', disabled: true}, Validators.required],
+			city: [{ value: '', disabled: true }, Validators.required],
 			area: ["", Validators.required],
 			street: ["", Validators.required],
 			customerId: ["", Validators.required]
@@ -204,7 +203,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			if (carts) {
 				this.carts = JSON.parse(carts);
 				this.cartsReq = JSON.parse(carts);
-				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? +res.price - ((+res.discountPercentage / 100 ) * +res.price) : res.price) + accumulator, 0);
+				this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => (res.discountPercentage ? +res.price - ((+res.discountPercentage / 100) * +res.price) : res.price) + accumulator, 0);
 				this.cartsReq.forEach(res => {
 					this.pushQty(res.num);
 					res.qty = res.num ? res.num : 1;
@@ -231,9 +230,9 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 
 	getshipmentCostByAddresssID() {
-		if (this.address?.id) {			
+		if (this.address?.id) {
 			this.cartService.GetshipmentCostByAddresssID(this.address.id).subscribe((res: any) => {
-				this.shipmentCost = res?.['cost'] ? res?.['cost'] : 0;				
+				this.shipmentCost = res?.['cost'] ? res?.['cost'] : 0;
 				this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
 			})
 		}
@@ -263,7 +262,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.AddressForm.get("customerId")?.patchValue(this.user.userId);
 		this.submitted = true;
 		if (this.AddressForm.valid) {
-			this.submitted = false;			
+			this.submitted = false;
 			this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
 				if (res) {
 					this.getAddressByCustNo();
@@ -280,7 +279,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			if (res.id === id) res.qty = event;
 			return res
 		});
-		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? +res.price - ((+res.discountPercentage / 100 ) * +res.price) : res.price) * res.qty) + accumulator, 0);
+		this.totalPrice = this.cartsReq.reduce((accumulator: number, res: ICart) => ((res.discountPercentage ? +res.price - ((+res.discountPercentage / 100) * +res.price) : res.price) * res.qty) + accumulator, 0);
 		this.totalPriceAndShipment = this.totalPrice + this.shipmentCost;
 	}
 
@@ -300,24 +299,24 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		})
 	}
 
-	async paymentOrder(order: any) {
-		const data = {
-			OrderId: order.orderID,
-			CardNumber: this.encryptionService.encryptData(this.cardForm.getRawValue().Number.replaceAll("-", '')),
-			ExpiryMonth: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryMonth),
-			ExpiryYear: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryYear),
-			SecurityCode: this.encryptionService.encryptData(this.cardForm.getRawValue().SecurityCode)
-		}
-		this.paymentService.paymentUrl(data).subscribe((res: any) => {
-			if (res['IsSuccess']) {
-				this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"), this.translate.instant("Success"));
-				localStorage.removeItem("carts");
-				this.cartService.cart = [];
-				this.carts = [];
-				window.open(res['Data'].PaymentURL, "_blank")
-			}
-		})
-	}
+	// async paymentOrder(order: any) {
+	// 	const data = {
+	// 		OrderId: order.orderID,
+	// 		CardNumber: this.encryptionService.encryptData(this.cardForm.getRawValue().Number.replaceAll("-", '')),
+	// 		ExpiryMonth: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryMonth),
+	// 		ExpiryYear: this.encryptionService.encryptData(this.cardForm.getRawValue().ExpiryYear),
+	// 		SecurityCode: this.encryptionService.encryptData(this.cardForm.getRawValue().SecurityCode)
+	// 	}
+	// 	this.paymentService.paymentUrl(data).subscribe((res: any) => {
+	// 		if (res['IsSuccess']) {
+	// 			this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"), this.translate.instant("Success"));
+	// 			localStorage.removeItem("carts");
+	// 			this.cartService.cart = [];
+	// 			this.carts = [];
+	// 			window.open(res['Data'].PaymentURL, "_blank")
+	// 		}
+	// 	})
+	// }
 
 	getShipmentCost() {
 		this.cartService.getShipmentCost().subscribe((res: any) => {
@@ -326,37 +325,10 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	}
 
 	placeOrderReq() {
-		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((order: any) => {
-			if (order?.rejectedProductIds.length) {
-				Swal.fire({
-					title: `${this.translate.instant('Quantitiesofthesefollowingproductsisnotavailablenow')}`,
-					icon: `error`,
-					html: `
-					${order.rejectedProductIds.map((element: any) => (
-						`<div>
-								<span style="display: block">${this.translate.instant('ProductName')}: ${element.productName} ${this.translate.instant('And')} ${this.translate.instant('AvailableQuantity')}: ${element.qty} </span>
-						</div>
-						${this.handleAttributeNameFaild(element)}
-						`
-					))
-						}
-						<span style="display: block">${this.translate.instant('TotalPrice')}: ${order.totalPrice}</span>
-					`,
-					confirmButtonText: 'Ok',
-					cancelButtonText: 'Cancel',
-					showCancelButton: true
-				}).then((res: SweetAlertResult) => {
-					if (res.isConfirmed && order) {
-						this.paymentOrder(order.orderID);
-						if (this.deliveryType.code === 0) this.totalPriceAndShipment = order.totalPrice;
-						else this.totalPrice = order.totalPrice;
-					} else if (order.OrderID) {
-						this.cartService.cancelOrder(order.orderID).subscribe();
-					}
-				});
-			} else {
-				this.paymentOrder(order);
-			};
+		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
+			if (res.IsSuccess) {
+				window.location.replace(res?.Data?.PaymentURL);
+			}
 		})
 	}
 
@@ -370,10 +342,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		if (this.user) {
 			if (this.deliveryType.code === 0 && !this.address?.id) {
 				this.showDialog();
-				return;
-			};
-			if (!this.cardForm.get("Number")?.getRawValue() && !this.tokenCard) {
-				this.toastrSerice.error(this.translate.instant("PleaseEnterCardNumber"), this.translate.instant("Error"));
 				return;
 			};
 			this.placeOrderReq();
@@ -395,21 +363,21 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	}
 
 
-	initCardForm() {
-		this.cardForm = this.fb.group({
-			Number: ["", Validators.required],
-			ExpiryMonth: ["", Validators.required],
-			ExpiryYear: ["", Validators.required],
-			SecurityCode: ["", Validators.required]
-		})
-	}
+	// initCardForm() {
+	// 	this.cardForm = this.fb.group({
+	// 		Number: ["", Validators.required],
+	// 		ExpiryMonth: ["", Validators.required],
+	// 		ExpiryYear: ["", Validators.required],
+	// 		SecurityCode: ["", Validators.required]
+	// 	})
+	// }
 
 
-	saveCard() {
-		this.submittedCardForm = true;
-		if (this.cardForm.status === "VALID") {
-			this.visibleCardDialog = false;
-			this.submittedCardForm = false;
-		}
-	}
+	// saveCard() {
+	// 	this.submittedCardForm = true;
+	// 	if (this.cardForm.status === "VALID") {
+	// 		this.visibleCardDialog = false;
+	// 		this.submittedCardForm = false;
+	// 	}
+	// }
 }

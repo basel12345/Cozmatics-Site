@@ -94,9 +94,11 @@ export class NavbarComponent implements OnInit {
     }
 
     searchGolbal(event: any) {
-        this.productService.searchGolbal(event.target.value).subscribe(res => {
-            this.resultSearch = res;
-        })
+        if(event.target.value) {
+            this.productService.searchGolbal(event.target.value).subscribe(res => {
+                this.resultSearch = res;
+            })
+        }
     }
 
     selectValue(event: AutoCompleteSelectEvent) {

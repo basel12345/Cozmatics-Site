@@ -37,8 +37,6 @@ export class CartService implements OnInit {
 		if (isPlatformBrowser(this.platformId)) {
 			const carts = localStorage.getItem("carts");
 			if (carts) this.cart = JSON.parse(carts);
-			console.log(this.cart);
-			
 			const index = this.cart.findIndex(res => {
 				if(cart?.attrValueId) {
 					return res.id === cart.id && res.attrValueId === cart.attrValueId
@@ -89,15 +87,15 @@ export class CartService implements OnInit {
 			customerId: this.users?.userId,
 			addressId: addressId,
 			deliveryType: deliveryType,
-			items: [{}]
+			selectedProducts: [{}]
 		};
-		data['items'] = Cart?.map(res => ({
-			productId: res.id,
-			productQty: res.qty,
-			attrValueId: res.attrValueId
+		data['selectedProducts'] = Cart?.map(res => ({
+			id: res.id,
+			qty: res.qty,
+			attributeId: res.attrValueId
 		}));
 		if (!addressId) delete data.addressId;
-		return this.httpClient.post(`https://api-endpoint.abaqelanayah.com/api/Order/PlaceSalesOrder`, data);
+		return this.httpClient.post(`https://api-endpoint.abaqelanayah.com/api/Payment/ExecutePayment`, data);
 	}
 
 	cancelOrder(id: number) {
