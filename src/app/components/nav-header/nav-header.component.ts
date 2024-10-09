@@ -326,8 +326,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	placeOrderReq() {
 		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
-			if (res.IsSuccess) {
-				window.location.replace(res?.Data?.PaymentURL);
+			if (res.isSuccess) {
+				window.location.replace(res?.data?.paymentURL);
 			}
 		})
 	}
