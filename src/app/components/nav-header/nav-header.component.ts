@@ -125,11 +125,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		})
 	}
 
-	SelectArea(event: DropdownChangeEvent) {
-		const area = this.areas.find((res: any) => res.id === event.value);
-		this.AddressForm.patchValue(area);
-	}
-
 	getUserInfo() {
 		if (isPlatformBrowser(this.platformId)) {
 			const user = localStorage.getItem("user")
@@ -263,6 +258,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.submitted = true;
 		if (this.AddressForm.valid) {
 			this.submitted = false;
+			const area = this.areas.find((res: any) => res.id === this.AddressForm.get('area')?.value);
+			this.AddressForm.patchValue(area);
 			this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
 				if (res) {
 					this.getAddressByCustNo();
@@ -326,8 +323,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	placeOrderReq() {
 		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
-			if (res.IsSuccess) {
-				window.location.replace(res?.Data?.PaymentURL);
+			if (res.isSuccess) {
+				window.location.replace(res?.data?.paymentURL);
 			}
 		})
 	}

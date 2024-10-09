@@ -84,7 +84,7 @@ export class CartService implements OnInit {
 		const users = localStorage.getItem('user');
 		if (users) this.users = JSON.parse(users);
 		const data: any = {
-			customerId: this.users?.userId,
+			userId: this.users?.username,
 			addressId: addressId,
 			deliveryType: deliveryType,
 			selectedProducts: [{}]
