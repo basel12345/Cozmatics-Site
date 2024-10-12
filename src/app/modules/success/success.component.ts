@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './success.component.scss'
 })
 export class SuccessComponent {
-
+  constructor() {
+    localStorage.removeItem("carts");
+  }
 }

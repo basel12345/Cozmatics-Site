@@ -40,3 +40,14 @@
         }
     }
 }
+
+
+@media (min-width: 375px) and (max-width: 775px) {
+    .container {
+        .search {
+            .p-input-icon-left {
+                width: 100%;
+            }
+        }
+    }
+}
