@@ -111,6 +111,14 @@ export const routes: Routes = [
         loadComponent: () => import("./modules/login/login.component").then(c => c.LoginComponent)
     },
     {
+        path: "Success",
+        loadComponent: () => import("./modules/success/success.component").then(c => c.SuccessComponent)
+    },
+    {
+        path: "Failure",
+        loadComponent: () => import("./modules/failure/failure.component").then(c => c.FailureComponent)
+    },
+    {
         path: "**",
         pathMatch: "full",
         redirectTo: "home"
