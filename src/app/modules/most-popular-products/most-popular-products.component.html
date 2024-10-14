@@ -19,11 +19,13 @@
                 <div>
                     <div>
                         <label>{{"From" | translate}}</label>
-                        <input type="number" class="form-control" [placeholder]="'From' | translate" [(ngModel)]="rangePrice[0]">
+                        <input type="number" class="form-control" [placeholder]="'From' | translate"
+                            [(ngModel)]="rangePrice[0]">
                     </div>
                     <div>
                         <label>{{"To" | translate}}</label>
-                        <input type="number" class="form-control" [placeholder]="'To' | translate" [(ngModel)]="rangePrice[1]">
+                        <input type="number" class="form-control" [placeholder]="'To' | translate"
+                            [(ngModel)]="rangePrice[1]">
                     </div>
                 </div>
             </p-panel>
@@ -57,7 +59,8 @@
                                         SAR
                                         {{res.price}}<span> (VAT included)</span>
                                     </div>
-                                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price - ((+res.discountPercentage
+                                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}}
+                                        {{+res.price - ((+res.discountPercentage
                                         /
                                         100 ) * +res.price) | trimDecimalPipe}}
                                     </div>
@@ -65,10 +68,10 @@
                             </span>
                             <hr>
                             <div class="footer">
-                                <p-button *ngIf="!res.hasAttr"
+                                <p-button *ngIf="!res.hasAttr" [icon]="Cart"
                                     (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                                    [label]="'AddToCart' | translate" [text]="true"
-                                    severity="help" [disabled]="!res.qty"></p-button>
+                                    [label]="'AddToCart' | translate" [text]="true" severity="help"
+                                    [disabled]="!res.qty"></p-button>
                                 <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
                                     [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
                             </div>

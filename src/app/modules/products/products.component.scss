@@ -52,12 +52,13 @@
         display: flex;
         justify-content: center;
 
-        p-button {
+        ::ng-deep p-button {
             font-weight: 400 !important;
             font-size: 12px;
 
-            ::ng-deep .p-button-label {
-                color: $main-color !important;
+            .p-button-label,
+            .pi-shopping-cart {
+                color: black !important;
             }
         }
     }

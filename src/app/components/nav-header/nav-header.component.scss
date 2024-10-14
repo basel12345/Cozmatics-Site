@@ -121,6 +121,37 @@ button {
     padding: 0;
 }
 
+::ng-deep .p-dropdown-label {
+    padding-inline-end: 5px;
+}
+
+::ng-deep .p-dropdown-trigger {
+    justify-content: start;
+    width: 1rem;
+}
+
+::ng-deep .p-autocomplete {
+    width: 100%;
+    margin-top: 5px;
+    .pi-search {
+        color: $base-input-color;
+    }
+
+    input {
+        background-color: $base-color;
+        border: none;
+        width: 100%;
+        color: $base-input-color;
+
+        // &:focus,
+        // &:hover {
+        //     outline: none !important;
+        //     border: 1px solid $base-input-color;
+        //     box-shadow: 0 0 10px $base-input-color;
+        // }
+    }
+}
+
 .deliveryStatus {
     ::ng-deep .p-dropdown {
         width: 100%;

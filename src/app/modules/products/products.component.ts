@@ -20,6 +20,7 @@ import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
 	selector: 'app-products',
@@ -49,6 +50,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	best!: boolean;
 	recent!: boolean;
 	mostPopular!: boolean;
+	Cart = PrimeIcons.SHOPPING_CART
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,

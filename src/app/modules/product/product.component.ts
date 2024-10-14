@@ -20,6 +20,7 @@ import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProductsService } from '../../shared/services/products/products.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
 	selector: 'app-product',
@@ -55,6 +56,7 @@ export class ProductComponent implements OnInit {
 	attributeId: number | undefined;
 	selectedImage!: SafeResourceUrl;
 	attributeValue: string | undefined;
+	Cart = PrimeIcons.SHOPPING_CART
 	constructor(
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,

@@ -2,8 +2,8 @@
     <div class="row product">
         <div class="col-1">
             <p-scrollPanel [style]="{ width: '100%', height: '300px' }">
-                <img width="80px" height="80px" *ngFor="let res of product?.productImgs" class="d-block mb-2" [src]="sanitizationImage(res.image)"
-                    alt="" (click)="selectImage(res.image)">
+                <img width="80px" height="80px" *ngFor="let res of product?.productImgs" class="d-block mb-2"
+                    [src]="sanitizationImage(res.image)" alt="" (click)="selectImage(res.image)">
             </p-scrollPanel>
         </div>
         <div class="col-11 col-md-6">
@@ -28,8 +28,8 @@
                 {{product.price}}</h4> <span> ({{"VATIncluded" | translate}})</span>
             <h4 class="discount mt-2" *ngIf="product.discountPercentage">{{"SAR" | translate}}
                 {{+product.price - ((+product.discountPercentage
-                    /
-                    100 ) * +product.price) | trimDecimalPipe}}</h4>
+                /
+                100 ) * +product.price) | trimDecimalPipe}}</h4>
             <div class="flex flex-wrap gap-3 mt-2">
                 <div class="flex align-items-center">
                     <ng-container *ngFor="let res of attributeValuesSizes">
@@ -50,7 +50,7 @@
             <span class="danger mt-2" *ngIf="textNotFoundMessageSize">{{textNotFoundMessageSize}}</span>
             <span class="danger mt-2" *ngIf="textNotFoundMessageColor">{{textNotFoundMessageColor}}</span>
             <div class="footer">
-                <p-button [label]="'AddToCart' | translate" [raised]="true"
+                <p-button [label]="'AddToCart' | translate" [raised]="true" [icon]="Cart"
                     (onClick)="addCart({id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: getQuantityToCart(product.qty), attrValueId: attributeId, attributeValue: attributeValue})"
                     [disabled]="!!textNotFoundMessageSize || !!textNotFoundMessageColor  || !product.qty"></p-button>
             </div>

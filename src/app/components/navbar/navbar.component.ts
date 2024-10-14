@@ -21,7 +21,6 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 })
 export class NavbarComponent implements OnInit {
     items: MenuItem[] | undefined;
-    resultSearch: any;
     lang!: string | null;
     constructor(
         private categoriesService: CategoriesService,
@@ -93,30 +92,4 @@ export class NavbarComponent implements OnInit {
         })
     }
 
-    searchGolbal(event: any) {
-        if(event.target.value) {
-            this.productService.searchGolbal(event.target.value).subscribe(res => {
-                this.resultSearch = res;
-            })
-        }
-    }
-
-    selectValue(event: AutoCompleteSelectEvent) {
-        if (event.value.type === 0)
-            this.router.navigate([`product/${event.value.key}`]);
-        else if (event.value.type === 1) {
-            this.router.navigate([`productsByCategory`], {
-                queryParams: {
-                    categoryId: event.value.key
-                }
-            });
-        }
-        else if (event.value.type === 3) {
-            this.router.navigate([`productsByBrand`], {
-                queryParams: {
-                    brandId: event.value.key
-                }
-            });
-        }
-    }
 } 

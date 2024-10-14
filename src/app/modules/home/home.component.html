@@ -7,11 +7,19 @@
         </a>
     </div>
     <div class="row advertisement" *ngIf="discountAdvertisement?.length">
-        <h4>{{"Discounts" | translate}}</h4>
-        <div *ngFor="let res of discountAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
+        <!-- <h4>{{"Discounts" | translate}}</h4> -->
+        <!-- <div *ngFor="let res of discountAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
             (click)="advertisement(res.brandId, res.categoryId, res.discount, res.tag)">
             <img [src]="sanitizationImage(res.img)" alt="">
-        </div>
+        </div> -->
+
+        <p-carousel dir="ltr" [value]="discountAdvertisement" [numVisible]="1" [numScroll]="1" [circular]="false"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-res pTemplate="item">
+                <img (click)="advertisement(res.brandId, res.categoryId, res.discount, res.tag)"
+                    [src]="sanitizationImage(res.img)" alt="">
+            </ng-template>
+        </p-carousel>
     </div>
     <div class="recentProducts row" *ngIf="RecentProducts?.length">
         <div class="row">
@@ -22,146 +30,159 @@
                 <a (click)="recentProductsPage()">{{"MoreThan" | translate}}</a>
             </div>
         </div>
-        <div class="col-12 col-md-2" *ngFor="let res of RecentProducts">
-            <div class="m-1 p-2 card">
-                <span (click)="navigateToProduct(res.id)">
-                    <div class="header">
-                        <img [src]="sanitizationImage(res.coverImg)" alt="">
+        <p-carousel dir="ltr" [value]="RecentProducts" [numVisible]="6" [numScroll]="1" [circular]="false"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-res pTemplate="item">
+                <div class="m-1 p-2 card">
+                    <span (click)="navigateToProduct(res.id)">
+                        <div class="header">
+                            <img [src]="sanitizationImage(res.coverImg)" alt="">
+                        </div>
+                        <div class="body">
+                            <div class="brand">{{res.brandName}}</div>
+                            <div class="sub-brand mb-3">{{res.name}}</div>
+                            <div>
+                                <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
+                            </div>
+                            <div class="tags" *ngIf="res.tag || res.tag === 0">
+                                {{Tags[res.tag]}}
+                            </div>
+                            <div class="price"
+                                [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                                {{"SAR" | translate}}
+                                {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
+                            </div>
+                            <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price
+                                -
+                                ((+res.discountPercentage
+                                /
+                                100 ) * +res.price) | trimDecimalPipe}}
+                            </div>
+                        </div>
+                    </span>
+                    <hr>
+                    <div class="footer">
+                        <p-button *ngIf="!res.hasAttr" [icon]="Cart"
+                            (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                            [label]="'AddToCart' | translate" [text]="true" severity="help"
+                            [disabled]="!res.qty"></p-button>
+                        <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
+                            [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
                     </div>
-                    <div class="body">
-                        <div class="brand">{{res.brandName}}</div>
-                        <div class="sub-brand mb-3">{{res.name}}</div>
-                        <div>
-                            <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
-                        </div>
-                        <div class="tags" *ngIf="res.tag || res.tag === 0">
-                            {{Tags[res.tag]}}
-                        </div>
-                        <div class="price"
-                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            {{"SAR" | translate}}
-                            {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
-                        </div>
-                        <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price -
-                            ((+res.discountPercentage
-                            /
-                            100 ) * +res.price) | trimDecimalPipe}}
-                        </div>
-                    </div>
-                </span>
-                <hr>
-                <div class="footer">
-                    <p-button *ngIf="!res.hasAttr"
-                        (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                        [label]="'AddToCart' | translate" [text]="true" severity="help" [disabled]="!res.qty"></p-button>
-                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'ViewProduct' | translate"
-                        [text]="true" severity="help"></p-button>
                 </div>
+            </ng-template>
+        </p-carousel>
+        <div class="row advertisement" *ngIf="brandIdAdvertisement?.length">
+            <h4>{{"Brands" | translate}}</h4>
+            <div *ngFor="let res of brandIdAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
+                (click)="navigateToBrands(res.brandId)">
+                <img [src]="sanitizationImage(res.img)" alt="">
             </div>
         </div>
-    </div>
-    <div class="row advertisement" *ngIf="brandIdAdvertisement?.length">
-        <h4>{{"Brands" | translate}}</h4>
-        <div *ngFor="let res of brandIdAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
-            (click)="navigateToBrands(res.brandId)">
-            <img [src]="sanitizationImage(res.img)" alt="">
-        </div>
-    </div>
 
-    <div class="recentProducts row" *ngIf="BestProducts?.length">
-        <div class="row">
-            <div class="col-6">
-                <h4>{{"BestProducts" | translate}}</h4>
-            </div>
-            <div class="col-6 more" [ngClass]="lang === 'ar' ?'text-start' : 'text-end'">
-                <a (click)="bestProductsPage()">{{"MoreThan" | translate}}</a>
-            </div>
-        </div>
-        <div class="col-12 col-md-2" *ngFor="let res of BestProducts">
-            <div class="m-1 p-2 card">
-                <span (click)="navigateToProduct(res.id)">
-                    <div class="header">
-                        <img [src]="sanitizationImage(res.coverImg)" alt="">
-                    </div>
-                    <div class="body">
-                        <div class="brand">{{res.brandName}}</div>
-                        <div class="sub-brand mb-3">{{res.name}}</div>
-                        <div>
-                            <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
-                        </div>
-                        <div class="tags" *ngIf="res.tag || res.tag === 0">
-                            {{Tags[res.tag]}}
-                        </div>
-                        <div class="price"
-                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            {{"SAR" | translate}}
-                            {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
-                        </div>
-                        <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price -
-                            ((+res.discountPercentage
-                            /
-                            100 ) * +res.price) | trimDecimalPipe}}
-                        </div>
-                    </div>
-                </span>
-                <hr>
-                <div class="footer">
-                    <p-button *ngIf="!res.hasAttr"
-                        (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                        [label]="'AddToCart' | translate" [text]="true" severity="help" [disabled]="!res.qty"></p-button>
-                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)" [label]="'ViewProduct' | translate"
-                        [text]="true" severity="help"></p-button>
+        <div class="recentProducts row" *ngIf="BestProducts?.length">
+            <div class="row">
+                <div class="col-6">
+                    <h4>{{"BestProducts" | translate}}</h4>
+                </div>
+                <div class="col-6 more" [ngClass]="lang === 'ar' ?'text-start' : 'text-end'">
+                    <a (click)="bestProductsPage()">{{"MoreThan" | translate}}</a>
                 </div>
             </div>
+            <p-carousel dir="ltr" [value]="BestProducts" [numVisible]="6" [numScroll]="1" [circular]="false"
+                [responsiveOptions]="responsiveOptions">
+                <ng-template let-res pTemplate="item">
+                    <div class="m-1 p-2 card">
+                        <span (click)="navigateToProduct(res.id)">
+                            <div class="header">
+                                <img [src]="sanitizationImage(res.coverImg)" alt="">
+                            </div>
+                            <div class="body">
+                                <div class="brand">{{res.brandName}}</div>
+                                <div class="sub-brand mb-3">{{res.name}}</div>
+                                <div>
+                                    <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
+                                </div>
+                                <div class="tags" *ngIf="res.tag || res.tag === 0">
+                                    {{Tags[res.tag]}}
+                                </div>
+                                <div class="price"
+                                    [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                                    {{"SAR" | translate}}
+                                    {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
+                                </div>
+                                <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price
+                                    -
+                                    ((+res.discountPercentage
+                                    /
+                                    100 ) * +res.price) | trimDecimalPipe}}
+                                </div>
+                            </div>
+                        </span>
+                        <hr>
+                        <div class="footer">
+                            <p-button *ngIf="!res.hasAttr" [icon]="Cart"
+                                (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                                [label]="'AddToCart' | translate" [text]="true" severity="help"
+                                [disabled]="!res.qty"></p-button>
+                            <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
+                                [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
         </div>
-    </div>
 
-    <div class="recentProducts row" *ngIf="MostPopularProducts?.length">
-        <div class="row">
-            <div class="col-6">
-                <h4>{{"MostPopularProducts" | translate}}</h4>
-            </div>
-            <div class="col-6 more" [ngClass]="lang === 'ar' ?'text-start' : 'text-end'">
-                <a (click)="mostPopularProducts()">{{"MoreThan" | translate}}</a>
-            </div>
-        </div>
-        <div class="col-12 col-md-2" *ngFor="let res of MostPopularProducts">
-            <div class="m-1 p-2 card">
-                <span (click)="navigateToProduct(res.id)">
-                    <div class="header">
-                        <img [src]="sanitizationImage(res.coverImg)" alt="">
-                    </div>
-                    <div class="body">
-                        <div class="brand">{{res.brandName}}</div>
-                        <div class="sub-brand mb-3">{{res.name}}</div>
-                        <div>
-                            <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
-                        </div>
-                        <div class="tags" *ngIf="res.tag || res.tag === 0">
-                            {{Tags[res.tag]}}
-                        </div>
-                        <div class="price"
-                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            {{"SAR" | translate}}
-                            {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
-                        </div>
-                        <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price -
-                            ((+res.discountPercentage
-                            /
-                            100 ) * +res.price) | trimDecimalPipe}}
-                        </div>
-                    </div>
-                </span>
-                <hr>
-                <div class="footer">
-                    <p-button *ngIf="!res.hasAttr"
-                        (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                        [label]="('AddToCart' | translate)" [text]="true" severity="help"
-                        [disabled]="!res.qty"></p-button>
-                    <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
-                        [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
+        <div class="recentProducts row" *ngIf="MostPopularProducts?.length">
+            <div class="row">
+                <div class="col-6">
+                    <h4>{{"MostPopularProducts" | translate}}</h4>
+                </div>
+                <div class="col-6 more" [ngClass]="lang === 'ar' ?'text-start' : 'text-end'">
+                    <a (click)="mostPopularProducts()">{{"MoreThan" | translate}}</a>
                 </div>
             </div>
+            <p-carousel dir="ltr" [value]="MostPopularProducts" [numVisible]="6" [numScroll]="1" [circular]="false"
+                [responsiveOptions]="responsiveOptions">
+                <ng-template let-res pTemplate="item">
+                    <div class="m-1 p-2 card">
+                        <span (click)="navigateToProduct(res.id)">
+                            <div class="header">
+                                <img [src]="sanitizationImage(res.coverImg)" alt="">
+                            </div>
+                            <div class="body">
+                                <div class="brand">{{res.brandName}}</div>
+                                <div class="sub-brand mb-3">{{res.name}}</div>
+                                <div>
+                                    <p-rating [(ngModel)]="res.rateValue" [readonly]="true" [cancel]="false"></p-rating>
+                                </div>
+                                <div class="tags" *ngIf="res.tag || res.tag === 0">
+                                    {{Tags[res.tag]}}
+                                </div>
+                                <div class="price"
+                                    [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                                    {{"SAR" | translate}}
+                                    {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
+                                </div>
+                                <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price
+                                    -
+                                    ((+res.discountPercentage
+                                    /
+                                    100 ) * +res.price) | trimDecimalPipe}}
+                                </div>
+                            </div>
+                        </span>
+                        <hr>
+                        <div class="footer">
+                            <p-button *ngIf="!res.hasAttr"
+                                (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                                [label]="('AddToCart' | translate)" [text]="true" severity="help"
+                                [disabled]="!res.qty"></p-button>
+                            <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
+                                [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
         </div>
     </div>
-</div>

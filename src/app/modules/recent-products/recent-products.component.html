@@ -65,7 +65,7 @@
                             </span>
                             <hr>
                             <div class="footer">
-                                <p-button *ngIf="!res.hasAttr"
+                                <p-button *ngIf="!res.hasAttr" [icon]="Cart"
                                     (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
                                     [label]="('AddToCart' | translate)" [text]="true"
                                     severity="help" [disabled]="!res.qty"></p-button>

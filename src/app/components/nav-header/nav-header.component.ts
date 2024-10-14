@@ -27,6 +27,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardService } from '../../shared/services/card/card.service';
 import { EncryptionService } from '../../shared/services/encryption/encryption.service';
+import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { ProductsService } from '../../shared/services/products/products.service';
 
 type Droplist = {
 	name: string;
@@ -36,12 +38,13 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule],
+	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
 
 export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
+    resultSearch: any;
 	sidebarVisible: boolean = false;
 	countries: Droplist[] | undefined;
 	users: Droplist[] | undefined;
@@ -83,7 +86,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		private paymentService: PaymentService,
 		private translate: TranslateService,
 		private cardService: CardService,
-		private encryptionService: EncryptionService
+		private encryptionService: EncryptionService,
+        private productService: ProductsService,
 	) { }
 
 	ngOnInit() {
@@ -136,6 +140,33 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	ngDoCheck() {
 		this.getUserInfo();
 	}
+
+	searchGolbal(event: any) {
+        if(event.target.value) {
+            this.productService.searchGolbal(event.target.value).subscribe(res => {
+                this.resultSearch = res;
+            })
+        }
+    }
+
+	selectValue(event: AutoCompleteSelectEvent) {
+        if (event.value.type === 0)
+            this.router.navigate([`product/${event.value.key}`]);
+        else if (event.value.type === 1) {
+            this.router.navigate([`productsByCategory`], {
+                queryParams: {
+                    categoryId: event.value.key
+                }
+            });
+        }
+        else if (event.value.type === 3) {
+            this.router.navigate([`productsByBrand`], {
+                queryParams: {
+                    brandId: event.value.key
+                }
+            });
+        }
+    }
 
 	handleDroplist(): void {
 		this.countries = [

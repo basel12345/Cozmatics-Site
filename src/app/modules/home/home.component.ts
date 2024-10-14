@@ -15,6 +15,7 @@ import { CartService } from '../../shared/services/cart/cart.service';
 import { ICart } from '../../shared/models/cart';
 import { Tags } from '../../shared/models/tags';
 import { TranslateModule } from '@ngx-translate/core';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
 	selector: 'app-home',
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit {
 	Tags = Tags;
 	MostPopularProducts!: IProducts[];
 	lang!: string | null;
+	Cart = PrimeIcons.SHOPPING_CART
 	constructor(
 		private route: ActivatedRoute,
 		public sanitizer: DomSanitizer,
@@ -56,7 +58,7 @@ export class HomeComponent implements OnInit {
 			},
 			{
 				breakpoint: '991px',
-				numVisible: 2,
+				numVisible: 1,
 				numScroll: 1
 			},
 			{
@@ -73,7 +75,7 @@ export class HomeComponent implements OnInit {
 			this.products = res['Products']?.products;
 			this.selectedCategories = res['selectedCategories'];
 			this.Advertisement = res['Advertisement'];
-			this.RecentProducts = res['RecentProducts']['products'].slice(0, 6);
+			this.RecentProducts = res['RecentProducts']['products'];
 			this.BestProducts = res['BestProducts']['products'].slice(0, 6);
 			this.MostPopularProducts = this.products.filter(res => res.tag === 0)?.slice(0, 6);
 			this.discountAdvertisement = this.Advertisement.filter((res: IAdvertisement) => res.discount);

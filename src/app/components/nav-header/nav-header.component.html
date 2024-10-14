@@ -1,17 +1,20 @@
 <nav>
     <div class="row">
-        <div class="col-12 col-md-4 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
+        <div class="col-12 col-md-2 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
             (click)="navigateToHome()">
-            <img class="ms-5 my-1" src="assets/ICON.png" width="50px" height="50px" alt="">
-        </div>
-        <div class="col-12 col-md-4 text-center">
+            <img [ngClass]="direction === 'rtl' ? 'me-5': 'ms-5'" class="my-1" src="assets/ICON.png" width="50px"
+                height="50px" alt="">
             <img class="my-1"
                 [src]="direction === 'rtl' ? 'assets/عبق العنايه-03-03.png' :'assets/Abaq Elanayah-03.png'"
-                width="300px" height="50px" alt="">
+                width="120px" height="50px" alt="">
         </div>
-        <div class="col-12 col-md-4" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-            <a (click)="showSideBar()" class="pi pi-shopping-bag" severity="warning" pBadge
-                [value]="'' + cartService.getCartength ? cartService.getCartength : 0"></a>
+        <div class="col-12 col-md-8 text-center">
+            <p-autoComplete [placeholder]="'Search' | translate" [suggestions]="resultSearch"
+                (onSelect)="selectValue($event)" (input)="searchGolbal($event)" field="name" />
+        </div>
+        <div class="col-12 col-md-2" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+            <a [ngClass]="direction === 'rtl' ? 'me-5': 'ms-5'" (click)="showSideBar()" class="pi pi-shopping-bag"
+                severity="warning" pBadge [value]="'' + cartService.getCartength ? cartService.getCartength : 0"></a>
             <p-dropdown [options]="countries" [(ngModel)]="selectedLanguage" optionLabel="name"
                 (onChange)="changeLanguage($event)">
                 <ng-template pTemplate="selectedItem">
@@ -161,8 +164,8 @@
     <form [formGroup]="AddressForm" (ngSubmit)="saveAddress()">
         <div class="row">
             <div class="col-12 col-md-6 mt-1">
-                <p-dropdown class="w-100" formControlName="area" [options]="areas"
-                    optionLabel="area" optionValue="id" [placeholder]="'SelectAArea'| translate"></p-dropdown>
+                <p-dropdown class="w-100" formControlName="area" [options]="areas" optionLabel="area" optionValue="id"
+                    [placeholder]="'SelectAArea'| translate"></p-dropdown>
                 <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']" class="invalid">
                     {{"Area" | translate}} {{"isRequired" | translate}}
                 </span>

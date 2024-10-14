@@ -20,6 +20,7 @@ import { Tags } from '../../shared/models/tags';
 import { ICart } from '../../shared/models/cart';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
 	selector: 'app-recent-products',
@@ -41,6 +42,7 @@ export class RecentProductsComponent implements OnInit {
 	rangePrice: number[] = [0, 0];
 	Category!: ICategory[];
 	Tags = Tags;
+	Cart = PrimeIcons.SHOPPING_CART
 
 	constructor(
 		private route: ActivatedRoute,

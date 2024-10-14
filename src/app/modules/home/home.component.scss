@@ -2,7 +2,7 @@
 @use "../../../assets/styles/fonts" as *;
 
 
-.container-fluid {
+::ng-deep.container-fluid {
     max-width: 1400px;
     margin-bottom: 92px;
 
@@ -31,16 +31,31 @@
     .advertisement {
         margin-top: 50px;
 
-        div {
-            padding: 5px;
-            cursor: pointer;
-
-            img {
-                width: 100%;
-                height: 250px;
-                border-radius: 5px;
-            }
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
         }
+
+        .p-carousel-container {
+            position: relative;
+
+        }
+
+        .p-carousel-prev,
+        .p-carousel-next {
+            position: absolute;
+            top: 50%;
+            z-index: 1;
+            background-color: white;
+            border-radius: 50%;
+            padding: 20px;
+        }
+
+        .p-carousel-next {
+            right: 0;
+        }
+
     }
 
     .recentProducts {
@@ -97,11 +112,13 @@
                 display: flex;
                 justify-content: center;
 
-                p-button {
+                ::ng-deep p-button {
                     font-weight: 400 !important;
                     font-size: 12px;
-                    ::ng-deep .p-button-label {
-                        color: $main-color !important;
+
+                    .p-button-label,
+                    .pi-shopping-cart {
+                        color: black !important;
                     }
                 }
             }
@@ -118,6 +135,10 @@
 .more {
     cursor: pointer;
     text-decoration: underline;
+}
+
+::ng-deep.p-carousel-indicators {
+    display: none;
 }
 
 @media (max-width: 850px) {
@@ -137,6 +158,7 @@
     }
 }
 
+
 ::ng-deep .p-rating .p-rating-icon {
-    color: $main-color; 
+    color: $main-color;
 }

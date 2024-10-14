@@ -20,6 +20,7 @@ import { SliderModule } from 'primeng/slider';
 import { Tags } from '../../shared/models/tags';
 import { ICart } from '../../shared/models/cart';
 import { CartService } from '../../shared/services/cart/cart.service';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
 	selector: 'app-best-products',
@@ -41,6 +42,7 @@ export class BestProductsComponent {
 	rangePrice: number[] = [0, 0];
 	Category!: ICategory[];
 	Tags = Tags;
+	Cart = PrimeIcons.SHOPPING_CART
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,

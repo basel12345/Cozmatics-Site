@@ -3,9 +3,11 @@
 ::ng-deep .p-menubar {
     margin: 0 0 60px 0;
     background-color: white;
-
+    background-color: $main-color;
+    border: none;
     ul {
         margin-bottom: 0;
+        margin-left: 30px;
 
         a {
             text-decoration: none;
@@ -18,51 +20,10 @@
         }
     }
 
-    .p-autocomplete {
-        width: 600px;
-
-        .pi-search {
-            color: $base-input-color;
-        }
-
-        input {
-            background-color: $base-color;
-            border: none;
-            width: 100%;
-            color: $base-input-color;
-
-            // &:focus,
-            // &:hover {
-            //     outline: none !important;
-            //     border: 1px solid $base-input-color;
-            //     box-shadow: 0 0 10px $base-input-color;
-            // }
-        }
+    .p-menuitem-content:hover {
+        background: white;
     }
-}
 
-@media only screen and (max-width: 1400px) {
-    ::ng-deep .p-menubar {
-        .p-autocomplete {
-            width: 400px;
-        }
-    }
-}
-
-@media (min-width: 960px) and (max-width: 1200px) {
-    ::ng-deep .p-menubar {
-        .p-autocomplete {
-            width: 180px;
-        }
-    }
-}
-
-@media (max-width: 850px) {
-    ::ng-deep .p-menubar {
-        .p-autocomplete {
-            width: 100%;
-        }
-    }
 }
 
 ::ng-deep .p-menubar {
