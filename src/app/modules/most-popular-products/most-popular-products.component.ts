@@ -47,7 +47,7 @@ export class MostPopularProductsComponent {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private productsService: ProductsService,
+        public productsService: ProductsService,
         public sanitizer: DomSanitizer,
         public cartService: CartService,
         private loadingService: LoadingService
@@ -108,7 +108,6 @@ export class MostPopularProductsComponent {
     }
 
     filter() {
-        this.productsService.pageNo = 1;
         const data: {
             brandIds: number[] | null,
             categoryIds: number[] | null,
@@ -141,6 +140,6 @@ export class MostPopularProductsComponent {
         this.productsService.pageNo = event.page + 1;
         this.first = event.first;
         this.rows = event.rows;
-        this.paginationData();
+        this.filter();
     }
 }

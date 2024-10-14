@@ -55,7 +55,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
-		private productsService: ProductsService,
+		public productsService: ProductsService,
 		public sanitizer: DomSanitizer,
 		public cartService: CartService,
 		private loadingService: LoadingService,
@@ -161,7 +161,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		this.productsService.pageNo = event.page + 1;
 		this.first = event.first;
 		this.rows = event.rows;
-		this.isFilterByProducts ? this.filterProducts(this.queryParams.BrandId, this.queryParams.CatId, this.queryParams.Discount, this.queryParams.Tag) : this.paginationData();
+		if(this.isFilterByProducts) {
+			this.filterProducts(this.queryParams.BrandId, this.queryParams.CatId, this.queryParams.Discount, this.queryParams.Tag)
+		} else {
+			this.filter();
+		}
 	}
 
 	paginationData() {
@@ -190,7 +194,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	filter() {
-		this.productsService.pageNo = 1;
 		const data: {
 			brandIds?: number[] | null,
 			categoryIds?: number[] | null,

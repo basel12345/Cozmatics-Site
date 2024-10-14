@@ -28,7 +28,7 @@
                 </div>
             </p-panel>
             <div class="filter">
-                <p-button class="filter-btn" (onClick)="filter()" [label]="'Filter' | translate" [text]="true"
+                <p-button class="filter-btn" (onClick)="productsService.pageNo = 1;first=1;filter()" [label]="'Filter' | translate" [text]="true"
                     severity="help"></p-button>
             </div>
         </div>

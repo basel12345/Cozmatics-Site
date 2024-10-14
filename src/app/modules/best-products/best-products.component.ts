@@ -46,7 +46,7 @@ export class BestProductsComponent {
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
-		private productsService: ProductsService,
+		public productsService: ProductsService,
 		public sanitizer: DomSanitizer,
 		public cartService: CartService,
 		private loadingService: LoadingService
@@ -96,7 +96,7 @@ export class BestProductsComponent {
 		this.productsService.pageNo = event.page + 1;
 		this.first = event.first;
 		this.rows = event.rows;
-		this.paginationData();
+		this.filter();
 	}
 
 	addCart(cart: ICart) {
@@ -104,7 +104,6 @@ export class BestProductsComponent {
 	}
 
 	filter() {
-		this.productsService.pageNo = 1;
 		const data: {
 			brandIds: number[] | null,
 			categoryIds: number[] | null,

@@ -68,8 +68,6 @@ export class ProductsService {
     }
 
     filterSpecificProducts(filter: any): Observable<{ products: IProducts[], totalCount: number }> {
-        console.log(filter);
-        
         return this.http.post<{ products: IProducts[], totalCount: number }>(`https://api-endpoint.abaqelanayah.com/api/Product/FilterProducts?pageNo=${this.pageNo}&pageSize=${this.pageSize}`, filter);
     }
 
