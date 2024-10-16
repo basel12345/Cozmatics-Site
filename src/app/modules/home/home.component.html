@@ -74,10 +74,12 @@
         </p-carousel>
         <div class="row advertisement" *ngIf="brandIdAdvertisement?.length">
             <h4>{{"Brands" | translate}}</h4>
-            <div *ngFor="let res of brandIdAdvertisement; index as i" [ngClass]="i < 4 ? 'col-12 col-md-6' : 'col-12'"
-                (click)="navigateToBrands(res.brandId)">
-                <img [src]="sanitizationImage(res.img)" alt="">
-            </div>
+            <p-carousel dir="ltr" [value]="brandIdAdvertisement" [numVisible]="1" [numScroll]="1" [circular]="false"
+                [responsiveOptions]="responsiveOptions">
+                <ng-template let-res pTemplate="item">
+                    <img (click)="navigateToBrands(res.brandId)" [src]="sanitizationImage(res.img)" alt="">
+                </ng-template>
+            </p-carousel>
         </div>
 
         <div class="recentProducts row" *ngIf="BestProducts?.length">
