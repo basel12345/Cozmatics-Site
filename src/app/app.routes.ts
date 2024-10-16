@@ -14,7 +14,8 @@ import { CategoryResolver } from './shared/resolvers/category.resolver';
 export const routes: Routes = [
     {
         path: "",
-        loadComponent: () => import("./modules/home/home.component").then(c => c.HomeComponent),
+        redirectTo: "home",
+        pathMatch: "full",
         resolve: {
             Products: ProductsResolver,
             Brands: BrandsResolver,

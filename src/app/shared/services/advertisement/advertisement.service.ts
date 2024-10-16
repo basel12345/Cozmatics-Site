@@ -10,6 +10,7 @@ export class AdvertisementService {
     constructor(private http: HttpClient) { }
 
     getAllAdvertisement(): Observable<IAdvertisement[]> {
-        return this.http.get<IAdvertisement[]>(`https://api-endpoint.abaqelanayah.com/api/Advertisement/GetAll`);
+        const uniqueParam = `cahceBuster=${new Date().getTime()}`;
+        return this.http.get<IAdvertisement[]>(`https://api-endpoint.abaqelanayah.com/api/Advertisement/GetAll?${uniqueParam}`);
     }
 }
