@@ -13,19 +13,19 @@ export class CategoriesService {
 
 	getAllCategories(): Observable<ICategory[]> {
 		const uniqueParam = `cahceBuster=${new Date().getTime()}`;
-		const cacheBusterUrl = `https://api-endpoint.abaqelanayah.com/api/Category/GetAll`
+		const cacheBusterUrl = `https://api-endpoint.abaqelanayah.com/api/Category/GetAll?${uniqueParam}`
 		return this.httpClient.get<ICategory[]>(`${cacheBusterUrl}`);
 	}
 
 	getAllWithSubCategories(): Observable<ICategory[]> {
 		const uniqueParam = `cahceBuster=${new Date().getTime()}`;
-		const cacheBusterUrl = `https://api-endpoint.abaqelanayah.com/api/Category/GetAllWithSubCategories`
+		const cacheBusterUrl = `https://api-endpoint.abaqelanayah.com/api/Category/GetAllWithSubCategories?${uniqueParam}`
 		return this.httpClient.get<ICategory[]>(`${cacheBusterUrl}`);
 	}
 
 	getSelectedCategories(): Observable<ICategory[]> {
 		const uniqueParam = `cahceBuster=${new Date().getTime()}`;
-		const cacheBusterUrl = `https://api-endpoint.abaqelanayah.com/api/Category/GetSelectedCategories`
+		const cacheBusterUrl = `https://api-endpoint.abaqelanayah.com/api/Category/GetSelectedCategories?${uniqueParam}`
 		return this.httpClient.get<ICategory[]>(`${cacheBusterUrl}`);
 	}
 }

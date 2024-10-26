@@ -1,9 +1,7 @@
 import { inject } from '@angular/core';
 import {
 	HttpRequest,
-	HttpHandlerFn,
-	HttpEvent,
-	HttpResponse,
+	HttpHandlerFn
 } from '@angular/common/http';
 import { finalize, tap } from 'rxjs';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
