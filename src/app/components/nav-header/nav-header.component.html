@@ -1,18 +1,18 @@
 <nav>
     <div class="row">
-        <div class="col-12 col-md-2 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
+        <div class="col-6 col-md-2 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
             (click)="navigateToHome()">
-            <img [ngClass]="direction === 'rtl' ? 'me-5': 'ms-5'" class="my-1" src="assets/ICON.png" width="50px"
-                height="50px" alt="">
+            <img [ngClass]="direction === 'rtl' ? 'me-md-5': 'ms-md-5'" class="my-1" src="assets/ICON.png" width="50px"
+                height="50px" alt="Abaq Elanayah">
             <img class="my-1"
                 [src]="direction === 'rtl' ? 'assets/عبق العنايه-03-03.png' :'assets/Abaq Elanayah-03.png'"
-                width="120px" height="50px" alt="">
+                width="120px" height="50px" alt="Abaq Elanayah">
         </div>
-        <div class="col-12 col-md-8 text-center">
+        <div class="search col-12 col-md-8 text-center">
             <p-autoComplete [placeholder]="'Search' | translate" [suggestions]="resultSearch"
                 (onSelect)="selectValue($event)" (input)="searchGolbal($event)" field="name" />
         </div>
-        <div class="col-12 col-md-2" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+        <div class="col-6 col-md-2" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
             <a [ngClass]="direction === 'rtl' ? 'me-5': 'ms-5'" (click)="showSideBar()" class="pi pi-shopping-bag"
                 severity="warning" pBadge [value]="'' + cartService.getCartength ? cartService.getCartength : 0"></a>
             <p-dropdown [options]="countries" [(ngModel)]="selectedLanguage" optionLabel="name"
@@ -20,7 +20,7 @@
                 <ng-template pTemplate="selectedItem">
                     <div class="flex align-items-center gap-2" *ngIf="selectedLanguage">
                         <img [src]="selectedLanguage.image" [class]="'flag flag-' + selectedLanguage.code.toLowerCase()"
-                            style="width: 18px" />
+                            style="width: 25px; padding-inline-end: 5px;" />
                     </div>
                 </ng-template>
                 <ng-template let-country pTemplate="item">
@@ -31,7 +31,7 @@
                 </ng-template>
             </p-dropdown>
             <p-dropdown *ngIf="!user" [options]="users" [(ngModel)]="selectedUsers" optionLabel="name"
-                (ngModelChange)="navigateToSign($event)" [placeholder]="'MyAccount' | translate"></p-dropdown>
+                (ngModelChange)="navigateToSign($event)" class="pi pi-user"></p-dropdown>
             <a *ngIf="user" (click)="logOut()">{{"LogOut" | translate}}</a>
         </div>
     </div>
@@ -42,7 +42,7 @@
     <span *ngFor="let res of carts; index as i" class="card mb-2">
         <div class="row m-2">
             <div class="col-2">
-                <img class="d-block" [src]="sanitizationImage(res.coverImg)" alt="">
+                <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{res.coverImg}}" [alt]="res.coverImg">
             </div>
             <div class="col-8">
                 <div>
@@ -52,7 +52,7 @@
                     {{"AvailableQuantity" | translate}}: {{res.qty}}
                 </div>
                 <div class="price">
-                    <span [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                    <span style="font-weight: bolder; display: block;" [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
                         {{"SAR" | translate}} {{res.price}}</span>
                     <span> ({{"VATIncluded" | translate}})</span>
                 </div>
@@ -79,6 +79,7 @@
                     optionLabel="name" [placeholder]="'ReceivingTheOrder' | translate"></p-dropdown>
             </div>
             <div class="col-12 my-1" *ngIf="totalPrice">
+                <h4>{{"ApplicationSummary" | translate}}</h4>
                 <h6 style="display: inline-block;">{{"TotalPrice" | translate }}</h6>: {{totalPrice}} {{"SAR" |
                 translate }}
             </div>
@@ -139,7 +140,7 @@
             </div>
             <div class="card row m-2" *ngFor="let res of order?.items; index as i">
                 <div class="col-2">
-                    <img class="d-block" [src]="sanitizationImage(res.productImage)" alt="">
+                    <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
                 </div>
                 <div class="col-12">
                     <div>
@@ -185,12 +186,17 @@
 </p-dialog>
 
 
+<p-dialog [header]="'Login' | translate" [modal]="true" [(visible)]="visibleLogin" [style]="{ width: '50rem' }">
+    <app-login (closePopup)="closePopupLogin($event)"></app-login>
+</p-dialog>
+
+
 <!-- <p-dialog [header]="'VisaCard' | translate" [modal]="true" [(visible)]="visibleCardDialog" [style]="{ width: '30rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
     <form [formGroup]="cardForm" (ngSubmit)="saveCard()">
         <div class="row">
             <div class="col-12">
-                <img src="assets/R.png" width="100%" alt="">
+                <img src="assets/R.png" width="100%" [alt]="res.coverImg">
             </div>
             <div class="col-12 mb-2">
                 <p-inputMask formControlName="Number" class="mask" mask="9999-9999-9999-9999"

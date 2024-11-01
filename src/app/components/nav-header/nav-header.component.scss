@@ -122,7 +122,11 @@ button {
 }
 
 ::ng-deep .p-dropdown-label {
-    padding-inline-end: 5px;
+    padding: 0;
+}
+
+.pi {
+    margin: 10px;
 }
 
 ::ng-deep .p-dropdown-trigger {
@@ -133,6 +137,7 @@ button {
 ::ng-deep .p-autocomplete {
     width: 100%;
     margin-top: 5px;
+
     .pi-search {
         color: $base-input-color;
     }
@@ -162,4 +167,10 @@ button {
     color: white;
     padding: 3px 9px 7px 10px;
     border-radius: 18px;
+}
+
+@media (max-width: 767px) {
+    .search {
+        display: none;
+    }
 }

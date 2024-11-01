@@ -8,7 +8,7 @@ import { IProducts } from '../../models/products';
 })
 export class ProductsService {
     pageNo: number = 1;
-    pageSize: number = 10;
+    pageSize: number = 12;
     constructor(private http: HttpClient) { }
 
     getAllProducts(): Observable<{ products: IProducts[], totalCount: number }> {

@@ -96,6 +96,7 @@ export class BestProductsComponent {
 		this.productsService.pageNo = event.page + 1;
 		this.first = event.first;
 		this.rows = event.rows;
+		scroll(0, 0);
 		this.filter();
 	}
 

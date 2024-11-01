@@ -8,12 +8,13 @@
 }
 
 .overlay {
-    background-color: black;
+    background-color: white;
     width: 100%;
     height: 100%;
     top: 0;
     position: fixed;
     z-index: 1;
+    opacity: .3;
 }
 
 .loader {
@@ -21,4 +22,14 @@
     top: 40%;
     left: 50%;
     z-index: 2;
+}
+
+.header {
+    width: 100%;
+    top: 0;
+    z-index: 999999;
+}
+
+.fixed {
+    position: fixed;
 }

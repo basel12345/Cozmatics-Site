@@ -89,5 +89,9 @@
     "OrderAlreadyToCart": "Order Already To Cart",
     "Register": "Register",
     "Login": "Login",
-    "Reviews": "Reviews"
+    "Reviews": "Reviews",
+    "TermsOfUse": "Terms of Use",
+    "PrivacyPolicy": "privacy policy",
+    "WhoAreWe": "Who are we",
+    "ApplicationSummary": "Application Summary"
 }

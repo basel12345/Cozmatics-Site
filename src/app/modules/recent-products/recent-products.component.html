@@ -1,35 +1,37 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 col-12" *ngIf="Brands">
-            <p-panel [header]="'Brand' | translate" [toggleable]="true">
+            <p-panel [header]="'Brand' | translate" [toggleable]="true" [collapsed]="true">
                 <div class="my-1" *ngFor="let res of Brands">
                     <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel [header]="'Category' | translate" [toggleable]="true">
+            <p-panel [header]="'Category' | translate" [toggleable]="true" [collapsed]="true">
                 <div class="my-1" *ngFor="let res of Category">
                     <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel [header]="'Price' | translate" [toggleable]="true">
+            <p-panel [header]="'Price' | translate" [toggleable]="true" [collapsed]="true">
                 <div>
                     <div>
                         <label for="">{{"From" | translate}}</label>
-                        <input type="number" class="form-control" [placeholder]="'From' | translate" [(ngModel)]="rangePrice[0]">
+                        <input type="number" class="form-control" [placeholder]="'From' | translate"
+                            [(ngModel)]="rangePrice[0]">
                     </div>
                     <div>
                         <label for="">{{"To" | translate}}</label>
-                        <input type="number" class="form-control" [placeholder]="'To' | translate" [(ngModel)]="rangePrice[1]">
+                        <input type="number" class="form-control" [placeholder]="'To' | translate"
+                            [(ngModel)]="rangePrice[1]">
                     </div>
                 </div>
             </p-panel>
             <div class="filter">
-                <p-button class="filter-btn" (onClick)="productsService.pageNo = 1;first=1;filter()" [label]="'Filter' | translate" [text]="true"
-                    severity="help"></p-button>
+                <p-button class="filter-btn" (onClick)="productsService.pageNo = 1;first=1;filter()"
+                    [label]="'Filter' | translate" [text]="true" severity="help"></p-button>
             </div>
         </div>
         <div class="col-md-10 col-12">
@@ -57,7 +59,8 @@
                                         {{"SAR" | translate}}
                                         {{res.price}}<span> ({{"VATIncluded" | translate}})</span>
                                     </div>
-                                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price - ((+res.discountPercentage
+                                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}}
+                                        {{+res.price - ((+res.discountPercentage
                                         /
                                         100 ) * +res.price) | trimDecimalPipe}}
                                     </div>
@@ -67,8 +70,8 @@
                             <div class="footer">
                                 <p-button *ngIf="!res.hasAttr" [icon]="Cart"
                                     (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
-                                    [label]="('AddToCart' | translate)" [text]="true"
-                                    severity="help" [disabled]="!res.qty"></p-button>
+                                    [label]="('AddToCart' | translate)" [text]="true" severity="help"
+                                    [disabled]="!res.qty"></p-button>
                                 <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
                                     [label]="'ViewProduct' | translate" [text]="true" severity="help"></p-button>
                             </div>

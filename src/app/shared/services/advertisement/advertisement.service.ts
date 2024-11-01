@@ -11,6 +11,6 @@ export class AdvertisementService {
 
     getAllAdvertisement(): Observable<IAdvertisement[]> {
         const uniqueParam = `cahceBuster=${new Date().getTime()}`;
-        return this.http.get<IAdvertisement[]>(`https://api-endpoint.abaqelanayah.com/api/Advertisement/GetAll`);
+        return this.http.get<IAdvertisement[]>(`https://api-endpoint.abaqelanayah.com/api/Advertisement/GetAll?${uniqueParam}`);
     }
 }

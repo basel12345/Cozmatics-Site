@@ -1,21 +1,21 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 col-12" *ngIf="Brands && !queryParams">
-            <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true">
+            <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true" [collapsed]="true">
                 <div class="my-1" *ngFor="let res of Brands">
                     <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true">
+            <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true" [collapsed]="true">
                 <div class="my-1" *ngFor="let res of Category">
                     <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel [header]="'Price'| translate" [toggleable]="true">
+            <p-panel [header]="'Price'| translate" [toggleable]="true" [collapsed]="true">
                 <div>
                     <div>
                         <label for="">{{"From" | translate}}</label>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </p-panel>
-            <p-panel [header]="'Tags' | translate" [toggleable]="true">
+            <p-panel [header]="'Tags' | translate" [toggleable]="true" [collapsed]="true">
                 <div class="my-1" *ngFor="let res of TagValues">
                     <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res"
                         (onChange)="selectSearchTags($event.checked, res)"></p-checkbox>

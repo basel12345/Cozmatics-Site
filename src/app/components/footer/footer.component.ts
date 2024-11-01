@@ -18,15 +18,15 @@ export class FooterComponent implements OnInit {
   faTiktok = faTiktok;
   faSnapchat = faSnapchat;
   categories!: ICategory[];
+  year!: number;
   constructor(
     private categoriesService: CategoriesService,
     private router: Router
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getSelectedCategories();
+    this.year = new Date().getFullYear();
   }
 
   getSelectedCategories() {

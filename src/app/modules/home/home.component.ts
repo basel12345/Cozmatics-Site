@@ -16,11 +16,12 @@ import { ICart } from '../../shared/models/cart';
 import { Tags } from '../../shared/models/tags';
 import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
 	selector: 'app-home',
 	standalone: true,
-	imports: [CarouselModule, ButtonModule, TrimDecimalPipe, RatingModule, FormsModule, TranslateModule],
+	imports: [CarouselModule, ButtonModule, TrimDecimalPipe, RatingModule, FormsModule, TranslateModule, SkeletonModule],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss'
 })

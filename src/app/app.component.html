@@ -1,7 +1,8 @@
-
 <div [dir]="direction ? direction : 'ltr'" style="overflow: hidden;">
-    <app-nav-header></app-nav-header>
-    <app-navbar></app-navbar>
+    <div class="header" [ngClass]="{'fixed': isFixed}">
+        <app-nav-header></app-nav-header>
+        <app-navbar></app-navbar>
+    </div>
     <router-outlet></router-outlet>
     <app-footer></app-footer>
 

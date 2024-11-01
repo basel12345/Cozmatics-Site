@@ -5,7 +5,7 @@
     "LogOut": "تسجيل خروج",
     "AvailableQuantity": "الكمية المتاحة",
     "Cart": "العربة",
-    "SAR": "ريال سعودي",
+    "SAR": "ر.س",
     "VATIncluded": "شامل ضريبة القيمة المضافة",
     "TotalPrice": "السعر الكلي",
     "Address": "عنوان",
@@ -26,7 +26,7 @@
     "Categories": "فئات",
     "Brands": "العلامات التجارية",
     "Shop": "المحل",
-    "ReceivingTheOrder": "استلام الطلب",
+    "ReceivingTheOrder": "اختر استلام الطلب",
     "MyAccount": "حسابي",
     "AddToCart": "اضافة الى العربة",
     "Done": "تم",
@@ -53,7 +53,7 @@
     "Add": "اضافة",
     "AddCard": "اضافة كارت الفيزا",
     "Tags": "العلامات",
-    "PlaceOrder": "شراء",
+    "PlaceOrder": "إتمام الطلب",
     "TotalProducts": "كل المنتجات",
     "FirstName": "الأسم الأول",
     "LastName": " الأسم الأخير",
@@ -89,5 +89,9 @@
     "OrderAlreadyToCart": "تم اضافة الطلب في عربة التسوق مسبقا",
     "Register": "تسجيل",
     "Login": "تسجيل دخول",
-    "Reviews": "المراجعات"
+    "Reviews": "المراجعات",
+    "TermsOfUse": "سياسة الاستخدام",
+    "PrivacyPolicy": "سياسة الخصوصية",
+    "WhoAreWe": "من نحن",
+    "ApplicationSummary": "ملخص الطلب"
 }

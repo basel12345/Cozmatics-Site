@@ -39,7 +39,6 @@ export class BrandsComponent implements OnInit {
 		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
 	}
 
-
 	naviateToBraand(id: number) {
 		this.router.navigate([`./productsByBrand`], {
 			queryParams: {

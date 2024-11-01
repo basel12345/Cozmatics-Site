@@ -1,9 +1,10 @@
 @use "../../../assets/styles/colors" as *;
 
 footer {
-    background-color: white;
+    background-color: $main-color;
     padding: 50px;
     margin: 60px 0 0 0;
+
     h5 {
         margin-bottom: 40px;
     }
@@ -13,6 +14,7 @@ footer {
             display: flex;
             justify-content: space-between;
             padding: 0 0 0 13px;
+
             li {
                 list-style: none;
 
@@ -20,12 +22,30 @@ footer {
                     color: black;
                     text-decoration: none;
                     cursor: pointer;
+
                     &:hover {
                         text-decoration-line: underline;
                         text-decoration-color: black;
                     }
                 }
             }
+        }
+    }
+
+    .categories,
+    .contact {
+        position: relative;
+
+        &::after {
+            content: "";
+            display: block;
+            width: 1px;
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            top: 0;
+            right: 0;
+            opacity: .2;
         }
     }
 
@@ -55,6 +75,8 @@ footer {
             background: $base-color;
             padding: 8px;
             border-radius: 23%;
+            width: 41px;
+            text-align: center;
 
             .pi {
                 font-size: 1.5rem
@@ -79,4 +101,42 @@ footer {
             }
         }
     }
+
+    .copy-right {
+        ul {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0 0 13px;
+
+            li {
+                list-style: none;
+
+                a {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+
+                    &:hover {
+                        text-decoration-line: underline;
+                        text-decoration-color: black;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 375px) and (max-width: 775px) {
+    footer {
+
+        .categories,
+        .contact {
+            position: relative;
+
+            &::after {
+                display: none;
+            }
+        }
+    }
+
 }

@@ -29,6 +29,7 @@ import { CardService } from '../../shared/services/card/card.service';
 import { EncryptionService } from '../../shared/services/encryption/encryption.service';
 import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { ProductsService } from '../../shared/services/products/products.service';
+import { LoginComponent } from '../../modules/login/login.component';
 
 type Droplist = {
 	name: string;
@@ -38,7 +39,7 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule],
+	imports: [LoginComponent, MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
@@ -75,6 +76,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	shipmentCost: number = 0;
 	ordersByCustomerId: any;
 	areas: any;
+	visibleLogin: boolean = false;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -209,18 +211,11 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	changeLanguage(lang: DropdownChangeEvent) {
 		this.selectedLanguage = lang.value;
 		if (lang.value.code === "EN") {
-			this.translate.use("en");
 			localStorage.setItem("lang", "en");
 		} else {
-			this.translate.use("ar");
 			localStorage.setItem("lang", "ar");
 		}
-		this.direction = localStorage.getItem("lang") === 'ar' ? "rtl" : "ltr";
 		window.location.replace('home');
-	}
-
-	sanitizationImage(image: string): SafeResourceUrl {
-		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
 	}
 
 	showSideBar() {
@@ -374,7 +369,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			};
 			this.placeOrderReq();
 		} else {
-			this.toastrSerice.error(this.translate.instant("PleaseLogInFirst"), this.translate.instant("Error"));
+			// this.toastrSerice.error(this.translate.instant("PleaseLogInFirst"), this.translate.instant("Error"));
+			this.visibleLogin = true;
 		};
 	}
 
@@ -388,6 +384,10 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	showCardDialog() {
 		this.visibleCardDialog = true;
+	}
+
+	closePopupLogin(event: boolean) {
+		this.visibleLogin = !event;
 	}
 
 

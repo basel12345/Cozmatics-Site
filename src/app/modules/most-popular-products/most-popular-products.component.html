@@ -1,21 +1,21 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 col-12" *ngIf="Brands">
-            <p-panel [header]="'Brand' | translate" [toggleable]="true">
+            <p-panel [header]="'Brand' | translate" [toggleable]="true" [collapsed]="true">
                 <div class="my-1" *ngFor="let res of Brands">
                     <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel [header]="'Category' | translate" [toggleable]="true">
+            <p-panel [header]="'Category' | translate" [toggleable]="true" [collapsed]="true">
                 <div class="my-1" *ngFor="let res of Category">
                     <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
                     <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel [header]="'Price' | translate" [toggleable]="true">
+            <p-panel [header]="'Price' | translate" [toggleable]="true" [collapsed]="true">
                 <div>
                     <div>
                         <label>{{"From" | translate}}</label>
@@ -30,8 +30,8 @@
                 </div>
             </p-panel>
             <div class="filter">
-                <p-button class="filter-btn" (onClick)="productsService.pageNo = 1;first=1;filter()" [label]="'Filter' | translate" [text]="true"
-                    severity="help"></p-button>
+                <p-button class="filter-btn" (onClick)="productsService.pageNo = 1;first=1;filter()"
+                    [label]="'Filter' | translate" [text]="true" severity="help"></p-button>
             </div>
         </div>
         <div class="col-md-10 col-12">

@@ -161,6 +161,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		this.productsService.pageNo = event.page + 1;
 		this.first = event.first;
 		this.rows = event.rows;
+		scroll(0, 0);
 		if(this.isFilterByProducts) {
 			this.filterProducts(this.queryParams.BrandId, this.queryParams.CatId, this.queryParams.Discount, this.queryParams.Tag)
 		} else {

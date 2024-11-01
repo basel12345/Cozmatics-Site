@@ -2,13 +2,16 @@
     <div class="container">
         <div class="row">
             <div class="categories col-md-4 col-sm-6 col-12">
-                <h5>{{"PopularCategories" | translate }}</h5>
-                <ul class="row">
-                    <li *ngFor="let res of categories" class="col-6 col-md-12 px-1"><a (click)="navgiateToCategried(res.id)">{{res.name}}</a></li>
-                </ul>
+                <div class="mx-5 my-1">
+                    <h5>{{"PopularCategories" | translate }}</h5>
+                    <ul class="row">
+                        <li *ngFor="let res of categories" class="col-12 px-1"><a
+                                (click)="navgiateToCategried(res.id)">{{res.name}}</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="contact col-md-3 col-sm-6 col-12">
-                <div class="mx-5">
+                <div class="mx-5 my-1">
                     <h5>{{"ContactUs" | translate }}</h5>
                     <ul>
                         <li class="pb-3"><a>0540043934</a></li>
@@ -16,7 +19,7 @@
                 </div>
             </div>
             <div class="social col-md-3 col-sm-6 col-12">
-                <div class="mx-5">
+                <div class="mx-5 my-1">
                     <h5>{{"Links" | translate }}</h5>
                     <ul>
                         <li><a target="_blank"
@@ -35,6 +38,31 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+        </div>
+        <hr style="margin-bottom: 20px;">
+        <div class="row copy-right">
+            <div class="col-12 col-md-6">
+                <p>&copy; {{year}} Abaq Elanayah. All rights reserved.</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <ul>
+                    <li>
+                        <a>
+                            {{"TermsOfUse" | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            {{"PrivacyPolicy" | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            {{"WhoAreWe" | translate}}
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
