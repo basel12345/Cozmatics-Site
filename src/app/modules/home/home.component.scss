@@ -146,6 +146,7 @@
     .container-fluid {
         .categories {
             a {
+            width: calc(100% / 4);
                 img {
                     max-width: 100%;
                     max-height: 80%;

@@ -50,6 +50,7 @@ export class RegisterComponent implements OnInit {
 	register(): void {
 		this.submitted = true;
 		if (this.registerForm.valid) {
+			this.registerForm.get("phone")?.patchValue("+966" + this.registerForm.get("phone")?.getRawValue())
 			this.service.register(this.registerForm.getRawValue()).subscribe(res => {
 				localStorage.setItem('user', JSON.stringify(res));
 				localStorage.setItem('token', JSON.stringify(res.token));

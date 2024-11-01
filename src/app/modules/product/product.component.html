@@ -3,15 +3,16 @@
         <div class="col-1">
             <p-scrollPanel [style]="{ width: '100%', height: '300px' }">
                 <img width="80px" height="80px" *ngFor="let res of product?.productImgs" class="d-block mb-2"
-                    [src]="sanitizationImage(res.image)" alt="" (click)="selectImage(res.image)">
+                    src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath"
+                    (click)="selectImage(res.imagePath)">
             </p-scrollPanel>
         </div>
         <div class="col-11 col-md-6">
-            <img width="100%" height="500px" [src]=" selectedImage ? selectedImage :  sanitizationImage(coverImage)"
-                alt="">
+            <img width="100%" height="500px" [alt]="selectedImage ? selectedImage : coverImage"
+                [src]="selectedImage ? 'https://api-endpoint.abaqelanayah.com' + selectedImage : 'https://api-endpoint.abaqelanayah.com' + coverImage">
         </div>
         <div class="col-12 col-md-5 desc">
-            <img class="d-block" [src]="sanitizationImage(product.brandImg)" alt="">
+            <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{product.imagePath}}" [alt]="product.imagePath">
             <h6 class="mt-2">{{product.name}}</h6>
             <div class="mt-2">
                 {{"AvailableTotalQuantity" | translate}}: {{product.qty ? product.qty : 0}}

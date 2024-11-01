@@ -19,6 +19,15 @@
                 width: 100%;
             }
 
+            .phone {
+                display: flex;
+                span {
+                    padding: 10px;
+                    border: 1px solid #d1d5db;
+                    font-weight: bolder;
+                }
+            }
+
         }
 
         .invalid {

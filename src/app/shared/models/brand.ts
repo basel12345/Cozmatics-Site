@@ -3,4 +3,5 @@ export interface IBrand {
     id: number,
     categories: Array<any>;
     image: string;
+    imagePath: string;
 }

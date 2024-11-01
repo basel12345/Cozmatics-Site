@@ -1,4 +1,3 @@
-import { LoadingService } from './../../shared/services/loading/loading.service';
 import { IProducts } from './../../shared/models/products';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
@@ -13,13 +12,12 @@ import { PaginatorModule } from 'primeng/paginator';
 import { RatingModule } from 'primeng/rating';
 import { IBrand } from '../../shared/models/brand';
 import { ProductsService } from '../../shared/services/products/products.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { ICart } from '../../shared/models/cart';
 import { SliderModule } from 'primeng/slider';
 import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
 
 @Component({
@@ -56,10 +54,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
-		public sanitizer: DomSanitizer,
 		public cartService: CartService,
-		private loadingService: LoadingService,
-		private translateService: TranslateService
 	) { }
 
 	ngOnInit(): void {
@@ -93,11 +88,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			this.titlePage = "TotalProducts";
 		})
 	}
-
-	sanitizationImage(image: string): SafeResourceUrl {
-		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
-	}
-
 
 	getAllData() {
 		this.subscription = this.route.data.subscribe(res => {

@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <div class="row categories" *ngIf="selectedCategories?.length">
         <a *ngFor="let res of selectedCategories" (click)="categories(res.id)">
-            <img [src]="res.img? sanitizationImage(res.img) : 'assets/ICON.png'"
-                alt="">
+            <img [src]="res.imagePath ? 'https://api-endpoint.abaqelanayah.com' + res.imagePath : 'assets/ICON.png'"
+                [alt]="res.imagePath">
             <h4>{{res.name}}</h4>
         </a>
     </div>
@@ -11,7 +11,7 @@
             [responsiveOptions]="responsiveOptions">
             <ng-template let-res pTemplate="item">
                 <img (click)="advertisement(res.brandId, res.categoryId, res.discount, res.tag)"
-                    [src]="sanitizationImage(res.img)" alt="">
+                    src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
             </ng-template>
         </p-carousel>
     </div>
@@ -30,7 +30,7 @@
                 <div class="m-1 p-2 card">
                     <span (click)="navigateToProduct(res.id)">
                         <div class="header">
-                            <img [src]="sanitizationImage(res.coverImg)" alt="">
+                            <img src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
                         </div>
                         <div class="body">
                             <div class="brand">{{res.brandName}}</div>
@@ -57,7 +57,7 @@
                     <hr>
                     <div class="footer">
                         <p-button *ngIf="!res.hasAttr" [icon]="Cart"
-                            (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                            (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.imagePath, qty: res.qty})"
                             [label]="'AddToCart' | translate" [text]="true" severity="help"
                             [disabled]="!res.qty"></p-button>
                         <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
@@ -72,7 +72,8 @@
         <p-carousel dir="ltr" [value]="brandIdAdvertisement" [numVisible]="1" [numScroll]="1" [circular]="true"
             [responsiveOptions]="responsiveOptions">
             <ng-template let-res pTemplate="item">
-                <img (click)="navigateToBrands(res.brandId)" [src]="sanitizationImage(res.img)" alt="">
+                <img (click)="navigateToBrands(res.brandId)"
+                    src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
             </ng-template>
         </p-carousel>
     </div>
@@ -92,7 +93,7 @@
                 <div class="m-1 p-2 card">
                     <span (click)="navigateToProduct(res.id)">
                         <div class="header">
-                            <img [src]="sanitizationImage(res.coverImg)" alt="">
+                            <img src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
                         </div>
                         <div class="body">
                             <div class="brand">{{res.brandName}}</div>
@@ -119,7 +120,7 @@
                     <hr>
                     <div class="footer">
                         <p-button *ngIf="!res.hasAttr" [icon]="Cart"
-                            (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                            (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.imagePath, qty: res.qty})"
                             [label]="'AddToCart' | translate" [text]="true" severity="help"
                             [disabled]="!res.qty"></p-button>
                         <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"
@@ -145,7 +146,7 @@
                 <div class="m-1 p-2 card">
                     <span (click)="navigateToProduct(res.id)">
                         <div class="header">
-                            <img [src]="sanitizationImage(res.coverImg)" alt="">
+                            <img src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
                         </div>
                         <div class="body">
                             <div class="brand">{{res.brandName}}</div>
@@ -172,7 +173,7 @@
                     <hr>
                     <div class="footer">
                         <p-button *ngIf="!res.hasAttr"
-                            (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.coverImg, qty: res.qty})"
+                            (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.imagePath, qty: res.qty})"
                             [label]="('AddToCart' | translate)" [text]="true" severity="help"
                             [disabled]="!res.qty"></p-button>
                         <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"

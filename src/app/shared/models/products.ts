@@ -16,11 +16,12 @@ export interface IProducts {
     brandName: string;
     productImgs: [
         {
-            image: string;
+            imagePath: string;
             isCover: boolean;
         }
     ];
     attributeValues: Array<any>;
     hasAttr: boolean;
     creationDate?: string;
+    imagePath: string;
 }

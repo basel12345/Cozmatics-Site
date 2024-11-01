@@ -2,7 +2,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LoadingService } from './../../shared/services/loading/loading.service';
 import { IProducts } from './../../shared/models/products';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
@@ -12,7 +12,6 @@ import { PaginatorModule } from 'primeng/paginator';
 import { RatingModule } from 'primeng/rating';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../shared/services/products/products.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable, Subscription, of } from 'rxjs';
 import { IBrand } from '../../shared/models/brand';
 import { ICategory } from '../../shared/models/category';
@@ -47,9 +46,7 @@ export class BestProductsComponent {
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
-		public sanitizer: DomSanitizer,
 		public cartService: CartService,
-		private loadingService: LoadingService
 	) { }
 
 	ngOnInit(): void {
@@ -64,10 +61,6 @@ export class BestProductsComponent {
 			this.Brands = res['Brands'];
 			this.Category = res['Category'];
 		});
-	}
-
-	sanitizationImage(image: string): SafeResourceUrl {
-		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
 	}
 
 	selectSearch(checked: boolean, value: number) {

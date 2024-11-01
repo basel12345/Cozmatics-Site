@@ -6,5 +6,6 @@ export interface ICategory {
     parentId: number;
     isSelected: boolean,
     subCategories: [],
-    img?: string
+    img?: string;
+    imagePath: string;
 }

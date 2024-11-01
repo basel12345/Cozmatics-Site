@@ -1,9 +1,8 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { LoadingService } from './../../shared/services/loading/loading.service';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { IProducts } from './../../shared/models/products';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
@@ -13,7 +12,6 @@ import { PaginatorModule } from 'primeng/paginator';
 import { RatingModule } from 'primeng/rating';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../shared/services/products/products.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable, Subscription, of } from 'rxjs';
 import { IBrand } from '../../shared/models/brand';
 import { SliderModule } from 'primeng/slider';
@@ -48,9 +46,7 @@ export class MostPopularProductsComponent {
         private route: ActivatedRoute,
         private router: Router,
         public productsService: ProductsService,
-        public sanitizer: DomSanitizer,
-        public cartService: CartService,
-        private loadingService: LoadingService
+        public cartService: CartService
     ) { }
 
     ngOnInit(): void {
@@ -64,10 +60,6 @@ export class MostPopularProductsComponent {
             this.Brands = res['Brands'];
             this.Category = res['Category'];
         });
-    }
-
-    sanitizationImage(image: string): SafeResourceUrl {
-        return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
     }
 
     selectSearch(checked: boolean, value: number) {

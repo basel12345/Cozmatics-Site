@@ -1,15 +1,12 @@
-import { LoadingService } from './../../shared/services/loading/loading.service';
 import { FormsModule } from '@angular/forms';
 import { IAdvertisement } from './../../shared/models/advertisement';
 import { IProducts } from './../../shared/models/products';
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
-import { IBrand } from '../../shared/models/brand';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
 import { ICategory } from '../../shared/models/category';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RatingModule } from 'primeng/rating';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { ICart } from '../../shared/models/cart';
@@ -27,7 +24,6 @@ import { SkeletonModule } from 'primeng/skeleton';
 })
 export class HomeComponent implements OnInit {
 	responsiveOptions: any[] | undefined;
-	brands!: IBrand[];
 	@ViewChildren('sectionRef') sectionRef!: QueryList<any>;
 	products!: IProducts[];
 	selectedCategories!: ICategory[];
@@ -43,10 +39,8 @@ export class HomeComponent implements OnInit {
 	Cart = PrimeIcons.SHOPPING_CART
 	constructor(
 		private route: ActivatedRoute,
-		public sanitizer: DomSanitizer,
 		private router: Router,
-		public cartService: CartService,
-		private loadingService: LoadingService
+		public cartService: CartService
 	) {
 	}
 	ngOnInit(): void {
@@ -72,7 +66,6 @@ export class HomeComponent implements OnInit {
 
 	getDataHome() {
 		this.route.data.subscribe(res => {
-			this.brands = res['Brands'];
 			this.products = res['Products']?.products;
 			this.selectedCategories = res['selectedCategories'];
 			this.Advertisement = res['Advertisement'];
@@ -84,11 +77,7 @@ export class HomeComponent implements OnInit {
 			this.lang = localStorage.getItem("lang");
 		});
 	}
-
-	sanitizationImage(image: string): SafeResourceUrl {
-		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
-	}
-
+	
 	categories(id: number) {
 		this.router.navigate(['productsByCategory'], {
 			queryParams: {

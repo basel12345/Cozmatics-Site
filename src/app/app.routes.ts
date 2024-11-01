@@ -18,7 +18,6 @@ export const routes: Routes = [
         pathMatch: "full",
         resolve: {
             Products: ProductsResolver,
-            Brands: BrandsResolver,
             selectedCategories: SelectedCategoriesResolver,
             Advertisement: AdvertisementResolver,
             RecentProducts: RecentProductsResolver,
@@ -71,7 +70,6 @@ export const routes: Routes = [
         loadComponent: () => import("./modules/home/home.component").then(c => c.HomeComponent),
         resolve: {
             Products: ProductsResolver,
-            Brands: BrandsResolver,
             selectedCategories: SelectedCategoriesResolver,
             Advertisement: AdvertisementResolver,
             RecentProducts: RecentProductsResolver,

@@ -2,7 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IUser } from './../../shared/models/user';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
@@ -24,6 +24,8 @@ export class LoginComponent implements OnInit {
 	submitted: boolean = false;
 	loginForm!: FormGroup;
 	direction!: string;
+	@Output() closePopup = new EventEmitter<boolean>();
+
 	constructor(private fb: FormBuilder, private service: AuthService, private router: Router, private toastr: ToastrService, private loadingService: LoadingService) { }
 
 	ngOnInit(): void {
@@ -45,6 +47,7 @@ export class LoginComponent implements OnInit {
 				localStorage.setItem('user', JSON.stringify(res));
 				localStorage.setItem('token', JSON.stringify(res.token));
 				this.router.navigate(['home']);
+				this.closePopup.emit(true);
 			}, err => {
 				this.toastr.error('Please verify your email and password', 'Error');
 			});

@@ -1,13 +1,12 @@
-import { LoadingService } from './../../shared/services/loading/loading.service';
 import { FormsModule } from '@angular/forms';
 import { IProducts } from './../../shared/models/products';
-import { Component, OnInit, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { RatingModule } from 'primeng/rating';
 import { CommonModule, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { TabViewModule } from 'primeng/tabview';
 import { IReview } from '../../shared/models/review';
 import { DialogModule } from 'primeng/dialog';
@@ -59,14 +58,11 @@ export class ProductComponent implements OnInit {
 	Cart = PrimeIcons.SHOPPING_CART
 	constructor(
 		private route: ActivatedRoute,
-		public sanitizer: DomSanitizer,
 		private reviewService: ReviewService,
 		private toastr: ToastrService,
 		public cartService: CartService,
 		private productService: ProductsService,
-		@Inject(PLATFORM_ID) private platformId: object,
-		private loadingService: LoadingService,
-		private translateService: TranslateService
+		@Inject(PLATFORM_ID) private platformId: object
 	) { }
 
 	ngOnInit(): void {
@@ -104,7 +100,7 @@ export class ProductComponent implements OnInit {
 		this.route.data.subscribe(res => {
 			this.product = res["Product"];
 			this.Review = res["Review"];
-			this.coverImage = this.product.productImgs.find(res => res.isCover)?.image ?? "";
+			this.coverImage = this.product.productImgs.find(res => res.isCover)?.imagePath ?? "";
 			this.attributeValuesColors = this.product.attributeValues.filter(res => (res.filter((data: any) => data.attributeId === 1)[0]))[0];
 			this.attributeValuesSizes = this.product.attributeValues.filter(res => (res.filter((data: any) => data.attributeId === 2)[0]))[0];
 			this.attributeValuesColors?.length ? this.colors = this.attributeValuesColors?.[0].value : this.sizes = this.attributeValuesSizes?.[0].value;
@@ -112,12 +108,8 @@ export class ProductComponent implements OnInit {
 		});
 	}
 
-	sanitizationImage(image: string): SafeResourceUrl {
-		return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64," + image);
-	}
-
 	selectImage(image: string) {
-		this.selectedImage = this.sanitizationImage(image);
+		this.selectedImage = image;
 	}
 
 

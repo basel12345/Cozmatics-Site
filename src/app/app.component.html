@@ -1,9 +1,11 @@
 <div [dir]="direction ? direction : 'ltr'" style="overflow: hidden;">
-    <div class="header" [ngClass]="{'fixed': isFixed}">
+    <div class="header">
         <app-nav-header></app-nav-header>
         <app-navbar></app-navbar>
     </div>
-    <router-outlet></router-outlet>
+    <div class="body">
+        <router-outlet></router-outlet>
+    </div>
     <app-footer></app-footer>
 
     <div *ngIf="(loadingService.isLoading | async) != 0" class="overlay">

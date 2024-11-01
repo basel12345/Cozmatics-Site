@@ -6,6 +6,6 @@
         </span>
     </div>
     <a *ngFor="let res of Brands | searchPipe: search" (click)="naviateToBraand(res.id)">
-        <img class="d-block" [src]="sanitizationImage(res.image)" alt="">
+        <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
     </a>
 </div>
