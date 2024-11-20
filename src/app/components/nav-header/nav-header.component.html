@@ -1,21 +1,20 @@
 <nav>
     <div class="row">
-        <div class="col-6 col-md-2 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
+        <div class="col-4 col-md-2 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
             (click)="navigateToHome()">
-            <img [ngClass]="direction === 'rtl' ? 'me-md-5': 'ms-md-5'" class="my-1" src="assets/ICON.png" width="50px"
-                height="50px" alt="Abaq Elanayah">
-            <img class="my-1"
-                [src]="direction === 'rtl' ? 'assets/عبق العنايه-03-03.png' :'assets/Abaq Elanayah-03.png'"
-                width="120px" height="50px" alt="Abaq Elanayah">
+            <img class="main-image my-1 d-none d-md-block"
+                [src]="direction === 'rtl' ? 'assets/Logo svg.svg' :'assets/Logo svg En Web.svg'" alt="Abaq Elanayah">
+            <img class="my-1 d-md-none d-sm-block"
+                [src]="direction === 'rtl' ? 'assets/Logo svg 02.svg' :'assets/Logo svg en 02.svg'" alt="Abaq Elanayah">
         </div>
         <div class="search col-12 col-md-8 text-center">
             <p-autoComplete [placeholder]="'Search' | translate" [suggestions]="resultSearch"
                 (onSelect)="selectValue($event)" (input)="searchGolbal($event)" field="name" />
         </div>
-        <div class="col-6 col-md-2" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+        <div class="col-8 col-md-2" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
             <a [ngClass]="direction === 'rtl' ? 'me-5': 'ms-5'" (click)="showSideBar()" class="pi pi-shopping-bag"
                 severity="warning" pBadge [value]="'' + cartService.getCartength ? cartService.getCartength : 0"></a>
-            <p-dropdown [options]="countries" [(ngModel)]="selectedLanguage" optionLabel="name"
+            <p-dropdown class="flag" [options]="countries" [(ngModel)]="selectedLanguage" optionLabel="name"
                 (onChange)="changeLanguage($event)">
                 <ng-template pTemplate="selectedItem">
                     <div class="flex align-items-center gap-2" *ngIf="selectedLanguage">
@@ -30,8 +29,10 @@
                     </div>
                 </ng-template>
             </p-dropdown>
-            <p-dropdown *ngIf="!user" [options]="users" [(ngModel)]="selectedUsers" optionLabel="name"
+            <span class="register">
+                <p-dropdown *ngIf="!user" [options]="users" [(ngModel)]="selectedUsers" optionLabel="name"
                 (ngModelChange)="navigateToSign($event)" class="pi pi-user"></p-dropdown>
+            </span>
             <a *ngIf="user" (click)="logOut()">{{"LogOut" | translate}}</a>
         </div>
     </div>
@@ -52,7 +53,8 @@
                     {{"AvailableQuantity" | translate}}: {{res.qty}}
                 </div>
                 <div class="price">
-                    <span style="font-weight: bolder; display: block;" [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                    <span style="font-weight: bolder; display: block;"
+                        [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
                         {{"SAR" | translate}} {{res.price}}</span>
                     <span> ({{"VATIncluded" | translate}})</span>
                 </div>
@@ -140,7 +142,8 @@
             </div>
             <div class="card row m-2" *ngFor="let res of order?.items; index as i">
                 <div class="col-2">
-                    <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">
+                    <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}"
+                        [alt]="res.imagePath">
                 </div>
                 <div class="col-12">
                     <div>

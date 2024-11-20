@@ -1,8 +1,8 @@
 <footer>
     <div class="container">
         <div class="row">
-            <div class="categories col-md-4 col-sm-6 col-12">
-                <div class="mx-5 my-1">
+            <div [ngClass]="lang === 'ar' ? 'text-end' : 'text-start'" class="categories col-md-3 col-sm-6 d-md-block d-none">
+                <div class="my-1">
                     <h5>{{"PopularCategories" | translate }}</h5>
                     <ul class="row">
                         <li *ngFor="let res of categories" class="col-12 px-1"><a
@@ -10,59 +10,61 @@
                     </ul>
                 </div>
             </div>
-            <div class="contact col-md-3 col-sm-6 col-12">
-                <div class="mx-5 my-1">
-                    <h5>{{"ContactUs" | translate }}</h5>
+            <div [ngClass]="lang === 'ar' ? 'text-end' : 'text-start'" class="links col-md-3 col-sm-6 col-6">
+                <div class="my-1">
+                    <h5>{{"Links" | translate }}</h5>
                     <ul>
-                        <li class="pb-3"><a>0540043934</a></li>
+                        <li>
+                            <a>
+                                {{"TermsOfUse" | translate}}
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                {{"PrivacyPolicy" | translate}}
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                {{"WhoAreWe" | translate}}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="social col-md-3 col-sm-6 col-12">
-                <div class="mx-5 my-1">
-                    <h5>{{"Links" | translate }}</h5>
+            <div [ngClass]="lang === 'ar' ? 'text-end' : 'text-start'" class="contact col-md-6 col-sm-6 col-6">
+                <div class="my-1">
+                    <h5>{{"ContactUs" | translate }}</h5>
                     <ul>
-                        <li><a target="_blank"
-                                href="https://www.facebook.com/profile.php?id=61550683795334&mibextid=2JQ9oc">
-                                <i class="pi pi-facebook"></i>
-                            </a></li>
-                        <li><a target="_blank" href="">
-                                <fa-icon [icon]="faSnapchat"></fa-icon>
-                            </a></li>
-                        <li><a target="_blank" href="https://www.instagram.com/abaq.elanayah?utm_source=qr">
-                                <i class="pi pi-instagram"></i>
-                            </a></li>
-                        <li><a target="_blank" href="https://www.tiktok.com/@abaq.elanayah?_t=8g2nAW70wqI&_r=1">
-                                <fa-icon [icon]="faTiktok"></fa-icon>
-                            </a>
-                        </li>
+                        <li class="pb-3"><fa-icon class="p-1" [icon]="faPhone"></fa-icon><a>0540043934</a></li>
+                        <li class="pb-3"><fa-icon class="p-1" [icon]="faWhatsapp"></fa-icon><a>0540043934</a></li>
+                        <li class="pb-3"><fa-icon class="p-1" [icon]="faEnvelope"></fa-icon><a>Abaq.alenaya&#64;gmail.com</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <hr style="margin-bottom: 20px;">
         <div class="row copy-right">
-            <div class="col-12 col-md-6">
-                <p>&copy; {{year}} Abaq Elanayah. All rights reserved.</p>
-            </div>
-            <div class="col-12 col-md-6">
+            <div class="social col-12 col-md-6">
                 <ul>
-                    <li>
-                        <a>
-                            {{"TermsOfUse" | translate}}
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            {{"PrivacyPolicy" | translate}}
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            {{"WhoAreWe" | translate}}
+                    <li class="m-1"><a target="_blank"
+                            href="https://www.facebook.com/profile.php?id=61550683795334&mibextid=2JQ9oc">
+                            <i class="pi pi-facebook"></i>
+                        </a></li>
+                    <li class="m-1"><a target="_blank" href="">
+                            <fa-icon [icon]="faSnapchat"></fa-icon>
+                        </a></li>
+                    <li class="m-1"><a target="_blank" href="https://www.instagram.com/abaq.elanayah?utm_source=qr">
+                            <i class="pi pi-instagram"></i>
+                        </a></li>
+                    <li class="m-1"><a target="_blank" href="https://www.tiktok.com/@abaq.elanayah?_t=8g2nAW70wqI&_r=1">
+                            <fa-icon [icon]="faTiktok"></fa-icon>
                         </a>
                     </li>
                 </ul>
+            </div>
+            <div class="copy col-12 col-md-6" [style.text-align]="lang === 'ar' ? 'left': 'right'">
+                <p>&copy; {{year}} Abaq Elanayah. All rights reserved.</p>
             </div>
         </div>
     </div>

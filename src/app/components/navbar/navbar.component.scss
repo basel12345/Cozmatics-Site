@@ -1,10 +1,17 @@
 @use "../../../assets/styles/colors" as *;
 
+.row {
+    background-color: $main-color;
+    height: 68px;
+    flex-wrap: nowrap;
+    padding: 0 16px 16px;
+}
+
 ::ng-deep .p-menubar {
     margin: 0 0 60px 0;
-    background-color: white;
     background-color: $main-color;
     border: none;
+
     ul {
         margin-bottom: 0;
         margin-left: 30px;
@@ -41,4 +48,27 @@
             color: black !important;
         }
     }
+}
+
+
+::ng-deep {
+    @media (max-width: 767px) {
+
+        .p-menubar,
+        .row {
+            background-color: white !important;
+        }
+
+        .p-menubar {
+            position: absolute;
+            width: 80vw;
+        }
+
+        .p-autocomplete {
+            input {
+                margin-left: 10px;
+            }
+        }
+    }
+
 }

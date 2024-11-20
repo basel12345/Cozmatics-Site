@@ -38,7 +38,7 @@
             <ng-container *ngIf="titlePage">
                 <div class="row">
                     <h3>{{titlePage | translate}}</h3>
-                    <div class="col-12 col-sm-6 col-md-3" *ngFor="let res of Products$ | async">
+                    <div class="col-12 col-sm-4" *ngFor="let res of Products$ | async">
                         <div class="m-1 p-2 card">
                             <span (click)="navigateToProduct(res.id)">
                                 <div class="header">

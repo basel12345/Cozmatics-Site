@@ -7,6 +7,8 @@
         border-radius: 20px;
         width: 35vw;
 
+
+
         .input {
             margin: 20px;
 
@@ -19,28 +21,17 @@
                 width: 100%;
             }
 
-            .phone {
-                display: flex;
-                span {
-                    padding: 10px;
-                    border: 1px solid #d1d5db;
-                    font-weight: bolder;
-                }
-            }
-
-        }
-
-        .invalid {
-            color: red;
         }
 
         .footer {
             text-align: center;
 
             p-button {
+                width: 100% !important;
+
                 ::ng-deep button {
+                    width: 100% !important;
                     margin: 25px 0;
-                    width: 464px;
                     border-radius: 50px;
                     background-color: black !important;
                 }
@@ -49,27 +40,24 @@
         }
     }
 
-    @media (min-width: 700px) and (max-width: 1320px) {
-        p-button {
-            ::ng-deep button {
-                width: 240px !important;
-            }
+}
+
+@media (max-width: 970px) {
+    .container {
+
+        form {
+            background-color: white;
+            border-radius: 20px;
+            width: 90vw;
         }
     }
+}
 
-    @media (min-width: 400px) and (max-width: 700px) {
-        p-button {
-            ::ng-deep button {
-                width: 100px !important;
-            }
-        }
-    }
+@media (max-width: 350px) {
+    .container {
 
-    @media only screen and (max-width: 1320px) {
-        .title {
-            img {
-                width: 230px;
-            }
+        .text-image {
+            width: 150px;
         }
     }
 }

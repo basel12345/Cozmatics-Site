@@ -1,6 +1,7 @@
 @import "../../../assets/styles/colors.scss";
 
 nav {
+    padding: 16px 16px 0 16px;
     background-color: #ffdd01;
 
     .row {
@@ -126,13 +127,22 @@ button {
 }
 
 .pi {
-    margin: 10px;
+    margin: 5px;
 }
 
 ::ng-deep .p-dropdown-trigger {
     justify-content: start;
     width: 1rem;
 }
+
+.register {
+    ::ng-deep .p-dropdown-label {
+        padding: 0;
+        display: none;
+    }
+    
+}
+
 
 ::ng-deep .p-autocomplete {
     width: 100%;
@@ -169,8 +179,35 @@ button {
     border-radius: 18px;
 }
 
+@media (min-width: 767px) and (max-width: 1600px) {
+    .main-image {
+        width: 80%;
+    }
+}
+
 @media (max-width: 767px) {
-    .search {
-        display: none;
+    nav {
+        background-color: white;
+
+        .search {
+            display: none;
+        }
+    }
+}
+
+// 1600
+
+@media (max-width: 500px) {
+    ::ng-deep .p-dropdown-label {
+        padding: 0;
+    }
+
+    nav {
+        .row {
+
+            a {
+                font-size: 10px;
+            }
+        }
     }
 }

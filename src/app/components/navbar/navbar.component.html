@@ -1,5 +1,13 @@
-<p-menubar *ngIf="!items?.[1]?.items?.length">
-</p-menubar>
+<div class="row">
+    <div class="col-md-12 col-3">
+        <p-menubar *ngIf="!items?.[1]?.items?.length">
+        </p-menubar>
 
-<p-menubar *ngIf="items?.[1]?.items?.length" [model]="items">
-</p-menubar>
+        <p-menubar *ngIf="items?.[1]?.items?.length" [model]="items">
+        </p-menubar>
+    </div>
+    <div class="col-md-12 col-9 d-inline-block d-md-nonetext-center">
+        <p-autoComplete [placeholder]="'Search' | translate" [suggestions]="resultSearch"
+            (onSelect)="selectValue($event)" (input)="searchGolbal($event)" field="name" />
+    </div>
+</div>

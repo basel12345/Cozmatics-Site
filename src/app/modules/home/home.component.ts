@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
 	MostPopularProducts!: IProducts[];
 	lang!: string | null;
 	Cart = PrimeIcons.SHOPPING_CART
+	responsiveCardOptions: any[] | undefined;
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -59,6 +60,28 @@ export class HomeComponent implements OnInit {
 			{
 				breakpoint: '767px',
 				numVisible: 1,
+				numScroll: 1
+			}
+		];
+		this.responsiveCardOptions = [
+			{
+				breakpoint: '1199px',
+				numVisible: 3,
+				numScroll: 1
+			},
+			{
+				breakpoint: '991px',
+				numVisible: 3,
+				numScroll: 1
+			},
+			{
+				breakpoint: '767px',
+				numVisible: 3,
+				numScroll: 1
+			},
+			{
+				breakpoint: '600px',
+				numVisible: 2,
 				numScroll: 1
 			}
 		];

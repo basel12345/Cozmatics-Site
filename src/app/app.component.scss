@@ -19,9 +19,12 @@
 
 .loader {
     position: fixed;
-    top: 40%;
-    left: 50%;
+    top: 20%;
+    left: 20%;
     z-index: 2;
+    img {
+        width: 1000px;
+    }
 }
 
 .header {

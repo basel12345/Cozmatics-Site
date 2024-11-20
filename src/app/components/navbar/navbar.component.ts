@@ -22,6 +22,7 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 export class NavbarComponent implements OnInit {
     items: MenuItem[] | undefined;
     lang!: string | null;
+    resultSearch: any;
     constructor(
         private categoriesService: CategoriesService,
         private router: Router,
@@ -42,7 +43,6 @@ export class NavbarComponent implements OnInit {
                 {
                     label: this.lang === "ar" ? "الأقسام" : this.translateService.instant('Categories'),
                     items: [],
-                    routerLink: 'products'
                 }
             ];
         }
@@ -56,6 +56,10 @@ export class NavbarComponent implements OnInit {
             const category = this.handleCategories(res);
             if (this.items?.length) {
                 this.items?.[1]?.items?.push(...category);
+                this.items?.[1]?.items?.unshift({
+                    label: this.lang === "ar" ? "الكل" : "ALL",
+                    routerLink: 'products'
+                })
                 for (let index = 1; index < 5; index++) {
                     if (res[index]) {
                         this.items[index + 1] = {
@@ -73,13 +77,54 @@ export class NavbarComponent implements OnInit {
         })
     }
 
+    searchGolbal(event: any) {
+        if (event.target.value) {
+            this.productService.searchGolbal(event.target.value).subscribe(res => {
+                this.resultSearch = res;
+            })
+        }
+    }
 
-    handleCategories(data: ICategory[]): any {
+    selectValue(event: AutoCompleteSelectEvent) {
+        if (event.value.type === 0)
+            this.router.navigate([`product/${event.value.key}`]);
+        else if (event.value.type === 1) {
+            this.router.navigate([`productsByCategory`], {
+                queryParams: {
+                    categoryId: event.value.key
+                }
+            });
+        }
+        else if (event.value.type === 3) {
+            this.router.navigate([`productsByBrand`], {
+                queryParams: {
+                    brandId: event.value.key
+                }
+            });
+        }
+    }
+
+
+    handleCategories(data: ICategory[], prevD?: ICategory): any {
+        if (prevD) {
+            data.unshift({
+                id: prevD.id,
+                name: this.lang === "ar" ? "الكل" : "ALL",
+                description: "",
+                icon: "",
+                parentId: 0,
+                isSelected: false,
+                subCategories: [],
+                img: "",
+                imagePath: "",
+            })
+        }
         return data.map((data: ICategory, index: number) => {
             return ({
                 label: data.name, command: (event: any) => {
+                    if (data.subCategories.length) return;
                     this.navigateToCategories(data)
-                }, items: data.subCategories.length ? this.handleCategories(data.subCategories) : []
+                }, items: data.subCategories.length ? this.handleCategories(data.subCategories, data) : []
             })
         })
     }
