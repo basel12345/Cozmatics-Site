@@ -146,7 +146,8 @@
     .container-fluid {
         .categories {
             a {
-            width: calc(100% / 4);
+                width: calc(100% / 4);
+
                 img {
                     width: 100%;
                     max-width: 200px;
@@ -160,7 +161,8 @@
                 }
             }
         }
-        .advertisement  {
+
+        .advertisement {
             img {
                 height: 200px;
             }
@@ -169,25 +171,34 @@
 }
 
 
-    @media (max-width: 500px) {
-        .container-fluid {
-            .advertisement  {
-                img {
-                    height: 100px;
-                }
-                ::ng-deep.p-carousel-prev,
-                ::ng-deep.p-carousel-next {
-                    top: 37%;
-                    padding: 0;
-                }
+@media (max-width: 500px) {
+    .container-fluid {
+        .advertisement {
+            img {
+                height: 100px;
             }
-            
-            .card {
-                width: 178px;
+
+            ::ng-deep.p-carousel-prev,
+            ::ng-deep.p-carousel-next {
+                top: 37%;
+                padding: 0;
             }
         }
-    }
 
+        .card {
+            width: 178px;
+        }
+    }
+}
+
+::ng-deep.rtl-carousel .p-carousel-container {
+    flex-direction: row-reverse;
+}
+
+::ng-deep.rtl-carousel .p-carousel-prev,
+::ng-deep.rtl-carousel .p-carousel-next {
+    transform: rotate(180deg)
+}
 
 ::ng-deep .p-rating .p-rating-icon {
     color: $main-color;

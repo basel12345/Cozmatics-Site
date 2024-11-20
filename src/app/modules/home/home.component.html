@@ -25,7 +25,7 @@
             </div>
         </div>
         <p-carousel dir="ltr" [value]="RecentProducts" [numVisible]="6" [numScroll]="1" [circular]="false"
-            [responsiveOptions]="responsiveCardOptions">
+            [responsiveOptions]="responsiveCardOptions" [styleClass]="lang === 'ar' ? 'rtl-carousel' : ''">
             <ng-template let-res pTemplate="item">
                 <div class="m-1 p-2 card">
                     <span (click)="navigateToProduct(res.id)">
@@ -88,7 +88,7 @@
             </div>
         </div>
         <p-carousel dir="ltr" [value]="BestProducts" [numVisible]="6" [numScroll]="1" [circular]="false"
-            [responsiveOptions]="responsiveCardOptions">
+            [responsiveOptions]="responsiveCardOptions" [styleClass]="lang === 'ar' ? 'rtl-carousel' : ''">
             <ng-template let-res pTemplate="item">
                 <div class="m-1 p-2 card">
                     <span (click)="navigateToProduct(res.id)">
@@ -141,7 +141,7 @@
             </div>
         </div>
         <p-carousel dir="ltr" [value]="MostPopularProducts" [numVisible]="6" [numScroll]="1" [circular]="false"
-            [responsiveOptions]="responsiveCardOptions">
+            [responsiveOptions]="responsiveCardOptions" [styleClass]="lang === 'ar' ? 'rtl-carousel' : ''">
             <ng-template let-res pTemplate="item">
                 <div class="m-1 p-2 card">
                     <span (click)="navigateToProduct(res.id)">

@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -50,6 +50,18 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() { }
+
+
+
+    @HostListener('document:click', ['$event'])
+    handleClickOutside(event: MouseEvent) {
+        const menu = document.querySelector('.p-menubar');
+        const menubarBtn = document.getElementsByClassName("p-menubar-button")[0] as HTMLElement;
+        if (menu && !menu.contains(event.target as Node)) {
+            menubarBtn.click()
+        } else if(menu){
+        };
+    }
 
     getCategories() {
         this.categoriesService.getAllWithSubCategories().subscribe(res => {
