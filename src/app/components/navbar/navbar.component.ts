@@ -57,10 +57,9 @@ export class NavbarComponent implements OnInit {
     handleClickOutside(event: MouseEvent) {
         const menu = document.querySelector('.p-menubar');
         const menubarBtn = document.getElementsByClassName("p-menubar-button")[0] as HTMLElement;
-        if (menu && !menu.contains(event.target as Node)) {
-            menubarBtn.click()
-        } else if(menu){
-        };
+        if (menu && !menu.contains(event.target as Node) && menubarBtn.getAttribute('aria-expanded') === 'true') {
+            menubarBtn.click();
+        }
     }
 
     getCategories() {
