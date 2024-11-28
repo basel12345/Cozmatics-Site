@@ -19,11 +19,13 @@ import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
 import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { SidebarModule } from 'primeng/sidebar';
 
 @Component({
 	selector: 'app-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
+	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule, SidebarModule],
 	templateUrl: './products.component.html',
 	styleUrl: './products.component.scss'
 })
@@ -49,13 +51,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	recent!: boolean;
 	mostPopular!: boolean;
 	Cart = PrimeIcons.SHOPPING_CART
-
+	isMobile: boolean = false;
+	sidebarVisible: boolean = false;
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
 		public cartService: CartService,
-	) { }
+		private breakpointObserver: BreakpointObserver
+	) {
+		this.breakpointObserver.observe([Breakpoints.Handset])
+			.subscribe(result => {
+				this.isMobile = result.matches;
+			});
+	}
 
 	ngOnInit(): void {
 		this.route.queryParams.subscribe(res => {
@@ -74,6 +83,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				this.getAllData();
 			}
 		})
+	}
+
+	openFilterSideBar() {
+		this.sidebarVisible = true;
 	}
 
 	filterProducts(BrandId: number, CatId: number, Discount: number, Tag: string) {
@@ -152,7 +165,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		this.first = event.first;
 		this.rows = event.rows;
 		scroll(0, 0);
-		if(this.isFilterByProducts) {
+		if (this.isFilterByProducts) {
 			this.filterProducts(this.queryParams.BrandId, this.queryParams.CatId, this.queryParams.Discount, this.queryParams.Tag)
 		} else {
 			this.filter();

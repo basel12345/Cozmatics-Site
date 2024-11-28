@@ -19,11 +19,12 @@ import { ICart } from '../../shared/models/cart';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { SidebarModule } from 'primeng/sidebar';
 @Component({
 	selector: 'app-recent-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
+	imports: [SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
 	templateUrl: './recent-products.component.html',
 	styleUrl: './recent-products.component.scss'
 })
@@ -40,14 +41,22 @@ export class RecentProductsComponent implements OnInit {
 	rangePrice: number[] = [0, 0];
 	Category!: ICategory[];
 	Tags = Tags;
-	Cart = PrimeIcons.SHOPPING_CART
+	Cart = PrimeIcons.SHOPPING_CART;
+	isMobile: boolean = false;
+	sidebarVisible: boolean = false;
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
 		public cartService: CartService,
-	) { }
+		private breakpointObserver: BreakpointObserver
+	) {
+		this.breakpointObserver.observe([Breakpoints.Handset])
+			.subscribe(result => {
+				this.isMobile = result.matches;
+			});
+	}
 
 	ngOnInit(): void {
 		this.getAllData();
@@ -125,5 +134,9 @@ export class RecentProductsComponent implements OnInit {
 		this.rows = event.rows;
 		scroll(0, 0);
 		this.filter();
+	}
+
+	openFilterSideBar() {
+		this.sidebarVisible = true;
 	}
 }

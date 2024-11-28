@@ -5,6 +5,7 @@
     border: none;
     min-height: 431px;
     height: 97%;
+
     .header {
         display: flex;
         justify-content: center;
@@ -70,6 +71,24 @@
     }
 }
 
+.filter-icon {
+    border: 1px solid $main-color;
+    border-radius: 10px;
+    font-size: 12px;
+    background-color: white;
+    height: 43px;
+    padding-top: 10px;
+    width: 50px;
+    background-color: $main-color;
+    margin-bottom: 20px;
+    transition: all .3 ease-in-out;
+
+    &:hover {
+        background-color: white;
+        border: 1px solid black;
+    }
+}
+
 .filter {
     ::ng-deep button {
         width: 100%;
@@ -100,6 +119,16 @@ h3,
 
 label {
     font-size: 12px;
+}
+
+:host {
+    ::ng-deep {
+        .p-sidebar-left {
+            padding-top: 120px !important;
+            width: 20rem;
+        }
+    }
+
 }
 
 @media (max-width: 767px) {

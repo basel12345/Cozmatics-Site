@@ -19,11 +19,13 @@ import { ICategory } from '../../shared/models/category';
 import { Tags } from '../../shared/models/tags';
 import { ICart } from '../../shared/models/cart';
 import { PrimeIcons } from 'primeng/api';
+import { SidebarModule } from 'primeng/sidebar';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-most-popular-products',
     standalone: true,
-    imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
+    imports: [SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
     templateUrl: './most-popular-products.component.html',
     styleUrl: './most-popular-products.component.scss'
 })
@@ -40,14 +42,22 @@ export class MostPopularProductsComponent {
     rangePrice: number[] = [0, 0];
     Category!: ICategory[];
     Tags = Tags;
-	Cart = PrimeIcons.SHOPPING_CART
+    Cart = PrimeIcons.SHOPPING_CART;
+    isMobile: boolean = false;
+    sidebarVisible: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         public productsService: ProductsService,
-        public cartService: CartService
-    ) { }
+        public cartService: CartService,
+        private breakpointObserver: BreakpointObserver
+    ) {
+        this.breakpointObserver.observe([Breakpoints.Handset])
+            .subscribe(result => {
+                this.isMobile = result.matches;
+            });
+    }
 
     ngOnInit(): void {
         this.getAllData();
@@ -132,7 +142,11 @@ export class MostPopularProductsComponent {
         this.productsService.pageNo = event.page + 1;
         this.first = event.first;
         this.rows = event.rows;
-		scroll(0, 0);
+        scroll(0, 0);
         this.filter();
+    }
+
+    openFilterSideBar() {
+        this.sidebarVisible = true;
     }
 }

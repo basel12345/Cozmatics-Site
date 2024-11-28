@@ -20,11 +20,13 @@ import { Tags } from '../../shared/models/tags';
 import { ICart } from '../../shared/models/cart';
 import { CartService } from '../../shared/services/cart/cart.service';
 import { PrimeIcons } from 'primeng/api';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { SidebarModule } from 'primeng/sidebar';
 
 @Component({
 	selector: 'app-best-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
+	imports: [SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
 	templateUrl: './best-products.component.html',
 	styleUrl: './best-products.component.scss'
 })
@@ -41,14 +43,21 @@ export class BestProductsComponent {
 	rangePrice: number[] = [0, 0];
 	Category!: ICategory[];
 	Tags = Tags;
-	Cart = PrimeIcons.SHOPPING_CART
+	Cart = PrimeIcons.SHOPPING_CART;
+    isMobile: boolean = false;
+    sidebarVisible: boolean = false;
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
 		public cartService: CartService,
-	) { }
-
+        private breakpointObserver: BreakpointObserver
+    ) {
+        this.breakpointObserver.observe([Breakpoints.Handset])
+            .subscribe(result => {
+                this.isMobile = result.matches;
+            });
+    }
 	ngOnInit(): void {
 		this.getAllData();
 	}
@@ -124,4 +133,8 @@ export class BestProductsComponent {
 			this.paginationData();
 		}
 	}
+
+	openFilterSideBar() {
+        this.sidebarVisible = true;
+    }
 }

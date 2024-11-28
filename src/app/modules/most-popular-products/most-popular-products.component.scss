@@ -5,6 +5,7 @@
     border: none;
     min-height: 431px;
     height: 97%;
+
     .header {
         display: flex;
         justify-content: center;
@@ -83,6 +84,16 @@
 
 .not-found {
     height: 100vh;
+}
+
+:host {
+    ::ng-deep {
+        .p-sidebar-left {
+            padding-top: 120px !important;
+            width: 20rem;
+        }
+    }
+
 }
 
 h3,

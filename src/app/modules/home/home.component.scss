@@ -196,24 +196,6 @@
     }
 }
 
-
-::ng-deep.rtl-carousel .p-carousel-container {
-    flex-direction: row-reverse;
-}
-
-::ng-deep.rtl-carousel .p-carousel-items-content {
-    transform: scaleX(-1);
-}
-
-::ng-deep.rtl-carousel .p-carousel-item {
-    transform: scaleX(-1);
-}
-
-::ng-deep.rtl-carousel .p-carousel-prev,
-::ng-deep.rtl-carousel .p-carousel-next {
-    transform: rotate(180deg)
-}
-
 ::ng-deep .p-rating .p-rating-icon {
     color: $main-color;
 }
