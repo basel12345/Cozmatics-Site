@@ -74,5 +74,6 @@ export class RegisterComponent implements OnInit {
 
 	goToLogin() {
 		if (this.popup) this.openLogin.emit(true);
+		else this.router.navigate(['login']);
 	}
 }

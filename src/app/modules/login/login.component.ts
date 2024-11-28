@@ -17,7 +17,7 @@ import { RegisterComponent } from "../register/register.component";
 @Component({
 	selector: 'app-login',
 	standalone: true,
-	imports: [CommonModule, InputTextModule, PasswordModule, DividerModule, InputMaskModule, ButtonModule, ReactiveFormsModule, TranslateModule, RegisterComponent],
+	imports: [CommonModule, InputTextModule, PasswordModule, DividerModule, InputMaskModule, ButtonModule, ReactiveFormsModule, TranslateModule],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss'
 })
