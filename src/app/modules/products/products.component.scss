@@ -4,7 +4,7 @@
 .card {
     border: none;
     min-height: 431px;
-
+    height: 97%;
     .header {
         display: flex;
         justify-content: center;
@@ -100,4 +100,19 @@ h3,
 
 label {
     font-size: 12px;
+}
+
+@media (max-width: 767px) {
+    .card {
+        .header {
+            img {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+        .p-button {
+            font-size: 10px;
+        }
+    }
 }

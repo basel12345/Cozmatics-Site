@@ -12,7 +12,7 @@
             </div>
             <div class="input">
                 <label for="FirstName">{{"FirstName" | translate}}</label>
-                <input pInputText
+                <input pInputText [placeholder]="'FirstName' | translate"
                     [ngClass]="submitted && registerForm.get('FirstName')?.invalid ? 'ng-invalid ng-dirty' : ''"
                     id="FirstName" aria-describedby="FirstName-help" formControlName="FirstName" required />
                 <span *ngIf="submitted && registerForm.get('FirstName')?.errors?.['required']" class="invalid">
@@ -21,7 +21,7 @@
             </div>
             <div class="input">
                 <label for="LastName">{{"LastName" | translate}}</label>
-                <input pInputText
+                <input pInputText [placeholder]="'LastName' | translate"
                     [ngClass]="submitted && registerForm.get('LastName')?.invalid ? 'ng-invalid ng-dirty' : ''"
                     id="LastName" aria-describedby="LastName-help" formControlName="LastName" required />
                 <span *ngIf="submitted && registerForm.get('LastName')?.errors?.['required']" class="invalid">
@@ -30,7 +30,7 @@
             </div>
             <div class="input">
                 <label for="username">{{"Username" | translate}}</label>
-                <input pInputText
+                <input pInputText [placeholder]="'Username' | translate"
                     [ngClass]="submitted && registerForm.get('username')?.invalid ? 'ng-invalid ng-dirty' : ''"
                     id="username" aria-describedby="username-help" formControlName="username" required />
                 <span *ngIf="submitted && registerForm.get('username')?.errors?.['required']" class="invalid">
@@ -39,7 +39,7 @@
             </div>
             <div class="input">
                 <label for="email">{{"Email" | translate}}</label>
-                <input pInputText type="email"
+                <input pInputText type="email" [placeholder]="'Email' | translate"
                     [ngClass]="submitted && registerForm.get('email')?.invalid ? 'ng-invalid ng-dirty' : ''" id="email"
                     aria-describedby="email-help" formControlName="email" />
                 <span *ngIf="submitted && registerForm.get('email')?.errors?.['required']" class="invalid">
@@ -51,7 +51,7 @@
             </div>
             <div class="input">
                 <label for="password">{{"Password" | translate}}</label>
-                <p-password formControlName="password">
+                <p-password formControlName="password" [placeholder]="'Password' | translate">
                     <ng-template pTemplate="header">
                         <h6>{{"PickAPassword" | translate}}</h6>
                     </ng-template>
@@ -82,7 +82,7 @@
             <div class="input">
                 <label for="phone">{{"Phone" | translate}}</label>
                 <div class="phone">
-                    <span>+966</span><input pInputText mask="9999999999"  formControlName="phone" placeholder="9999999999" />
+                    <div>+966</div><input pInputText formControlName="phone" placeholder="570xxxxxx" />
                 </div>
                 <span *ngIf="submitted && registerForm.get('phone')?.errors?.['required']" class="invalid">
                     {{"Phone" | translate}} {{"isRequired" | translate}}

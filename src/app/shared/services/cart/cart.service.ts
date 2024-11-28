@@ -47,9 +47,9 @@ export class CartService implements OnInit {
 			if (index === -1) {
 				if (this.cart?.length) this.cart.push(cart);
 				else this.cart = [cart];
-				this.toastr.success(this.translateService.instant("OrderAddToInart"), this.translateService.instant("Success"));
+				this.toastr.success(this.translateService.instant("OrderAddToInart"));
 			} else {
-				this.toastr.error(this.translateService.instant("OrderAlreadyToCart"), this.translateService.instant("Error"));
+				this.toastr.error(this.translateService.instant("OrderAlreadyToCart"));
 			}
 
 			if (this.cart) {

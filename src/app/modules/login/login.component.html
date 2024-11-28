@@ -6,13 +6,14 @@
                     <img class="mt-4" src="assets/ICON.png" width="100px" height="100px" alt="ICON">
                 </div>
                 <div class="mt-2">
-                    <img  class="text-image"
-                    [src]="direction === 'rtl' ? 'assets/عبق العنايه-03-03.png' :'assets/Abaq Elanayah-03.png'"  width="300px" height="100px"alt="Abaq Elanayah">
+                    <img class="text-image"
+                        [src]="direction === 'rtl' ? 'assets/عبق العنايه-03-03.png' :'assets/Abaq Elanayah-03.png'"
+                        width="300px" height="100px" alt="Abaq Elanayah">
                 </div>
             </div>
             <div class="input">
                 <label for="email">{{"Email" | translate}}</label>
-                <input pInputText type="email"
+                <input pInputText type="email" [placeholder]="'Email' | translate"
                     [ngClass]="submitted && loginForm.get('email')?.invalid ? 'ng-invalid ng-dirty' : ''" id="email"
                     aria-describedby="email-help" formControlName="email" />
                 <span *ngIf="submitted && loginForm.get('email')?.errors?.['required']" class="invalid">
@@ -24,7 +25,7 @@
             </div>
             <div class="input">
                 <label for="password">{{"Password" | translate}}</label>
-                <p-password formControlName="password">
+                <p-password formControlName="password" [placeholder]="'Password' | translate">
                     <ng-template pTemplate="header">
                         <h6>{{"PickAPassword" | translate}}</h6>
                     </ng-template>
@@ -51,6 +52,9 @@
                         <li>{{"Minimum8Characters" | translate}}</li>
                     </ul>
                 </span>
+            </div>
+            <div class="text-center">
+                <a (click)="register()">{{"RegisterNewUser" | translate}}</a>
             </div>
         </div>
         <div class="footer">

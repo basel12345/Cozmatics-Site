@@ -31,7 +31,7 @@
             </p-dropdown>
             <span class="register">
                 <p-dropdown *ngIf="!user" [options]="users" [(ngModel)]="selectedUsers" optionLabel="name"
-                (ngModelChange)="navigateToSign($event)" class="pi pi-user"></p-dropdown>
+                    (ngModelChange)="navigateToSign($event)" class="pi pi-user"></p-dropdown>
             </span>
             <a *ngIf="user" (click)="logOut()">{{"LogOut" | translate}}</a>
         </div>
@@ -164,24 +164,35 @@
 
 
 <p-dialog class="dialog-address" [header]="'Address' | translate" [(visible)]="visible" [position]="'top'"
-    [style]="{ width: '50vw' }">
+    [style]="{ width: isMobile ? '100vw' : '50vw' , height: isMobile ? '100vh': 'auto'}">
     <form [formGroup]="AddressForm" (ngSubmit)="saveAddress()">
         <div class="row">
-            <div class="col-12 col-md-6 mt-1">
+            <div class="col-12 col-md-6 mt-4">
+                <label class="mb-2">{{'Country'| translate}}</label>
+                <input class="w-100" pInputText [disabled]="true" [value]="Country?.[0].name" />
+            </div>
+            <div class="col-12 col-md-6 mt-4">
+                <label class="mb-2">{{'City'| translate}}</label>
+                <input class="w-100" pInputText [disabled]="true" [value]="City?.[0].name" />
+            </div>
+            <div class="col-12 col-md-6 mt-4">
+                <label class="mb-2">{{'SelectAArea'| translate}}</label>
                 <p-dropdown class="w-100" formControlName="area" [options]="areas" optionLabel="area" optionValue="id"
                     [placeholder]="'SelectAArea'| translate"></p-dropdown>
                 <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']" class="invalid">
                     {{"Area" | translate}} {{"isRequired" | translate}}
                 </span>
             </div>
-            <div class="col-12 col-md-6 mt-1">
+            <div class="col-12 col-md-6 mt-4">
+                <label class="mb-2">{{'Street'| translate}}</label>
                 <input class="w-100" formControlName="street" type="text" pInputText
-                    [placeholder]="'Street' | translate" />
+                    [placeholder]="'EnterStreet' | translate" />
+                <span style="font-size: 10px;">{{"Street, building and apartment name" | translate}}</span>
                 <span *ngIf="submitted && AddressForm.get('street')?.errors?.['required']" class="invalid">
                     {{"Street" | translate}} {{"isRequired" | translate}}
                 </span>
             </div>
-            <div class="col-12 address text-end mt-2">
+            <div class="col-12 address text-center mt-4">
                 <p-button type="submit" [label]="'Save' | translate" [raised]="true"></p-button>
             </div>
         </div>
@@ -190,7 +201,12 @@
 
 
 <p-dialog [header]="'Login' | translate" [modal]="true" [(visible)]="visibleLogin" [style]="{ width: '50rem' }">
-    <app-login (closePopup)="closePopupLogin($event)"></app-login>
+    <app-login [popup]="true" (openRegisterPopup)="openRegister()" (closePopup)="closePopupLogin($event)"></app-login>
+</p-dialog>
+
+
+<p-dialog [header]="'Register' | translate" [modal]="true" [(visible)]="visibleRegister" [style]="{ width: '50rem' }">
+    <app-register (closePopupRegister)="closePopupRegister($event)"></app-register>
 </p-dialog>
 
 

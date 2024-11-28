@@ -21,3 +21,9 @@ body {
 div {
     font-family: "Cairo", sans-serif !important;
 }
+
+#toast-container > div {
+    border-radius: 8px !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2) !important;
+    width: fit-content;
+  }

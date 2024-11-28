@@ -46,8 +46,8 @@
             <ng-container *ngIf="titlePage">
                 <div class="row">
                     <h3>{{titlePage | translate}}</h3>
-                    <div class="col-12 col-sm-4" *ngFor="let res of Products$ | async">
-                        <div class="m-1 p-2 card">
+                    <div class="col-6 col-sm-4" *ngFor="let res of Products$ | async">
+                        <div class="mb-1 p-2 card">
                             <span (click)="navigateToProduct(res.id)">
                                 <div class="header">
                                     <img src="https://api-endpoint.abaqelanayah.com{{res.imagePath}}" [alt]="res.imagePath">

@@ -64,7 +64,8 @@
 
         .card {
             border: none;
-            min-height: 410px;
+            min-height: 431px;
+            height: 97%;
 
             .header {
                 display: flex;
@@ -188,11 +189,24 @@
         .card {
             width: 178px;
         }
+
+        h4 {
+            font-size: 16px;
+        }
     }
 }
 
+
 ::ng-deep.rtl-carousel .p-carousel-container {
     flex-direction: row-reverse;
+}
+
+::ng-deep.rtl-carousel .p-carousel-items-content {
+    transform: scaleX(-1);
+}
+
+::ng-deep.rtl-carousel .p-carousel-item {
+    transform: scaleX(-1);
 }
 
 ::ng-deep.rtl-carousel .p-carousel-prev,

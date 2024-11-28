@@ -30,6 +30,8 @@ import { EncryptionService } from '../../shared/services/encryption/encryption.s
 import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { ProductsService } from '../../shared/services/products/products.service';
 import { LoginComponent } from '../../modules/login/login.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { RegisterComponent } from "../../modules/register/register.component";
 
 type Droplist = {
 	name: string;
@@ -39,13 +41,13 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [LoginComponent, MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule],
+	imports: [LoginComponent, MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule, RegisterComponent],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
 
 export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
-    resultSearch: any;
+	resultSearch: any;
 	sidebarVisible: boolean = false;
 	countries: Droplist[] | undefined;
 	users: Droplist[] | undefined;
@@ -77,6 +79,10 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	ordersByCustomerId: any;
 	areas: any;
 	visibleLogin: boolean = false;
+	isMobile: boolean = false;
+	visibleRegister: boolean = false;
+	Country: any;
+	City: any;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -89,8 +95,14 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		private translate: TranslateService,
 		private cardService: CardService,
 		private encryptionService: EncryptionService,
-        private productService: ProductsService,
-	) { }
+		private productService: ProductsService,
+		private breakpointObserver: BreakpointObserver
+	) {
+		this.breakpointObserver.observe([Breakpoints.Handset])
+			.subscribe(result => {
+				this.isMobile = result.matches;
+			});
+	}
 
 	ngOnInit() {
 		this.getUserInfo();
@@ -99,13 +111,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.getAddressByCustNo();
 		this.createAddressForm();
 		// this.initCardForm();
-		this.cities = [
-			{ name: 'New York', code: 'NY' },
-			{ name: 'Rome', code: 'RM' },
-			{ name: 'London', code: 'LDN' },
-			{ name: 'Istanbul', code: 'IST' },
-			{ name: 'Paris', code: 'PRS' }
-		];
 	}
 
 
@@ -144,31 +149,31 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	}
 
 	searchGolbal(event: any) {
-        if(event.target.value) {
-            this.productService.searchGolbal(event.target.value).subscribe(res => {
-                this.resultSearch = res;
-            })
-        }
-    }
+		if (event.target.value) {
+			this.productService.searchGolbal(event.target.value).subscribe(res => {
+				this.resultSearch = res;
+			})
+		}
+	}
 
 	selectValue(event: AutoCompleteSelectEvent) {
-        if (event.value.type === 0)
-            this.router.navigate([`product/${event.value.key}`]);
-        else if (event.value.type === 1) {
-            this.router.navigate([`productsByCategory`], {
-                queryParams: {
-                    categoryId: event.value.key
-                }
-            });
-        }
-        else if (event.value.type === 3) {
-            this.router.navigate([`productsByBrand`], {
-                queryParams: {
-                    brandId: event.value.key
-                }
-            });
-        }
-    }
+		if (event.value.type === 0)
+			this.router.navigate([`product/${event.value.key}`]);
+		else if (event.value.type === 1) {
+			this.router.navigate([`productsByCategory`], {
+				queryParams: {
+					categoryId: event.value.key
+				}
+			});
+		}
+		else if (event.value.type === 3) {
+			this.router.navigate([`productsByBrand`], {
+				queryParams: {
+					brandId: event.value.key
+				}
+			});
+		}
+	}
 
 	handleDroplist(): void {
 		this.countries = [
@@ -308,6 +313,16 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	showDialog() {
 		this.visible = true;
+		this.Country = [
+			{
+				name: this.translate.instant('SaudiArabia'), id: 0
+			}
+		];
+		this.City = [
+			{
+				name: this.translate.instant('Riyadh'), id: 0
+			}
+		];
 	}
 
 	saveCardReq(data: any) {
@@ -351,6 +366,10 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.cartService.placeOrder(this.cartsReq, (this.address && this.address.id) ? this.address.id : null, this.deliveryType.code).subscribe((res: any) => {
 			if (res.isSuccess) {
 				window.location.replace(res?.data?.paymentURL);
+			} else {
+				res.validationErrors.forEach((element: any) => {
+					this.toastrSerice.error(element.name + " " + this.translate.instant(`${element.error}`))
+				});
 			}
 		})
 	}
@@ -388,24 +407,15 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	closePopupLogin(event: boolean) {
 		this.visibleLogin = !event;
+		this.getUserInfo();
+		this.getAddressByCustNo();
+	}
+	closePopupRegister(event: boolean) {
+		this.visibleRegister = !event;
 	}
 
-
-	// initCardForm() {
-	// 	this.cardForm = this.fb.group({
-	// 		Number: ["", Validators.required],
-	// 		ExpiryMonth: ["", Validators.required],
-	// 		ExpiryYear: ["", Validators.required],
-	// 		SecurityCode: ["", Validators.required]
-	// 	})
-	// }
-
-
-	// saveCard() {
-	// 	this.submittedCardForm = true;
-	// 	if (this.cardForm.status === "VALID") {
-	// 		this.visibleCardDialog = false;
-	// 		this.submittedCardForm = false;
-	// 	}
-	// }
+	openRegister() {
+		this.visibleRegister = true;
+		this.visibleLogin = false;
+	}
 }

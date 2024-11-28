@@ -14,6 +14,7 @@ import { Tags } from '../../shared/models/tags';
 import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
+import { Carousel } from 'primeng/carousel';
 
 @Component({
 	selector: 'app-home',
@@ -45,6 +46,10 @@ export class HomeComponent implements OnInit {
 	) {
 	}
 	ngOnInit(): void {
+		Carousel.prototype.onTouchMove = (event: TouchEvent) => {
+			event.stopPropagation()
+		};
+
 		this.getDataHome();
 		this.responsiveOptions = [
 			{
@@ -100,7 +105,7 @@ export class HomeComponent implements OnInit {
 			this.lang = localStorage.getItem("lang");
 		});
 	}
-	
+
 	categories(id: number) {
 		this.router.navigate(['productsByCategory'], {
 			queryParams: {

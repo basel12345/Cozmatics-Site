@@ -24,7 +24,7 @@ import { PrimeIcons } from 'primeng/api';
 @Component({
 	selector: 'app-product',
 	standalone: true,
-	imports: [CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule, TranslateModule],
+	imports: [TranslateModule, CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule, TranslateModule],
 	templateUrl: './product.component.html',
 	styleUrl: './product.component.scss'
 })
@@ -61,6 +61,7 @@ export class ProductComponent implements OnInit {
 		private reviewService: ReviewService,
 		private toastr: ToastrService,
 		public cartService: CartService,
+		private translateService: TranslateService,
 		private productService: ProductsService,
 		@Inject(PLATFORM_ID) private platformId: object
 	) { }
@@ -117,7 +118,7 @@ export class ProductComponent implements OnInit {
 		if (this.addReview.customerId) {
 			this.visible = true;
 		} else {
-			this.toastr.error('You must login first', 'Error');
+			this.toastr.error(this.translateService.instant('YouMustLoginFirst'));
 		}
 
 	}
@@ -127,10 +128,10 @@ export class ProductComponent implements OnInit {
 	}
 
 	addReviewToProduct() {
-		if(!this.addReview.rate) return;
+		if (!this.addReview.rate) return;
 		this.visible = false;
 		this.reviewService.addReview(this.addReview).subscribe(res => {
-			this.toastr.success('Review', 'Success');
+			this.toastr.success(this.translateService.instant('ReviewAdded'));
 			this.reviewService.getReviewByProductId("" + this.product.id).subscribe(res => {
 				this.productService.getProductById("" + this.product.id).subscribe((product: IProducts) => {
 					this.Review = res;

@@ -23,6 +23,18 @@
 
         }
 
+        .phone {
+            display: flex;
+            align-items: center;
+            input {
+                border-right: none;
+            }
+            div {
+                border: 1px solid #dfe2e6;
+                padding: 0.75rem 0.75rem;
+            }
+        }
+
         .footer {
             text-align: center;
 

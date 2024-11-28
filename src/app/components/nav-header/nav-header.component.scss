@@ -97,15 +97,25 @@ nav {
 .dialog-address {
     .address {
         ::ng-deep button {
-            background-color: $main-color;
+            background-color: black;
             height: 43px;
             border: none;
             border-radius: 150px;
         }
     }
 
+    input:disabled {
+        background: #e3e3e3 !important;
+    }
+
+    input::placeholder,
+    ::ng-deep.p-dropdown-label.p-placeholder {
+        color: #908f8f;
+    }
+
     ::ng-deep .p-dropdown {
         width: 100%;
+        padding: 0 8px;
     }
 }
 
@@ -122,9 +132,9 @@ button {
     padding: 0;
 }
 
-::ng-deep .p-dropdown-label {
-    padding: 0;
-}
+// ::ng-deep .p-dropdown-label {
+//     padding: 0;
+// }
 
 .pi {
     margin: 5px;
@@ -140,7 +150,7 @@ button {
         padding: 0;
         display: none;
     }
-    
+
 }
 
 
@@ -198,8 +208,12 @@ button {
 // 1600
 
 @media (max-width: 500px) {
-    ::ng-deep .p-dropdown-label {
-        padding: 0;
+    ::ng-deep {
+        .p-sidebar-left {
+            .p-dropdown-label {
+                padding: 0;
+            }
+        }
     }
 
 }

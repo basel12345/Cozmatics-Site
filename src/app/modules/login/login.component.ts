@@ -2,7 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IUser } from './../../shared/models/user';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
@@ -10,13 +10,14 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoadingService } from '../../shared/services/loading/loading.service';
+import { RegisterComponent } from "../register/register.component";
 
 @Component({
 	selector: 'app-login',
 	standalone: true,
-	imports: [CommonModule, InputTextModule, PasswordModule, DividerModule, InputMaskModule, ButtonModule, ReactiveFormsModule, TranslateModule],
+	imports: [CommonModule, InputTextModule, PasswordModule, DividerModule, InputMaskModule, ButtonModule, ReactiveFormsModule, TranslateModule, RegisterComponent],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss'
 })
@@ -25,8 +26,16 @@ export class LoginComponent implements OnInit {
 	loginForm!: FormGroup;
 	direction!: string;
 	@Output() closePopup = new EventEmitter<boolean>();
-
-	constructor(private fb: FormBuilder, private service: AuthService, private router: Router, private toastr: ToastrService, private loadingService: LoadingService) { }
+	@Output() openRegisterPopup = new EventEmitter<boolean>();
+	@Input() popup: boolean = false;
+	constructor(
+		private fb: FormBuilder,
+		private service: AuthService,
+		private router: Router,
+		private toastr: ToastrService,
+		private loadingService: LoadingService,
+		private translate: TranslateService
+	) { }
 
 	ngOnInit(): void {
 		this.direction = localStorage.getItem("lang") === "ar" ? "rtl" : "ltr";
@@ -47,10 +56,15 @@ export class LoginComponent implements OnInit {
 				localStorage.setItem('user', JSON.stringify(res));
 				localStorage.setItem('token', JSON.stringify(res.token));
 				this.router.navigate(['home']);
-				this.closePopup.emit(true);
+				this.closePopup.emit(true)
 			}, err => {
-				this.toastr.error('Please verify your email and password', 'Error');
+				this.toastr.error(this.translate.instant(err.error.message))
 			});
 		}
+	}
+
+	register() {
+		if (this.popup) this.openRegisterPopup.emit(true);
+		else this.router.navigate(['register']);
 	}
 }

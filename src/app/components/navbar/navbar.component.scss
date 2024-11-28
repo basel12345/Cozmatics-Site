@@ -1,6 +1,6 @@
 @use "../../../assets/styles/colors" as *;
 
-.row {
+.menu {
     background-color: $main-color;
     height: 68px;
     flex-wrap: nowrap;
@@ -55,7 +55,7 @@
     @media (max-width: 767px) {
 
         .p-menubar,
-        .row {
+        .menu {
             background-color: white !important;
         }
 
