@@ -94,23 +94,32 @@ nav {
 
 }
 
-.dialog-address {
+.summary {
+    background: #f3f3f3 !important;
+    border-radius: 10px;
+}
+
+.footer {
     .address {
         ::ng-deep button {
             background-color: black;
             height: 43px;
             border: none;
             border-radius: 150px;
+            color: white;
         }
     }
 
-    input:disabled {
+    input:disabled,
+    ::ng-deep.p-disabled {
         background: #e3e3e3 !important;
     }
 
     input::placeholder,
-    ::ng-deep.p-dropdown-label.p-placeholder {
+    ::ng-deep.p-dropdown-label.p-placeholder,
+    ::ng-deep.p-dropdown .p-dropdown-label {
         color: #908f8f;
+        font-family: "Cairo", sans-serif !important;
     }
 
     ::ng-deep .p-dropdown {
@@ -177,9 +186,11 @@ button {
     }
 }
 
-.deliveryStatus {
+.deliveryStatus,
+.footer {
     ::ng-deep .p-dropdown {
         width: 100%;
+        padding-inline: 10px;
     }
 }
 
@@ -205,15 +216,13 @@ button {
     }
 }
 
-// 1600
+// @media (max-width: 500px) {
+//     ::ng-deep {
+//         .p-sidebar-left {
+//             .p-dropdown-label {
+//                 padding: 0;
+//             }
+//         }
+//     }
 
-@media (max-width: 500px) {
-    ::ng-deep {
-        .p-sidebar-left {
-            .p-dropdown-label {
-                padding: 0;
-            }
-        }
-    }
-
-}
+// }

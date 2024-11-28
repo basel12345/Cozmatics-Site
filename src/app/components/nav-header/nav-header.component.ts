@@ -32,6 +32,7 @@ import { ProductsService } from '../../shared/services/products/products.service
 import { LoginComponent } from '../../modules/login/login.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { RegisterComponent } from "../../modules/register/register.component";
+import { DividerModule } from 'primeng/divider';
 
 type Droplist = {
 	name: string;
@@ -41,7 +42,7 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [LoginComponent, MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule, RegisterComponent],
+	imports: [DividerModule, LoginComponent, MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule, RegisterComponent],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })
@@ -81,6 +82,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	visibleLogin: boolean = false;
 	isMobile: boolean = false;
 	visibleRegister: boolean = false;
+	payment: boolean = false;
 	Country: any;
 	City: any;
 	constructor(
@@ -125,6 +127,12 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	}
 
 	ngAfterViewInit(): void {
+	}
+
+	handleClose() {
+		this.visibleRegister = false;
+		this.visibleLogin = false;
+		this.payment = false;
 	}
 
 	createAddressForm() {
@@ -294,6 +302,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
 				if (res) {
 					this.getAddressByCustNo();
+					this.AddressForm.disable();
 					this.visible = false;
 					this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"), this.translate.instant("Success"));
 				}
@@ -313,16 +322,6 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 
 	showDialog() {
 		this.visible = true;
-		this.Country = [
-			{
-				name: this.translate.instant('SaudiArabia'), id: 0
-			}
-		];
-		this.City = [
-			{
-				name: this.translate.instant('Riyadh'), id: 0
-			}
-		];
 	}
 
 	saveCardReq(data: any) {
@@ -380,7 +379,33 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		return ``;
 	}
 
+	selectTypeAddress(event: DropdownChangeEvent) {
+		if (event.value.code === 0 && this.address) {
+			this.AddressForm.disable();
+			this.AddressForm.patchValue(this.address);
+		}
+	}
+
 	placeOrder() {
+		this.Country = [
+			{
+				name: this.translate.instant('SaudiArabia'), id: 0
+			}
+		];
+		this.City = [
+			{
+				name: this.translate.instant('Riyadh'), id: 0
+			}
+		];
+		if (this.user) {
+			this.payment = true
+		} else {
+			// this.toastrSerice.error(this.translate.instant("PleaseLogInFirst"), this.translate.instant("Error"));
+			this.visibleLogin = true;
+		};
+	}
+
+	paymentAction() {
 		if (this.user) {
 			if (this.deliveryType.code === 0 && !this.address?.id) {
 				this.showDialog();
@@ -409,13 +434,22 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.visibleLogin = !event;
 		this.getUserInfo();
 		this.getAddressByCustNo();
+		this.payment = true;
 	}
 	closePopupRegister(event: boolean) {
 		this.visibleRegister = !event;
+		this.getUserInfo();
+		this.getAddressByCustNo();
+		this.payment = true;
 	}
 
 	openRegister() {
 		this.visibleRegister = true;
 		this.visibleLogin = false;
+	}
+
+	openLogin() {
+		this.visibleRegister = false;
+		this.visibleLogin = true;
 	}
 }

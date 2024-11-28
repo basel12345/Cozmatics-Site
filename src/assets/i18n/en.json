@@ -33,6 +33,7 @@
     "Brands": "Brands",
     "Shop": "Shop",
     "ReceivingTheOrder": "Receiving The Order",
+    "ChooseReceivingTheOrder": "Choose Receiving The Order",
     "MyAccount": "My Account",
     "AddToCart": "Add To Cart",
     "Done": "Done",
@@ -111,5 +112,9 @@
     "Passwords must have at least one lowercase ('a'-'z').":"Passwords must have at least one lowercase ('a'-'z').",
     "Passwords must have at least one uppercase ('A'-'Z').":"Passwords must have at least one uppercase ('A'-'Z').",
     "Email or Password is incorrect!": "Email or Password is incorrect!",
-    "Street, building and apartment name": "Street, building and apartment name"
+    "Street, building and apartment name": "Street, building and apartment name",
+    "Payment": "Payment",
+    "ThePayment": "Checkout",
+    "BranchAddress": "Branch Address",
+    "Riyadh, Al-Rimal District, Abdullah Al-Muwais Street": "Riyadh, Al-Rimal District, Abdullah Al-Muwais Street"
 }

@@ -1,7 +1,7 @@
 import { LoadingService } from './../../shared/services/loading/loading.service';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
@@ -23,7 +23,9 @@ export class RegisterComponent implements OnInit {
 	submitted: boolean = false;
 	registerForm!: FormGroup;
 	direction!: string;
+	@Input() popup: boolean = false;
 	@Output() closePopupRegister = new EventEmitter<boolean>();
+	@Output() openLogin = new EventEmitter<boolean>();
 
 	constructor(
 		private fb: FormBuilder,
@@ -68,5 +70,9 @@ export class RegisterComponent implements OnInit {
 				this.toaster.error(this.translate.instant(err.error.message))
 			})
 		}
+	}
+
+	goToLogin() {
+		if (this.popup) this.openLogin.emit(true);
 	}
 }
