@@ -206,8 +206,8 @@
                         <p-divider></p-divider>
                         <div class="row">
                             <div class="col">
-                                <h6 style="display: inline-block;">{{deliveryType.code === 0 ? "TotalPrice" :
-                                    'totalPriceAndShipment' | translate }}</h6>
+                                <h6 style="display: inline-block;">{{(deliveryType.code === 0 ? "TotalPrice" :
+                                    'totalPriceAndShipment') | translate }}</h6>
                             </div>
                             <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
                                 {{totalPrice}} {{"SAR" | translate }}
