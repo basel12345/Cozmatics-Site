@@ -1,9 +1,9 @@
 <div class="row menu">
-    <div class="col-md-12 col-3">
-        <p-menubar *ngIf="!items?.[1]?.items?.length">
+    <div class="col-md-12 col-3" >
+        <p-menubar  *ngIf="!items?.[1]?.items?.length">
         </p-menubar>
 
-        <p-menubar *ngIf="items?.[1]?.items?.length" [model]="items">
+        <p-menubar  *ngIf="items?.[1]?.items?.length" [model]="items">
         </p-menubar>
     </div>
     <div class="col-md-12 col-9 d-inline-block d-md-nonetext-center">

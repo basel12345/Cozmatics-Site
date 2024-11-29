@@ -14,7 +14,7 @@
 
     ul {
         margin-bottom: 0;
-        margin-left: 30px;
+        margin-left: -160px;
 
         a {
             text-decoration: none;
@@ -50,6 +50,16 @@
     }
 }
 
+::ng-deep {
+    @media screen and (max-width: 960px) {
+        .p-menubar {
+            ul {
+                margin-left: 30px;
+            }
+        }
+    }
+}
+
 
 ::ng-deep {
     @media (max-width: 767px) {
@@ -62,6 +72,10 @@
         .p-menubar {
             position: absolute;
             width: 80vw;
+
+            ul {
+                margin-left: 30px;
+            }
         }
 
         .p-autocomplete {
