@@ -6,4 +6,5 @@ export interface IAddress {
     id?: number;
     postalCode?: string
     street: string
+    shipmentCost: any
 }

@@ -1,12 +1,12 @@
 import { IProducts } from './../../shared/models/products';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild, viewChild } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, of } from 'rxjs';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
-import { PanelModule } from 'primeng/panel';
+import { Panel, PanelModule } from 'primeng/panel';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { RatingModule } from 'primeng/rating';
@@ -53,13 +53,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	Cart = PrimeIcons.SHOPPING_CART
 	isMobile: boolean = false;
 	sidebarVisible: boolean = false;
+	lang!: string | null;
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
 		public cartService: CartService,
-		private breakpointObserver: BreakpointObserver
+		private breakpointObserver: BreakpointObserver,
+		@Inject(PLATFORM_ID) private platformId: object
 	) {
+		if (isPlatformBrowser(this.platformId)) {
+			this.lang = localStorage.getItem("lang");
+		}
 		this.breakpointObserver.observe([Breakpoints.Handset])
 			.subscribe(result => {
 				this.isMobile = result.matches;
@@ -224,6 +229,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		data["mostPopular"] = this.mostPopular;
 		this.rangePrice[0] ? data["minPrice"] = this.rangePrice[0] : delete data["minPrice"];
 		this.rangePrice[1] ? data["maxPrice"] = this.rangePrice[1] : delete data["maxPrice"];
+		this.sidebarVisible = false;
 		if (data["brandIds"].length || data["categoryIds"].length || data["maxPrice"] || data["best"] || data["recent"] || data["mostPopular"]) {
 			this.productsService.filterSpecificProducts(data).subscribe(res => {
 				this.Products$ = of(res.products);

@@ -99,7 +99,7 @@
     </div>
 </div>
 
-<p-sidebar [(visible)]="sidebarVisible">
+<p-sidebar [(visible)]="sidebarVisible" [position]="lang === 'en' ? 'left' : 'right'">
     <p-panel [header]="'Brand' | translate" [toggleable]="true" [collapsed]="true">
         <div class="my-1" *ngFor="let res of Brands">
             <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"

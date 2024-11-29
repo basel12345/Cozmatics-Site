@@ -143,6 +143,21 @@
     display: none;
 }
 
+@media (max-width: 760px) {
+    ::ng-deep.container-fluid {
+        margin-top: 182px;
+    }
+
+    .advertisement {
+        margin-top: 32px;
+    }
+
+    .recentProducts {
+        margin-top: 32px;
+    }
+
+}
+
 @media (max-width: 850px) {
     .container-fluid {
         .categories {

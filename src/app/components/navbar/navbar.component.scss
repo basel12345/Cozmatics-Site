@@ -38,7 +38,21 @@
     .p-menubar {
         ul {
             margin-left: -160px;
+            padding: 0;
+
+            a {
+                justify-content: space-between;
+
+                anglerighticon {
+                    margin: 0;
+
+                    svg {
+                        rotate: 180deg;
+                    }
+                }
+            }
         }
+
     }
 }
 
@@ -49,6 +63,7 @@
         }
     }
 }
+
 
 ::ng-deep .p-menubar {
     height: 70px;
@@ -69,9 +84,11 @@
 
 ::ng-deep {
     @media screen and (max-width: 960px) {
-        .p-menubar {
-            ul {
-                margin-left: 30px;
+        ::ng-deep .dirAr {
+            .p-menubar {
+                ul {
+                    margin-left: 30px;
+                }
             }
         }
     }

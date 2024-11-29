@@ -39,7 +39,11 @@
 }
 
 .body {
-    margin-top: 200px;
+    margin-top: 240px;
+}
+
+::ng-deep .p-sidebar {
+    z-index: 999999 !important;
 }
 
 @media (max-width: 767px) {

@@ -80,6 +80,19 @@ export class CartService implements OnInit {
 		return this.httpClient.post(`https://api-endpoint.abaqelanayah.com/api/Location/createAddress`, data)
 	}
 
+	updateAddress(data: any) {
+		data = {
+			city: data.city,
+			id: data.id,
+			area: data.area,
+			areaAr: data.areaAr,
+			cityAr: data.cityAr,
+			street: data.street,
+			customerId: data.customerId,
+		};
+		return this.httpClient.put(`https://api-endpoint.abaqelanayah.com/api/Address/Update`, data)
+	}
+
 	placeOrder(Cart: ICart[], addressId: number | null, deliveryType: number | string) {
 		const users = localStorage.getItem('user');
 		if (users) this.users = JSON.parse(users);

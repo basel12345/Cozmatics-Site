@@ -85,6 +85,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	payment: boolean = false;
 	Country: any;
 	City: any;
+	isEditable: boolean = false;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -211,7 +212,9 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	getAddressByCustNo() {
 		if (this.user?.userId) {
 			this.cartService.addressByCustNo(this.user.userId).subscribe((res: any) => {
-				this.address = res[0];
+				this.address = res;
+				this.AddressForm.patchValue(this.address);
+				this.AddressForm.get('area')?.patchValue(this.address?.['shipmentCost'].id);
 				this.getshipmentCostByAddresssID()
 			})
 		}
@@ -299,14 +302,27 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 			this.submitted = false;
 			const area = this.areas.find((res: any) => res.id === this.AddressForm.get('area')?.value);
 			this.AddressForm.patchValue(area);
-			this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
-				if (res) {
-					this.getAddressByCustNo();
-					this.AddressForm.disable();
-					this.visible = false;
-					this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"), this.translate.instant("Success"));
-				}
-			})
+			if (this.isEditable) {
+				this.cartService.updateAddress({ ...this.AddressForm.getRawValue(), id: this.user.userId }).subscribe(res => {
+					if (res) {
+						this.getAddressByCustNo();
+						this.AddressForm.disable();
+						this.visible = false;
+						this.isEditable = false;
+						this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"), this.translate.instant("Success"));
+					}
+				})
+			} else {
+				this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
+					if (res) {
+						this.getAddressByCustNo();
+						this.AddressForm.disable();
+						this.visible = false;
+						this.isEditable = false;
+						this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"), this.translate.instant("Success"));
+					}
+				})
+			}
 		}
 
 	}
@@ -382,8 +398,19 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	selectTypeAddress(event: DropdownChangeEvent) {
 		if (event.value.code === 0 && this.address) {
 			this.AddressForm.disable();
-			this.AddressForm.patchValue(this.address);
 		}
+	}
+
+	editAddress() {
+		this.AddressForm.enable();
+		this.isEditable = true;
+	}
+
+	closeAddress() {
+		this.AddressForm.disable();
+		this.AddressForm.patchValue(this.address);
+		this.AddressForm.get('area')?.patchValue(this.address?.['shipmentCost'].id);
+		this.isEditable = false;
 	}
 
 	placeOrder() {

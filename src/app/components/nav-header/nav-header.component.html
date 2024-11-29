@@ -2,10 +2,11 @@
     <div class="row">
         <div class="col-4 col-md-2 logo" [ngClass]="direction === 'rtl' ? 'text-end': 'text-start'"
             (click)="navigateToHome()">
-            <img class="main-image my-1 d-none d-md-block"
-                [src]="direction === 'rtl' ? 'assets/Logo svg.svg' :'assets/Logo svg En Web.svg'" alt="Abaq Elanayah">
-            <img class="my-1 d-md-none d-sm-block"
-                [src]="direction === 'rtl' ? 'assets/Logo svg 02.svg' :'assets/Logo svg en 02.svg'" alt="Abaq Elanayah">
+            <!--  d-none d-md-block -->
+            <img class="main-image my-1"
+                [src]="direction === 'rtl' ? 'assets/Logo Web Header Ar-01.svg' :'assets/Logo Web Header En-01.svg'" alt="Abaq Elanayah">
+            <!-- <img class="my-1 d-md-none d-sm-block"
+                [src]="direction === 'rtl' ? 'assets/Logo svg 02.svg' :'assets/Logo Web Header En-01.svg'" alt="Abaq Elanayah"> -->
         </div>
         <div class="search col-12 col-md-8 text-center">
             <p-autoComplete [placeholder]="'Search' | translate" [suggestions]="resultSearch"
@@ -161,7 +162,13 @@
                 </ng-container>
                 <ng-container *ngIf="deliveryType?.code === 0">
                     <div class="card my-2 pb-2">
-                        <h3 class="mt-2">{{"Address" | translate}}</h3>
+                        <div class="row">
+                            <h3 class="mt-2 col">{{"Address" | translate}}</h3>
+                            <div class="mt-2 col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+                                <a *ngIf="!isEditable" (click)="editAddress()" style="cursor: pointer; color: black;"><i class="pi pi-pencil"></i></a>
+                                <a *ngIf="isEditable" (click)="closeAddress()" style="cursor: pointer; color: black;"><i class="pi pi-times-circle"></i></a>
+                            </div>
+                        </div>
                         <form [formGroup]="AddressForm" (ngSubmit)="saveAddress()">
                             <div class="row">
                                 <div class="col-12 col-md-6 mt-4">
@@ -193,7 +200,7 @@
                                         {{"Street" | translate}} {{"isRequired" | translate}}
                                     </span>
                                 </div>
-                                <div *ngIf="!address" class="col-12 address text-center mt-4">
+                                <div *ngIf="!address || isEditable" class="col-12 address text-center mt-4">
                                     <p-button type="submit" [label]="'Save' | translate" [raised]="true"></p-button>
                                 </div>
                             </div>

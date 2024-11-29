@@ -6,6 +6,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { CommonModule, NgIf } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',
@@ -22,10 +24,22 @@ export class AppComponent implements OnInit {
     onWindowScroll($event: any) {
         const scrollY = window.scrollY || document.documentElement.scrollTop;
         this.isFixed = scrollY > 125;
-    } 
+    }
 
-    constructor(public loadingService: LoadingService) { }
+    constructor(public loadingService: LoadingService, private translate: TranslateService, private titleService: Title) { }
     ngOnInit(): void {
         this.direction = localStorage.getItem("lang") === "ar" ? "rtl" : "ltr";
+        this.translate.onLangChange.subscribe(() => {
+            this.updateTitle();
+        });
+
+        this.updateTitle();
     }
+    updateTitle() {
+        this.translate.get('Title').subscribe((translatedTitle: string) => {
+            this.titleService.setTitle(translatedTitle);
+        });
+    }
+
+
 }

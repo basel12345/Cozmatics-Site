@@ -1,6 +1,6 @@
 import { IProducts } from './../../shared/models/products';
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TrimDecimalPipe } from '../../shared/pipes/fixed-number.pipe';
@@ -44,14 +44,19 @@ export class RecentProductsComponent implements OnInit {
 	Cart = PrimeIcons.SHOPPING_CART;
 	isMobile: boolean = false;
 	sidebarVisible: boolean = false;
+	lang!: string | null;
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
 		public cartService: CartService,
-		private breakpointObserver: BreakpointObserver
+		private breakpointObserver: BreakpointObserver,
+        @Inject(PLATFORM_ID) private platformId: object
 	) {
+		if (isPlatformBrowser(this.platformId)) {
+            this.lang = localStorage.getItem("lang");
+		}
 		this.breakpointObserver.observe([Breakpoints.Handset])
 			.subscribe(result => {
 				this.isMobile = result.matches;
@@ -117,6 +122,7 @@ export class RecentProductsComponent implements OnInit {
 		data["categoryIds"] = this.arrOfFilterCategory;
 		data["minPrice"] = this.rangePrice[0] ? this.rangePrice[0] : null;
 		data["maxPrice"] = this.rangePrice[1] ? this.rangePrice[1] : null;
+		this.sidebarVisible = false;
 		if (data["brandIds"].length || data["categoryIds"].length || data["maxPrice"]) {
 			this.productsService.filterSpecificProducts(data).subscribe(res => {
 				this.Products$ = of(res.products);
