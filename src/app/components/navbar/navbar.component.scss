@@ -14,7 +14,7 @@
 
     ul {
         margin-bottom: 0;
-        margin-left: -160px;
+
 
         a {
             text-decoration: none;
@@ -31,6 +31,12 @@
         background: white;
     }
 
+}
+
+body[dir='rtl'] {
+    ul {
+        margin-left: -160px;
+    }
 }
 
 ::ng-deep .p-menubar {
