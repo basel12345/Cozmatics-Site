@@ -33,9 +33,20 @@
 
 }
 
-body[dir='rtl'] {
-    ul {
-        margin-left: -160px;
+
+::ng-deep .dirAr {
+    .p-menubar {
+        ul {
+            margin-left: -160px;
+        }
+    }
+}
+
+::ng-deep .dirEn {
+    .p-menubar {
+        ul {
+            margin-left: 30px;
+        }
     }
 }
 

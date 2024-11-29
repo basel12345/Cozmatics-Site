@@ -3,7 +3,11 @@
 nav {
     padding: 16px 16px 0 16px;
     background-color: #ffdd01;
-
+    ::ng-deep {
+        .p-dropdown .p-dropdown-label {
+            padding-inline: 0 !important;
+        }
+    }
     .row {
         width: 100% !important;
 

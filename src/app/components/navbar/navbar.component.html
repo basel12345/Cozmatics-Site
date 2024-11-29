@@ -1,5 +1,5 @@
 <div class="row menu">
-    <div class="col-md-12 col-3" >
+    <div [ngClass]="lang === 'ar' ? 'dirAr' : 'dirEn'" class="col-md-12 col-3" >
         <p-menubar  *ngIf="!items?.[1]?.items?.length">
         </p-menubar>
 
