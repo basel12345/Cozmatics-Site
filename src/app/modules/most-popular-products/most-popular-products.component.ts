@@ -46,6 +46,9 @@ export class MostPopularProductsComponent {
     isMobile: boolean = false;
     sidebarVisible: boolean = false;
     lang!: string | null;
+    panelBrand: boolean = true;
+    panelCategory: boolean = true;
+    panelPrice: boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -54,10 +57,10 @@ export class MostPopularProductsComponent {
         public cartService: CartService,
         private breakpointObserver: BreakpointObserver,
         @Inject(PLATFORM_ID) private platformId: object
-	) {
-		if (isPlatformBrowser(this.platformId)) {
-			this.lang = localStorage.getItem("lang");
-		}
+    ) {
+        if (isPlatformBrowser(this.platformId)) {
+            this.lang = localStorage.getItem("lang");
+        }
         this.breakpointObserver.observe([Breakpoints.Handset])
             .subscribe(result => {
                 this.isMobile = result.matches;
@@ -97,6 +100,17 @@ export class MostPopularProductsComponent {
         this.getData();
     }
 
+    brandPanalAction() {
+        this.panelBrand = !this.panelBrand;
+    }
+
+    categoryPanalAction() {
+        this.panelCategory = !this.panelCategory;
+    }
+
+    pricePanalAction() {
+        this.panelPrice = !this.panelPrice;
+    }
 
     getData() {
         const data: {

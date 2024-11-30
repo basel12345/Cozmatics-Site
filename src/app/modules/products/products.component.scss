@@ -117,6 +117,22 @@ h3,
     color: $main-color;
 }
 
+::ng-deep .p-panel-content {
+    padding: 0;
+}
+
+::ng-deep .p-panel-icons {
+    display: none;
+}
+
+::ng-deep .p-toggleable-content {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: $main-color #f1f1f1;
+    scroll-behavior: smooth;
+}
+
 label {
     font-size: 12px;
 }

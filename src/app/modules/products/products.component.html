@@ -1,39 +1,43 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2 col-12" *ngIf="Brands && !queryParams && !isMobile">
-            <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true" [collapsed]="true">
-                <div class="my-1" *ngFor="let res of Brands">
-                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
+            <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true" [(collapsed)]="panelBrand"
+                (click)="brandPanalAction()">
+                <div *ngFor="let res of Brands" (click)="$event.stopPropagation()">
+                    <p-checkbox class="me-2 ms-2" [binary]="true" [value]="res.id"
                         (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
-                    <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
+                    <label class="label-checkbox">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true" [collapsed]="true">
-                <div class="my-1" *ngFor="let res of Category">
-                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
+            <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true"
+                [(collapsed)]="panelCategory" (click)="categoryPanalAction()">
+                <div *ngFor="let res of Category" (click)="$event.stopPropagation()">
+                    <p-checkbox class="me-2 ms-2" [binary]="true" [value]="res.id"
                         (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
-                    <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
+                    <label class="label-checkbox">{{res.name | uppercase}}</label>
                 </div>
             </p-panel>
-            <p-panel [header]="'Price'| translate" [toggleable]="true" [collapsed]="true">
-                <div>
-                    <div>
+            <p-panel [header]="'Price'| translate" [toggleable]="true" [(collapsed)]="panelPrice"
+                (click)="pricePanalAction()">
+                <div (click)="$event.stopPropagation()">
+                    <div class="p-2">
                         <label for="">{{"From" | translate}}</label>
                         <input type="number" class="form-control" [placeholder]="'From' | translate"
                             [(ngModel)]="rangePrice[0]">
                     </div>
-                    <div>
+                    <div class="p-2">
                         <label for="">{{"To" | translate}}</label>
                         <input type="number" class="form-control" [placeholder]="'To' | translate"
                             [(ngModel)]="rangePrice[1]">
                     </div>
                 </div>
             </p-panel>
-            <p-panel [header]="'Tags' | translate" [toggleable]="true" [collapsed]="true">
-                <div class="my-1" *ngFor="let res of TagValues">
-                    <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res"
+            <p-panel [header]="'Tags' | translate" [toggleable]="true" [(collapsed)]="tageCategory"
+                (click)="tagePanalAction()">
+                <div *ngFor="let res of TagValues" (click)="$event.stopPropagation()">
+                    <p-checkbox class="me-2 ms-2" [binary]="true"
                         (onChange)="selectSearchTags($event.checked, res)"></p-checkbox>
-                    <label class="label-checkbox" style="font-size: 12px;" for="binary">{{Tags[res] |
+                    <label class="label-checkbox" style="font-size: 12px;">{{Tags[res] |
                         uppercase}}</label>
                 </div>
             </p-panel>
@@ -118,22 +122,24 @@
 
 
 <p-sidebar [(visible)]="sidebarVisible" [position]="lang === 'en' ? 'left' : 'right'">
-    <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true" [collapsed]="true">
-        <div class="my-1" *ngFor="let res of Brands">
-            <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
+    <p-panel *ngIf="!branId" [header]="'Brand' | translate" [toggleable]="true" [(collapsed)]="panelBrand"
+        (click)="brandPanalAction()">
+        <div *ngFor="let res of Brands" (click)="$event.stopPropagation()">
+            <p-checkbox class="me-2 ms-2" [binary]="true" [value]="res.id"
                 (onChange)="selectSearch($event.checked, res.id)"></p-checkbox>
-            <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
+            <label class="label-checkbox">{{res.name | uppercase}}</label>
         </div>
     </p-panel>
-    <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true" [collapsed]="true">
-        <div class="my-1" *ngFor="let res of Category">
-            <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res.id"
+    <p-panel *ngIf="!categoryId" [header]="'Category'| translate" [toggleable]="true" [(collapsed)]="panelCategory"
+        (click)="categoryPanalAction()">
+        <div *ngFor="let res of Category" (click)="$event.stopPropagation()">
+            <p-checkbox class="me-2 ms-2" [binary]="true" [value]="res.id"
                 (onChange)="selectSearchCategory($event.checked, res.id)"></p-checkbox>
-            <label class="label-checkbox" for="binary">{{res.name | uppercase}}</label>
+            <label class="label-checkbox">{{res.name | uppercase}}</label>
         </div>
     </p-panel>
-    <p-panel [header]="'Price'| translate" [toggleable]="true" [collapsed]="true">
-        <div>
+    <p-panel [header]="'Price'| translate" [toggleable]="true" [(collapsed)]="panelPrice" (click)="pricePanalAction()">
+        <div (click)="$event.stopPropagation()">
             <div>
                 <label for="">{{"From" | translate}}</label>
                 <input type="number" class="form-control" [placeholder]="'From' | translate"
@@ -145,11 +151,11 @@
             </div>
         </div>
     </p-panel>
-    <p-panel [header]="'Tags' | translate" [toggleable]="true" [collapsed]="true">
-        <div class="my-1" *ngFor="let res of TagValues">
-            <p-checkbox class="me-2 ms-2" [binary]="true" inputId="binary" [value]="res"
+    <p-panel [header]="'Tags' | translate" [toggleable]="true" [(collapsed)]="tageCategory" (click)="tagePanalAction()">
+        <div *ngFor="let res of TagValues" (click)="$event.stopPropagation()">
+            <p-checkbox class="me-2 ms-2" [binary]="true" [value]="res"
                 (onChange)="selectSearchTags($event.checked, res)"></p-checkbox>
-            <label class="label-checkbox" style="font-size: 12px;" for="binary">{{Tags[res] |
+            <label class="label-checkbox" style="font-size: 12px;">{{Tags[res] |
                 uppercase}}</label>
         </div>
     </p-panel>

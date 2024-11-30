@@ -45,7 +45,10 @@ export class RecentProductsComponent implements OnInit {
 	isMobile: boolean = false;
 	sidebarVisible: boolean = false;
 	lang!: string | null;
-
+	panelBrand: boolean = true;
+	panelCategory: boolean = true;
+	panelPrice: boolean = true;
+	
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -75,6 +78,18 @@ export class RecentProductsComponent implements OnInit {
 			this.Brands = res['Brands'];
 			this.Category = res['Category'];
 		});
+	}
+
+	brandPanalAction() {
+		this.panelBrand = !this.panelBrand;
+	}
+
+	categoryPanalAction() {
+		this.panelCategory = !this.panelCategory;
+	}
+
+	pricePanalAction() {
+		this.panelPrice = !this.panelPrice;
 	}
 
 	selectSearch(checked: boolean, value: number) {

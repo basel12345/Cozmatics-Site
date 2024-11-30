@@ -54,6 +54,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	isMobile: boolean = false;
 	sidebarVisible: boolean = false;
 	lang!: string | null;
+	panelBrand: boolean = true;
+	panelCategory: boolean = true;
+	panelPrice: boolean = true;
+	tageCategory: boolean = true;
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -92,6 +96,22 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
 	openFilterSideBar() {
 		this.sidebarVisible = true;
+	}
+
+	brandPanalAction() {
+		this.panelBrand = !this.panelBrand;
+	}
+
+	categoryPanalAction() {
+		this.panelCategory = !this.panelCategory;
+	}
+
+	pricePanalAction() {
+		this.panelPrice = !this.panelPrice;
+	}
+
+	tagePanalAction() {
+		this.tageCategory = !this.tageCategory;
 	}
 
 	filterProducts(BrandId: number, CatId: number, Discount: number, Tag: string) {
@@ -148,18 +168,21 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	selectSearch(checked: boolean, value: number) {
+		this.panelBrand = false;
 		const checkValueInArray = this.arrOfFilterBrand.find((res: number) => res === value);
 		if (checked && !checkValueInArray) this.arrOfFilterBrand.push(value);
 		else this.arrOfFilterBrand = this.arrOfFilterBrand.filter((res: number) => res !== value);
 	}
 
 	selectSearchCategory(checked: boolean, value: number) {
+		this.panelCategory = false;
 		const checkValueInArray = this.arrOfFilterCategory.find((res: number) => res === value);
 		if (checked && !checkValueInArray) this.arrOfFilterCategory.push(value);
 		else this.arrOfFilterCategory = this.arrOfFilterCategory.filter((res: number) => res !== value);
 	}
 
 	selectSearchTags(checked: boolean, value: number) {
+		this.tageCategory = false;
 		if (value === 0) this.mostPopular = checked
 		else if (value === 1) this.recent = checked;
 		else if (value === 2) this.best = checked;

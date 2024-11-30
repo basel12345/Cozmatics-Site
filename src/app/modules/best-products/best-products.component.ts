@@ -47,6 +47,10 @@ export class BestProductsComponent {
 	isMobile: boolean = false;
 	sidebarVisible: boolean = false;
 	lang!: string | null;
+	panelBrand: boolean = true;
+	panelCategory: boolean = true;
+	panelPrice: boolean = true;
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -97,6 +101,18 @@ export class BestProductsComponent {
 			this.Products$ = of(res['products']);
 			this.totalCount = res.totalCount;
 		})
+	}
+
+	brandPanalAction() {
+		this.panelBrand = !this.panelBrand;
+	}
+
+	categoryPanalAction() {
+		this.panelCategory = !this.panelCategory;
+	}
+
+	pricePanalAction() {
+		this.panelPrice = !this.panelPrice;
 	}
 
 	onPageChange(event: any) {
