@@ -312,7 +312,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 						this.AddressForm.disable();
 						this.visible = false;
 						this.isEditable = false;
-						this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"), this.translate.instant("Success"));
+						this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"));
 					}
 				})
 			} else {
@@ -323,7 +323,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 						this.AddressForm.disable();
 						this.visible = false;
 						this.isEditable = false;
-						this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"), this.translate.instant("Success"));
+						this.toastrSerice.success(this.translate.instant("AdrressSavedSuccessfully"));
 					}
 				})
 			}
@@ -366,7 +366,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	// 	}
 	// 	this.paymentService.paymentUrl(data).subscribe((res: any) => {
 	// 		if (res['IsSuccess']) {
-	// 			this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"), this.translate.instant("Success"));
+	// 			this.toastrSerice.success(this.translate.instant("OrderSavedSuccessfully"));
 	// 			localStorage.removeItem("carts");
 	// 			this.cartService.cart = [];
 	// 			this.carts = [];
