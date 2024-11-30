@@ -84,7 +84,7 @@
 
 ::ng-deep {
     @media screen and (max-width: 960px) {
-        ::ng-deep .dirAr {
+        .dirAr {
             .p-menubar {
                 ul {
                     margin-left: 30px;
@@ -109,6 +109,14 @@
 
             ul {
                 margin-left: 30px;
+            }
+        }
+
+        .dirAr {
+            .p-menubar {
+                ul {
+                    margin-left: 30px;
+                }
             }
         }
 
