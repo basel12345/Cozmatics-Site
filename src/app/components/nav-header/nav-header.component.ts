@@ -86,6 +86,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	Country: any;
 	City: any;
 	isEditable: boolean = false;
+	areaId!: number;
 	constructor(
 		private router: Router,
 		public sanitizer: DomSanitizer,
@@ -300,12 +301,14 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		this.submitted = true;
 		if (this.AddressForm.valid) {
 			this.submitted = false;
+			this.areaId = this.AddressForm.get('area')?.value
 			const area = this.areas.find((res: any) => res.id === this.AddressForm.get('area')?.value);
 			this.AddressForm.patchValue(area);
 			if (this.isEditable) {
-				this.cartService.updateAddress({ ...this.AddressForm.getRawValue(), id: this.user.userId }).subscribe(res => {
+				this.cartService.updateAddress({ ...this.AddressForm.getRawValue(), id: this.address.id }).subscribe(res => {
 					if (res) {
 						this.getAddressByCustNo();
+						this.AddressForm.get("area")?.patchValue(this.areaId);
 						this.AddressForm.disable();
 						this.visible = false;
 						this.isEditable = false;
@@ -316,6 +319,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 				this.cartService.createAddress(this.AddressForm.getRawValue()).subscribe(res => {
 					if (res) {
 						this.getAddressByCustNo();
+						this.AddressForm.get("area")?.patchValue(this.areaId);
 						this.AddressForm.disable();
 						this.visible = false;
 						this.isEditable = false;
