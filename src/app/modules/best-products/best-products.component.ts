@@ -22,11 +22,12 @@ import { CartService } from '../../shared/services/cart/cart.service';
 import { PrimeIcons } from 'primeng/api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { SidebarModule } from 'primeng/sidebar';
+import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
 
 @Component({
 	selector: 'app-best-products',
 	standalone: true,
-	imports: [SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
+	imports: [AddVatPipe, SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
 	templateUrl: './best-products.component.html',
 	styleUrl: './best-products.component.scss'
 })
@@ -50,6 +51,7 @@ export class BestProductsComponent {
 	panelBrand: boolean = true;
 	panelCategory: boolean = true;
 	panelPrice: boolean = true;
+	addVatPipe = new AddVatPipe();
 
 	constructor(
 		private route: ActivatedRoute,
@@ -57,7 +59,7 @@ export class BestProductsComponent {
 		public productsService: ProductsService,
 		public cartService: CartService,
 		private breakpointObserver: BreakpointObserver,
-		@Inject(PLATFORM_ID) private platformId: object
+		@Inject(PLATFORM_ID) private platformId: object,
 	) {
 		if (isPlatformBrowser(this.platformId)) {
 			this.lang = localStorage.getItem("lang");
@@ -124,6 +126,7 @@ export class BestProductsComponent {
 	}
 
 	addCart(cart: ICart) {
+		if(cart.vat) cart.price = this.addVatPipe.transform(cart.price)
 		this.cartService.addCart(cart);
 	}
 

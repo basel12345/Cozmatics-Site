@@ -14,6 +14,7 @@ export interface IProducts {
     totalRate: number;
     categoryName: string;
     brandName: string;
+    vat: number;
     productImgs: [
         {
             imagePath: string;

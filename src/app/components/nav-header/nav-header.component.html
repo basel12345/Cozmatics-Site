@@ -4,7 +4,8 @@
             (click)="navigateToHome()">
             <!--  d-none d-md-block -->
             <img class="main-image my-1"
-                [src]="direction === 'rtl' ? 'assets/Logo Web Header Ar-01.svg' :'assets/Logo Web Header En-01.svg'" alt="Abaq Elanayah">
+                [src]="direction === 'rtl' ? 'assets/Logo Web Header Ar-01.svg' :'assets/Logo Web Header En-01.svg'"
+                alt="Abaq Elanayah">
             <!-- <img class="my-1 d-md-none d-sm-block"
                 [src]="direction === 'rtl' ? 'assets/Logo svg 02.svg' :'assets/Logo Web Header En-01.svg'" alt="Abaq Elanayah"> -->
         </div>
@@ -56,15 +57,17 @@
                         {{"AvailableQuantity" | translate}}: {{res.qty}}
                     </div>
                     <div class="price">
-                        <span style="font-weight: bolder; display: block;"
-                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                        <span [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
                             {{"SAR" | translate}} {{res.price}}</span>
-                        <span> ({{"VATIncluded" | translate}})</span>
+                        <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                     </div>
-                    <div class="discount" *ngIf="res.discountPercentage">{{"SAR" | translate}} {{+res.price -
-                        ((+res.discountPercentage
-                        /
-                        100 ) * +res.price) | trimDecimalPipe}}
+                    <div class="discount">
+                        <span *ngIf="res.discountPercentage">
+                            {{"SAR" | translate}}
+                            {{+res.price - ((+res.discountPercentage
+                            /
+                            100 ) * +res.price) | trimDecimalPipe}}
+                        </span>
                     </div>
                 </div>
                 <div class="col-2">
@@ -165,8 +168,10 @@
                         <div class="row">
                             <h3 class="mt-2 col">{{"Address" | translate}}</h3>
                             <div class="mt-2 col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                                <a *ngIf="!isEditable" (click)="editAddress()" style="cursor: pointer; color: black;"><i class="pi pi-pencil"></i></a>
-                                <a *ngIf="isEditable" (click)="closeAddress()" style="cursor: pointer; color: black;"><i class="pi pi-times-circle"></i></a>
+                                <a *ngIf="!isEditable" (click)="editAddress()" style="cursor: pointer; color: black;"><i
+                                        class="pi pi-pencil"></i></a>
+                                <a *ngIf="isEditable" (click)="closeAddress()" style="cursor: pointer; color: black;"><i
+                                        class="pi pi-times-circle"></i></a>
                             </div>
                         </div>
                         <form [formGroup]="AddressForm" (ngSubmit)="saveAddress()">

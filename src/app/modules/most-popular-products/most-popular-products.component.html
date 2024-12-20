@@ -63,17 +63,24 @@
                                     <div class="tags" *ngIf="res.tag || res.tag === 0">
                                         {{Tags[res.tag]}}
                                     </div>
-                                    <div class="price"
-                                        [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                        SAR
-                                        {{res.price}}<span> (VAT included)</span>
+                                    <div class="price">
+                                        <span
+                                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                                            {{"SAR" | translate}} {{res['vat'] ? (res.price | addVat) : res.price}}</span>
+                                        <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                                     </div>
                                     <div class="discount">
-                                        <span *ngIf="res.discountPercentage">
+                                        <span *ngIf="res.discountPercentage && !res['vat']">
                                             {{"SAR" | translate}}
                                             {{+res.price - ((+res.discountPercentage
                                             /
                                             100 ) * +res.price) | trimDecimalPipe}}
+                                        </span>
+                                        <span *ngIf="res.discountPercentage && res['vat']">
+                                            {{"SAR" | translate}}
+                                            {{+(res.price | addVat) - ((+res.discountPercentage
+                                            /
+                                            100 ) * +(res.price | addVat)) | trimDecimalPipe}}
                                         </span>
                                     </div>
                                 </div>
@@ -81,7 +88,7 @@
                             <hr>
                             <div class="footer">
                                 <p-button *ngIf="!res.hasAttr" [icon]="Cart"
-                                    (onClick)="addCart({id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.imagePath, qty: res.qty})"
+                                    (onClick)="addCart({vat: res.vat,id:res.id, name: res.name, price: res.price, discountPercentage: res.discountPercentage, coverImg: res.imagePath, qty: res.qty})"
                                     [label]="'AddToCart' | translate" [text]="true" severity="help"
                                     [disabled]="!res.qty"></p-button>
                                 <p-button *ngIf="res.hasAttr" (onClick)="navigateToProduct(res.id)"

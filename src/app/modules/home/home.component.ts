@@ -1,7 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { IAdvertisement } from './../../shared/models/advertisement';
 import { IProducts } from './../../shared/models/products';
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,11 +15,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Carousel } from 'primeng/carousel';
+import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
 
 @Component({
 	selector: 'app-home',
 	standalone: true,
-	imports: [CarouselModule, ButtonModule, TrimDecimalPipe, RatingModule, FormsModule, TranslateModule, SkeletonModule],
+	imports: [AddVatPipe, CarouselModule, ButtonModule, TrimDecimalPipe, RatingModule, FormsModule, TranslateModule, SkeletonModule],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss'
 })
@@ -39,10 +40,12 @@ export class HomeComponent implements OnInit {
 	lang!: string | null;
 	Cart = PrimeIcons.SHOPPING_CART
 	responsiveCardOptions: any[] | undefined;
+	addVatPipe = new AddVatPipe();
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
-		public cartService: CartService
+		public cartService: CartService,
 	) {
 	}
 	ngOnInit(): void {
@@ -150,6 +153,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	addCart(cart: ICart) {
+		if(cart.vat) cart.price = this.addVatPipe.transform(cart.price);
 		this.cartService.addCart(cart);
 	}
 

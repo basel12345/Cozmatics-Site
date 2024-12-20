@@ -20,11 +20,12 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProductsService } from '../../shared/services/products/products.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
+import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
 
 @Component({
 	selector: 'app-product',
 	standalone: true,
-	imports: [TranslateModule, CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule, TranslateModule],
+	imports: [AddVatPipe, TranslateModule, CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule, TranslateModule],
 	templateUrl: './product.component.html',
 	styleUrl: './product.component.scss'
 })
@@ -56,6 +57,8 @@ export class ProductComponent implements OnInit {
 	selectedImage!: SafeResourceUrl;
 	attributeValue: string | undefined;
 	Cart = PrimeIcons.SHOPPING_CART
+	addVatPipe = new AddVatPipe();
+
 	constructor(
 		private route: ActivatedRoute,
 		private reviewService: ReviewService,
@@ -63,7 +66,7 @@ export class ProductComponent implements OnInit {
 		public cartService: CartService,
 		private translateService: TranslateService,
 		private productService: ProductsService,
-		@Inject(PLATFORM_ID) private platformId: object
+		@Inject(PLATFORM_ID) private platformId: object,
 	) { }
 
 	ngOnInit(): void {
@@ -124,6 +127,7 @@ export class ProductComponent implements OnInit {
 	}
 
 	addCart(cart: ICart) {
+		if (cart.vat) cart.price = this.addVatPipe.transform(cart.price);
 		this.cartService.addCart(cart);
 	}
 

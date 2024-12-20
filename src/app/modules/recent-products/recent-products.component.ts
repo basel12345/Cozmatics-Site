@@ -21,10 +21,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { SidebarModule } from 'primeng/sidebar';
+import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
 @Component({
 	selector: 'app-recent-products',
 	standalone: true,
-	imports: [SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
+	imports: [AddVatPipe, SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
 	templateUrl: './recent-products.component.html',
 	styleUrl: './recent-products.component.scss'
 })
@@ -48,17 +49,18 @@ export class RecentProductsComponent implements OnInit {
 	panelBrand: boolean = true;
 	panelCategory: boolean = true;
 	panelPrice: boolean = true;
-	
+	addVatPipe = new AddVatPipe();
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
 		public cartService: CartService,
 		private breakpointObserver: BreakpointObserver,
-        @Inject(PLATFORM_ID) private platformId: object
+		@Inject(PLATFORM_ID) private platformId: object,
 	) {
 		if (isPlatformBrowser(this.platformId)) {
-            this.lang = localStorage.getItem("lang");
+			this.lang = localStorage.getItem("lang");
 		}
 		this.breakpointObserver.observe([Breakpoints.Handset])
 			.subscribe(result => {
@@ -116,6 +118,7 @@ export class RecentProductsComponent implements OnInit {
 	}
 
 	addCart(cart: ICart) {
+		if(cart.vat) cart.price = this.addVatPipe.transform(cart.price);
 		this.cartService.addCart(cart);
 	}
 

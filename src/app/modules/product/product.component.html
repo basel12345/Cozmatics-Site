@@ -12,7 +12,8 @@
                 [src]="selectedImage ? 'https://api-endpoint.abaqelanayah.com' + selectedImage : 'https://api-endpoint.abaqelanayah.com' + coverImage">
         </div>
         <div class="col-12 col-md-5 desc">
-            <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{product.imagePath}}" [alt]="product.imagePath">
+            <img class="d-block" src="https://api-endpoint.abaqelanayah.com{{product.imagePath}}"
+                [alt]="product.imagePath">
             <h6 class="mt-2">{{product.name}}</h6>
             <div class="mt-2">
                 {{"AvailableTotalQuantity" | translate}}: {{product.qty ? product.qty : 0}}
@@ -26,11 +27,16 @@
             <h4 class="d-inline-block mt-2"
                 [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">{{"SAR" |
                 translate}}
-                {{product.price}}</h4> <span> ({{"VATIncluded" | translate}})</span>
-            <h4 class="discount mt-2" *ngIf="product.discountPercentage">{{"SAR" | translate}}
+                {{product['vat'] ? (product.price | addVat) : product.price}}</h4> <span *ngIf="product['vat']">
+                ({{"VATIncluded" | translate}})</span>
+            <h4 class="discount mt-2" *ngIf="product.discountPercentage && !product.vat">{{"SAR" | translate}}
                 {{+product.price - ((+product.discountPercentage
                 /
                 100 ) * +product.price) | trimDecimalPipe}}</h4>
+            <h4 class="discount mt-2" *ngIf="product.discountPercentage && product.vat">{{"SAR" | translate}}
+                {{(product.price | addVat) - ((+product.discountPercentage
+                /
+                100 ) * (product.price | addVat)) | trimDecimalPipe}}</h4>
             <div class="flex flex-wrap gap-3 mt-2">
                 <div class="flex align-items-center">
                     <ng-container *ngFor="let res of attributeValuesSizes">
@@ -52,7 +58,7 @@
             <span class="danger mt-2" *ngIf="textNotFoundMessageColor">{{textNotFoundMessageColor}}</span>
             <div class="footer">
                 <p-button [label]="'AddToCart' | translate" [raised]="true" [icon]="Cart"
-                    (onClick)="addCart({id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: getQuantityToCart(product.qty), attrValueId: attributeId, attributeValue: attributeValue})"
+                    (onClick)="addCart({vat: product.vat,id:product.id, name: product.name, price: product.price, discountPercentage: product.discountPercentage, coverImg: coverImage, qty: getQuantityToCart(product.qty), attrValueId: attributeId, attributeValue: attributeValue})"
                     [disabled]="!!textNotFoundMessageSize || !!textNotFoundMessageColor  || !product.qty"></p-button>
             </div>
         </div>

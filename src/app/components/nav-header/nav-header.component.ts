@@ -33,6 +33,7 @@ import { LoginComponent } from '../../modules/login/login.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { RegisterComponent } from "../../modules/register/register.component";
 import { DividerModule } from 'primeng/divider';
+import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
 
 type Droplist = {
 	name: string;
@@ -42,7 +43,7 @@ type Droplist = {
 @Component({
 	selector: 'app-nav-header',
 	standalone: true,
-	imports: [DividerModule, LoginComponent, MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule, RegisterComponent],
+	imports: [AddVatPipe, DividerModule, LoginComponent, MenubarModule, InputTextModule, DropdownModule, FormsModule, NgIf, SidebarModule, ButtonModule, NgFor, TrimDecimalPipe, CommonModule, InputNumberModule, BadgeModule, DialogModule, ReactiveFormsModule, InputMaskModule, TranslateModule, RadioButtonModule, FontAwesomeModule, AutoCompleteModule, RegisterComponent],
 	templateUrl: './nav-header.component.html',
 	styleUrl: './nav-header.component.scss'
 })

@@ -8,4 +8,5 @@ export interface ICart {
     attrValueId?: number | undefined;
     attributeValue?: string | undefined
     num?: number;
+    vat?: number;
 }

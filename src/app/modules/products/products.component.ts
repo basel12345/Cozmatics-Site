@@ -21,11 +21,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { SidebarModule } from 'primeng/sidebar';
+import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
 
 @Component({
 	selector: 'app-products',
 	standalone: true,
-	imports: [CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule, SidebarModule],
+	imports: [AddVatPipe, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule, SidebarModule],
 	templateUrl: './products.component.html',
 	styleUrl: './products.component.scss'
 })
@@ -58,13 +59,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	panelCategory: boolean = true;
 	panelPrice: boolean = true;
 	tageCategory: boolean = true;
+	addVatPipe = new AddVatPipe();
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		public productsService: ProductsService,
 		public cartService: CartService,
 		private breakpointObserver: BreakpointObserver,
-		@Inject(PLATFORM_ID) private platformId: object
+		@Inject(PLATFORM_ID) private platformId: object,
 	) {
 		if (isPlatformBrowser(this.platformId)) {
 			this.lang = localStorage.getItem("lang");
@@ -222,6 +225,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	addCart(cart: ICart) {
+		if(cart.vat) cart.price = this.addVatPipe.transform(cart.price);
+		console.log(cart);
 		this.cartService.addCart(cart);
 	}
 

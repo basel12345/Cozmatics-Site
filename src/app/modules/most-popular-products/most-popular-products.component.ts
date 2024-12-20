@@ -21,11 +21,12 @@ import { ICart } from '../../shared/models/cart';
 import { PrimeIcons } from 'primeng/api';
 import { SidebarModule } from 'primeng/sidebar';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
 
 @Component({
     selector: 'app-most-popular-products',
     standalone: true,
-    imports: [SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
+    imports: [AddVatPipe, SidebarModule, CardModule, ButtonModule, CommonModule, TrimDecimalPipe, PanelModule, CheckboxModule, PaginatorModule, RatingModule, SliderModule, TranslateModule],
     templateUrl: './most-popular-products.component.html',
     styleUrl: './most-popular-products.component.scss'
 })
@@ -49,6 +50,7 @@ export class MostPopularProductsComponent {
     panelBrand: boolean = true;
     panelCategory: boolean = true;
     panelPrice: boolean = true;
+	addVatPipe = new AddVatPipe();
 
     constructor(
         private route: ActivatedRoute,
@@ -56,7 +58,7 @@ export class MostPopularProductsComponent {
         public productsService: ProductsService,
         public cartService: CartService,
         private breakpointObserver: BreakpointObserver,
-        @Inject(PLATFORM_ID) private platformId: object
+        @Inject(PLATFORM_ID) private platformId: object,
     ) {
         if (isPlatformBrowser(this.platformId)) {
             this.lang = localStorage.getItem("lang");
@@ -125,6 +127,7 @@ export class MostPopularProductsComponent {
     }
 
     addCart(cart: ICart) {
+		if(cart.vat) cart.price = this.addVatPipe.transform(cart.price);
         this.cartService.addCart(cart);
     }
 
