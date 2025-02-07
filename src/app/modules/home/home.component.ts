@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
 	Cart = PrimeIcons.SHOPPING_CART
 	responsiveCardOptions: any[] | undefined;
 	addVatPipe = new AddVatPipe();
+	direction!: string;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -49,6 +50,8 @@ export class HomeComponent implements OnInit {
 	) {
 	}
 	ngOnInit(): void {
+        this.direction = localStorage.getItem("lang") === "ar" ? "rtl" : "ltr";
+
 		Carousel.prototype.onTouchMove = (event: TouchEvent) => {
 			event.stopPropagation()
 		};

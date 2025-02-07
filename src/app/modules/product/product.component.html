@@ -25,18 +25,18 @@
                     [cancel]="false"></p-rating>({{product.totalRate}})
             </div>
             <h4 class="d-inline-block mt-2"
-                [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">{{"SAR" |
-                translate}}
-                {{product['vat'] ? (product.price | addVat) : product.price}}</h4> <span *ngIf="product['vat']">
+                [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">
+                {{product['vat'] ? (product.price | addVat) : product.price}} {{"SAR" |
+                translate}}</h4> <span *ngIf="product['vat']">
                 ({{"VATIncluded" | translate}})</span>
-            <h4 class="discount mt-2" *ngIf="product.discountPercentage && !product.vat">{{"SAR" | translate}}
+            <h4 class="discount mt-2" *ngIf="product.discountPercentage && !product.vat">
                 {{+product.price - ((+product.discountPercentage
                 /
-                100 ) * +product.price) | trimDecimalPipe}}</h4>
-            <h4 class="discount mt-2" *ngIf="product.discountPercentage && product.vat">{{"SAR" | translate}}
+                100 ) * +product.price) | trimDecimalPipe}} {{"SAR" | translate}}</h4>
+            <h4 class="discount mt-2" *ngIf="product.discountPercentage && product.vat">
                 {{(product.price | addVat) - ((+product.discountPercentage
                 /
-                100 ) * (product.price | addVat)) | trimDecimalPipe}}</h4>
+                100 ) * (product.price | addVat)) | trimDecimalPipe}} {{"SAR" | translate}}</h4>
             <div class="flex flex-wrap gap-3 mt-2">
                 <div class="flex align-items-center">
                     <ng-container *ngFor="let res of attributeValuesSizes">

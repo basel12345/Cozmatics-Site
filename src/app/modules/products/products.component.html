@@ -83,21 +83,22 @@
                                     <div class="price">
                                         <span
                                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                            {{"SAR" | translate}} {{res['vat'] ? (res.price | addVat) : res.price}}</span>
+                                            {{res['vat'] ? (res.price | addVat) : res.price}} {{"SAR" |
+                                            translate}}</span>
                                         <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                                     </div>
                                     <div class="discount">
                                         <span *ngIf="res.discountPercentage && !res['vat']">
-                                            {{"SAR" | translate}}
                                             {{+res.price - ((+res.discountPercentage
                                             /
                                             100 ) * +res.price) | trimDecimalPipe}}
+                                            {{"SAR" | translate}}
                                         </span>
                                         <span *ngIf="res.discountPercentage && res['vat']">
-                                            {{"SAR" | translate}}
                                             {{+(res.price | addVat) - ((+res.discountPercentage
                                             /
                                             100 ) * +(res.price | addVat)) | trimDecimalPipe}}
+                                            {{"SAR" | translate}}
                                         </span>
                                     </div>
                                 </div>

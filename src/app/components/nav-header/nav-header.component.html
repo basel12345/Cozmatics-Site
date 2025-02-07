@@ -9,11 +9,11 @@
             <!-- <img class="my-1 d-md-none d-sm-block"
                 [src]="direction === 'rtl' ? 'assets/Logo svg 02.svg' :'assets/Logo Web Header En-01.svg'" alt="Abaq Elanayah"> -->
         </div>
-        <div class="search col-12 col-md-8 text-center">
+        <div class="search col-12 col-md-8 text-center mt-4">
             <p-autoComplete [placeholder]="'Search' | translate" [suggestions]="resultSearch"
                 (onSelect)="selectValue($event)" (input)="searchGolbal($event)" field="name" />
         </div>
-        <div class="col-8 col-md-2" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+        <div class="col-8 col-md-2 mt-md-4" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
             <a [ngClass]="direction === 'rtl' ? 'me-5': 'ms-5'" (click)="showSideBar()" class="pi pi-shopping-bag"
                 severity="warning" pBadge [value]="'' + cartService.getCartength ? cartService.getCartength : 0"></a>
             <p-dropdown class="flag" [options]="countries" [(ngModel)]="selectedLanguage" optionLabel="name"
