@@ -41,8 +41,12 @@
         }
 
         .description {
-            max-height: 200px;
-            overflow-y: auto;
+            max-height: 300px;
+            overflow-y: auto
+        }
+
+        .barcode {
+            background: #ececec;
         }
 
         .danger {

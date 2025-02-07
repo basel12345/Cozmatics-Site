@@ -39,7 +39,7 @@ export class MostPopularProductsComponent {
     arrOfFilterBrand: Array<number> = [];
     arrOfFilterCategory: Array<number> = [];
     first: number = 0;
-    rows: number = 10;
+    rows: number = 12;
     rangePrice: number[] = [0, 0];
     Category!: ICategory[];
     Tags = Tags;

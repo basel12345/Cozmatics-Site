@@ -38,7 +38,7 @@ export class BestProductsComponent {
 	Brands!: IBrand[];
 	Products$!: Observable<IProducts[]>;
 	first: number = 0;
-	rows: number = 10;
+	rows: number = 12;
 	arrOfFilterBrand: Array<number> = [];
 	arrOfFilterCategory: Array<number> = [];
 	rangePrice: number[] = [0, 0];

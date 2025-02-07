@@ -21,11 +21,12 @@ import { ProductsService } from '../../shared/services/products/products.service
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PrimeIcons } from 'primeng/api';
 import { AddVatPipe } from '../../shared/pipes/add-vat.pipe';
+import { ConvertToStringPipe } from '../../shared/pipes/convert-to-string.pipe';
 
 @Component({
 	selector: 'app-product',
 	standalone: true,
-	imports: [AddVatPipe, TranslateModule, CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule, TranslateModule],
+	imports: [ConvertToStringPipe, AddVatPipe, TranslateModule, CommonModule, ScrollPanelModule, ButtonModule, RatingModule, FormsModule, NgFor, TabViewModule, DialogModule, InputTextareaModule, NgIf, TrimDecimalPipe, RadioButtonModule, TranslateModule],
 	templateUrl: './product.component.html',
 	styleUrl: './product.component.scss'
 })

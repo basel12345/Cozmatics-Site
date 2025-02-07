@@ -36,7 +36,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	arrOfFilterBrand: Array<number> = [];
 	arrOfFilterCategory: Array<number> = [];
 	first: number = 0;
-	rows: number = 10;
+	rows: number = 12;
 	branId!: string;
 	categoryId!: string;
 	Brands!: IBrand[];

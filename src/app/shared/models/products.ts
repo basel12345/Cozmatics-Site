@@ -13,6 +13,7 @@ export interface IProducts {
     rateValue: number;
     totalRate: number;
     categoryName: string;
+    barcodes: any[]
     brandName: string;
     vat: number;
     productImgs: [
