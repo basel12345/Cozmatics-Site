@@ -5,13 +5,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTiktok, faSnapchat, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { CategoriesService } from '../../shared/services/categories/categories.service';
 import { ICategory } from '../../shared/models/category';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [FontAwesomeModule, TranslateModule, CommonModule],
+  imports: [FontAwesomeModule, TranslateModule, CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })

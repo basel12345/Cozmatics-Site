@@ -118,6 +118,10 @@ export const routes: Routes = [
         loadComponent: () => import("./modules/failure/failure.component").then(c => c.FailureComponent)
     },
     {
+        path: "terms-of-use",
+        loadComponent: () => import("./components/terms-of-use/terms-of-use.component").then(c => c.TermsOfUseComponent)
+    },
+    {
         path: "**",
         pathMatch: "full",
         redirectTo: "home"
