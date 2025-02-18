@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
     title = 'E-Commerce-Angular';
     direction!: string | null;
     isFixed = false;
+    isAppReady: boolean = false;
     @HostListener('window:scroll', ['$event'])
     onWindowScroll($event: any) {
         const scrollY = window.scrollY || document.documentElement.scrollTop;
@@ -32,7 +33,9 @@ export class AppComponent implements OnInit {
         this.translate.onLangChange.subscribe(() => {
             this.updateTitle();
         });
-
+        setTimeout(() => {
+            this.isAppReady = true;
+          }, 500);
         this.updateTitle();
     }
     updateTitle() {
