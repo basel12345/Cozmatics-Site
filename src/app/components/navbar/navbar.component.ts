@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { ICategory } from '../../shared/models/category';
 import { ProductsService } from '../../shared/services/products/products.service';
 import { LoadingService } from '../../shared/services/loading/loading.service';
-import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 
 @Component({

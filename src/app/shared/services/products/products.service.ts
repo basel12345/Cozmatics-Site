@@ -67,8 +67,8 @@ export class ProductsService {
         return this.http.get<{ products: IProducts[], totalCount: number }>(`${cacheBusterUrl}`);
     }
 
-    filterSpecificProducts(filter: any): Observable<{ products: IProducts[], totalCount: number }> {
-        return this.http.post<{ products: IProducts[], totalCount: number }>(`https://api-endpoint.abaqelanayah.com/api/Product/FilterProducts?pageNo=${this.pageNo}&pageSize=${this.pageSize}`, filter);
+    filterSpecificProducts(filter: any, catId: number | null = null): Observable<{ products: IProducts[], totalCount: number }> {
+        return this.http.post<{ products: IProducts[], totalCount: number }>(`https://api-endpoint.abaqelanayah.com/api/Product/FilterProducts?pageNo=${this.pageNo}&pageSize=${this.pageSize}&CatId=${catId ? catId : ''}`, filter);
     }
 
     searchGolbal(text: string) {

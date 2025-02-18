@@ -150,7 +150,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			});
 		}
 		else if (this.categoryId) {
-			this.productsService.getProductsByCategoryId(this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
+			this.productsService.filterSpecificProducts({},+this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
 				this.titlePage = res['products'][0]?.categoryName;
 				this.totalCount = res?.['totalCount'];
@@ -211,7 +211,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			});
 		}
 		else if (this.categoryId) {
-			this.productsService.getProductsByCategoryId(this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
+			this.productsService.filterSpecificProducts({}, this.categoryId ? +this.categoryId : null).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
 				this.totalCount = res.totalCount;
 			});
@@ -259,7 +259,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		this.rangePrice[1] ? data["maxPrice"] = this.rangePrice[1] : delete data["maxPrice"];
 		this.sidebarVisible = false;
 		if (data["brandIds"].length || data["categoryIds"].length || data["maxPrice"] || data["best"] || data["recent"] || data["mostPopular"]) {
-			this.productsService.filterSpecificProducts(data).subscribe(res => {
+			this.productsService.filterSpecificProducts(data, this.categoryId ? +this.categoryId: null).subscribe(res => {
 				this.Products$ = of(res.products);
 				this.totalCount = res.totalCount;
 			})
