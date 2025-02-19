@@ -7,8 +7,8 @@
                     (click)="selectImage(res.imagePath)">
             </p-scrollPanel>
         </div>
-        <div class="col-11 col-md-6">
-            <img width="auto" height="500px" [alt]="selectedImage ? selectedImage : coverImage"
+        <div class="col-11 col-md-6" >
+            <img style="width: -webkit-fill-available; height: -webkit-fill-available;" [alt]="selectedImage ? selectedImage : coverImage"
                 [src]="selectedImage ? 'https://api-endpoint.abaqelanayah.com' + selectedImage : 'https://api-endpoint.abaqelanayah.com' + coverImage">
         </div>
         <div class="col-12 col-md-5 desc">

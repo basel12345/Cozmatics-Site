@@ -150,9 +150,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			});
 		}
 		else if (this.categoryId) {
-			this.productsService.filterSpecificProducts({},+this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
+			this.productsService.filterSpecificProducts({}, +this.categoryId).subscribe((res: { products: IProducts[], totalCount: number }) => {
 				this.Products$ = of(res['products']);
-				this.titlePage = res['products'][0]?.categoryName;
+				const name: string | undefined = this.Category.find(res => res.id === +this.categoryId)?.name;
+				if (name) this.titlePage = name;
 				this.totalCount = res?.['totalCount'];
 			});
 		}
@@ -225,7 +226,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	addCart(cart: ICart) {
-		if(cart.vat) cart.price = this.addVatPipe.transform(cart.price);
+		if (cart.vat) cart.price = this.addVatPipe.transform(cart.price);
 		console.log(cart);
 		this.cartService.addCart(cart);
 	}
@@ -259,7 +260,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		this.rangePrice[1] ? data["maxPrice"] = this.rangePrice[1] : delete data["maxPrice"];
 		this.sidebarVisible = false;
 		if (data["brandIds"].length || data["categoryIds"].length || data["maxPrice"] || data["best"] || data["recent"] || data["mostPopular"]) {
-			this.productsService.filterSpecificProducts(data, this.categoryId ? +this.categoryId: null).subscribe(res => {
+			this.productsService.filterSpecificProducts(data, this.categoryId ? +this.categoryId : null).subscribe(res => {
 				this.Products$ = of(res.products);
 				this.totalCount = res.totalCount;
 			})

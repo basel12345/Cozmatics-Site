@@ -38,7 +38,8 @@ export const routes: Routes = [
         loadComponent: () => import("./modules/products/products.component").then(c => c.ProductsComponent),
         resolve: {
             Brands: BrandsResolver,
-            ProductByCategoryId: ProductByCategoryIdResolver
+            ProductByCategoryId: ProductByCategoryIdResolver,
+            Category: CategoryResolver
         },
     },
     {

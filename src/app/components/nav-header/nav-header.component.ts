@@ -233,7 +233,7 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 		} else {
 			localStorage.setItem("lang", "ar");
 		}
-		window.location.replace('home');
+		window.location.reload();
 	}
 
 	showSideBar() {
