@@ -133,6 +133,11 @@
             input {
                 margin-left: 10px;
             }
+
+            .p-overlay .p-component {
+                max-width: 100vw;
+                font-size: 10px;
+            }
         }
     }
 

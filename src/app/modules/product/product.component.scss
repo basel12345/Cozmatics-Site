@@ -69,17 +69,26 @@
         text-decoration: none;
     }
 
+
+    .cover {
+        object-fit: contain;
+        width: 450px;
+        height: 450px;
+    }
+
     .create-date {
         color: rgba(189, 189, 189);
         font-size: 12px;
     }
 
-    ::ng-deep button {
-        background-color: $main-color !important;
-        border: 1px solid $main-color;
-        display: inline-block !important;
-        color: black !important;
-    }
+
+}
+
+::ng-deep button {
+    background-color: $main-color !important;
+    border: 1px solid $main-color;
+    display: inline-block !important;
+    color: black !important;
 }
 
 .add-review {
@@ -91,10 +100,37 @@
 }
 
 @media (max-width: 767px) {
+
     .footer {
+        position: fixed;
+        bottom: 0;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+
         ::ng-deep button {
+            width: 100%;
             margin-top: 0 !important;
         }
+    }
+
+    .product {
+        .cover {
+            object-fit: contain;
+            width: 350px;
+            height: 350px;
+        }
+
+    }
+
+    .image-mob {
+        height: 90px;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-direction: row-reverse;
+        white-space: nowrap;
+        justify-content: flex-end;
+        scroll-behavior: smooth;
     }
 }
 

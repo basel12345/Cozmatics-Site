@@ -66,21 +66,21 @@
                                     <div class="price">
                                         <span
                                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                            {{res['vat'] ? (res.price | addVat) :
-                                            res.price}} {{"SAR" | translate}} </span>
+                                            {{(res['vat'] ? (res.price | addVat) :
+                                            res.price)  | trimDecimalPipe}} {{"SAR" | translate}} </span>
                                         <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                                     </div>
                                     <div class="discount">
                                         <span *ngIf="res.discountPercentage && !res['vat']">
-                                            {{+res.price - ((+res.discountPercentage
+                                            {{(+res.price - ((+res.discountPercentage
                                             /
-                                            100 ) * +res.price) | trimDecimalPipe}}
+                                            100 ) * +res.price)) | trimDecimalPipe}}
                                             {{"SAR" | translate}}
                                         </span>
                                         <span *ngIf="res.discountPercentage && res['vat']">
-                                            {{+(res.price | addVat) - ((+res.discountPercentage
+                                            {{(+(res.price | addVat) - ((+res.discountPercentage
                                             /
-                                            100 ) * +(res.price | addVat)) | trimDecimalPipe}}
+                                            100 ) * +(res.price | addVat))) | trimDecimalPipe}}
                                             {{"SAR" | translate}}
                                         </span>
                                     </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="flex-auto mt-4">
                     <p-paginator dir="auto" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
-                        [totalRecords]="totalCount"></p-paginator>
+                        [totalRecords]="totalCount" [pageLinkSize]="isMobile ? 2 : 5"></p-paginator>
                 </div>
             </ng-container>
             <ng-container *ngIf="!totalCount">

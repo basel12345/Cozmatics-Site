@@ -7,7 +7,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { CommonModule, NgIf } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
         this.isFixed = scrollY > 125;
     }
 
-    constructor(public loadingService: LoadingService, private translate: TranslateService, private titleService: Title) { }
+    constructor(public loadingService: LoadingService, private translate: TranslateService, private titleService: Title, private metaService: Meta) { }
     ngOnInit(): void {
         this.direction = localStorage.getItem("lang") === "ar" ? "rtl" : "ltr";
         this.translate.onLangChange.subscribe(() => {
@@ -39,9 +39,14 @@ export class AppComponent implements OnInit {
         this.updateTitle();
     }
     updateTitle() {
-        this.translate.get('Title').subscribe((translatedTitle: string) => {
+        this.translate.get('Abaq Elanayah').subscribe((translatedTitle: string) => {
             this.titleService.setTitle(translatedTitle);
         });
+
+        this.translate.get('A Saudi store that provides beauty and skin care products and offers the best high-quality products.').subscribe((desc: string) => {
+            this.metaService.updateTag({ name: 'description', content: desc });
+        });
+
     }
 
 

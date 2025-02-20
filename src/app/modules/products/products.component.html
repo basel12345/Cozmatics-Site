@@ -117,7 +117,8 @@
                 </div>
                 <div class="flex-auto mt-4">
                     <p-paginator dir="auto" (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
-                        [totalRecords]="totalCount"></p-paginator>
+                        [totalRecords]="totalCount" [pageLinkSize]="isMobile ? 2 : 5">
+                    </p-paginator>
                 </div>
             </ng-container>
             <ng-container *ngIf="!totalCount">

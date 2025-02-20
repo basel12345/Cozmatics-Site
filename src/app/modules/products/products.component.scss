@@ -149,10 +149,12 @@ label {
 
 @media (max-width: 767px) {
     .card {
+        overflow: hidden;
+
         .header {
             img {
-                height: auto;
-                width: 100%;
+                height: 180px;
+                width: 180px;
             }
         }
 
@@ -161,3 +163,7 @@ label {
         }
     }
 }
+
+.p-paginator .p-paginator-pages .p-paginator-page:not(:first-child) {
+    display: none; /* Hide all page numbers except the first one */
+  }
