@@ -379,6 +379,8 @@ export class NavHeaderComponent implements OnInit, AfterViewInit, DoCheck {
 	getShipmentCost() {
 		this.cartService.getShipmentCost().subscribe((res: any) => {
 			this.areas = res?.flat();
+			console.log(this.areas);
+			
 		})
 	}
 

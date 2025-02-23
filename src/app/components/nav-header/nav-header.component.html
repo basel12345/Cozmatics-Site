@@ -58,15 +58,15 @@
                     </div>
                     <div class="price">
                         <span [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            {{"SAR" | translate}} {{res.price}}</span>
+                            {{"SAR" | translate}} {{res.price | trimDecimalPipe}}</span>
                         <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                     </div>
                     <div class="discount">
                         <span *ngIf="res.discountPercentage">
                             {{"SAR" | translate}}
-                            {{+res.price - ((+res.discountPercentage
+                            {{(+res.price - ((+res.discountPercentage
                             /
-                            100 ) * +res.price) | trimDecimalPipe}}
+                            100 ) * +res.price)) | trimDecimalPipe}}
                         </span>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                     <h6 style="display: inline-block;">{{"TotalPrice" | translate }}</h6>
                 </div>
                 <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                    {{totalPrice}} {{"SAR" | translate }}
+                    {{totalPrice | trimDecimalPipe}} {{"SAR" | translate }}
                 </div>
             </div>
         </div>
@@ -187,7 +187,7 @@
                                 <div class="col-12 col-md-6 mt-4">
                                     <label class="mb-2">{{'Area'| translate}}</label>
                                     <p-dropdown class="w-100" formControlName="area" [options]="areas"
-                                        optionLabel="area" optionValue="id"
+                                        [optionLabel]="direction === 'rtl' ? 'areaAr': 'area'" optionValue="id"
                                         [placeholder]="'SelectAArea'| translate"></p-dropdown>
                                     <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']"
                                         class="invalid">
@@ -222,7 +222,7 @@
                                     'totalPriceAndShipment') | translate }}</h6>
                             </div>
                             <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                                {{totalPrice}} {{"SAR" | translate }}
+                                {{totalPrice | trimDecimalPipe}} {{"SAR" | translate }}
                             </div>
                         </div>
                     </div>
@@ -233,7 +233,7 @@
                                     <h6 style="display: inline-block;">{{"ShipmentCost" | translate}}</h6>
                                 </div>
                                 <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                                    {{shipmentCost}} {{"SAR" | translate }}
+                                    {{shipmentCost | trimDecimalPipe}} {{"SAR" | translate }}
                                 </div>
                             </div>
                         </div>
@@ -244,7 +244,7 @@
                                     <h6 style="display: inline-block;">{{"totalPriceAndShipment" | translate }}</h6>
                                 </div>
                                 <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                                    {{totalPriceAndShipment}} {{"SAR" | translate }}
+                                    {{totalPriceAndShipment | trimDecimalPipe}} {{"SAR" | translate }}
                                 </div>
                             </div>
                         </div>
