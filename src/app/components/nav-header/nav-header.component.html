@@ -57,16 +57,18 @@
                         {{"AvailableQuantity" | translate}}: {{res.qty}}
                     </div>
                     <div class="price">
-                        <span [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                            {{"SAR" | translate}} {{res.price | trimDecimalPipe}}</span>
+                        <span dir="rtl" style="font-weight: bolder;"
+                            [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
+                            {{res.price | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                                src="assets/Saudi_Riyal_Symbol-2.svg" alt=""></span>
                         <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                     </div>
                     <div class="discount">
-                        <span *ngIf="res.discountPercentage">
-                            {{"SAR" | translate}}
+                        <span style="font-weight: bolder;" dir="rtl" *ngIf="res.discountPercentage">
                             {{(+res.price - ((+res.discountPercentage
                             /
-                            100 ) * +res.price)) | trimDecimalPipe}}
+                            100 ) * +res.price)) | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                                src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                         </span>
                     </div>
                 </div>
@@ -86,8 +88,10 @@
                 <div class="col">
                     <h6 style="display: inline-block;">{{"TotalPrice" | translate }}</h6>
                 </div>
-                <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                    {{totalPrice | trimDecimalPipe}} {{"SAR" | translate }}
+                <div style="font-weight: bolder;" class="col" dir="rtl"
+                    [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+                    {{totalPrice | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                        src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                 </div>
             </div>
         </div>
@@ -96,7 +100,7 @@
                 <div class="row mb-2">
                     <h4>#{{order.id}}</h4>
                     <div class="col-6">
-                        {{"TotalPrice" | translate}}: {{order.totalPrice}} {{"SAR" | translate}}
+                        {{"TotalPrice" | translate}}: {{order.totalPrice}} <img style="width: 20px; height: 20px;" src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                     </div>
                     <div class="col-6" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
                         <span class="status" style="background-color: #0284C7;" *ngIf="order.status === 0">{{"Open" |
@@ -125,7 +129,7 @@
                             {{"Quantity" | translate}}: {{res.productQty}}
                         </div>
                         <div class="price">
-                            <span> {{"Price" | translate}}: {{res.productPrice}} {{"SAR" | translate}} </span>
+                            <span> {{"Price" | translate}}: {{res.productPrice}} <img style="width: 20px; height: 20px;" src="assets/Saudi_Riyal_Symbol-2.svg" alt=""> </span>
                             <span> ({{"VATIncluded" | translate}})</span>
                         </div>
                     </div>
@@ -186,9 +190,9 @@
                                 </div>
                                 <div class="col-12 col-md-6 mt-4">
                                     <label class="mb-2">{{'Area'| translate}}</label>
-                                    <p-dropdown class="w-100" formControlName="area" [options]="areas"
-                                        [optionLabel]="direction === 'rtl' ? 'areaAr': 'area'" optionValue="id"
-                                        [placeholder]="'SelectAArea'| translate"></p-dropdown>
+                                    <p-dropdown class="w-100" formControlName="area" [options]="areas" filterBy="area"
+                                        [filter]="true" [optionLabel]="direction === 'rtl' ? 'areaAr': 'area'"
+                                        optionValue="id" [placeholder]="'SelectAArea'| translate"></p-dropdown>
                                     <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']"
                                         class="invalid">
                                         {{"Area" | translate}} {{"isRequired" | translate}}
@@ -221,8 +225,10 @@
                                 <h6 style="display: inline-block;">{{(deliveryType.code === 0 ? "TotalPrice" :
                                     'totalPriceAndShipment') | translate }}</h6>
                             </div>
-                            <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                                {{totalPrice | trimDecimalPipe}} {{"SAR" | translate }}
+                            <div style="font-weight: bolder;" class="col" dir="rtl"
+                                [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+                                {{totalPrice | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                                    src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                             </div>
                         </div>
                     </div>
@@ -232,8 +238,10 @@
                                 <div class="col">
                                     <h6 style="display: inline-block;">{{"ShipmentCost" | translate}}</h6>
                                 </div>
-                                <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                                    {{shipmentCost | trimDecimalPipe}} {{"SAR" | translate }}
+                                <div style="font-weight: bolder;" class="col" dir="rtl"
+                                    [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+                                    {{shipmentCost | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                                        src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                                 </div>
                             </div>
                         </div>
@@ -243,8 +251,10 @@
                                 <div class="col">
                                     <h6 style="display: inline-block;">{{"totalPriceAndShipment" | translate }}</h6>
                                 </div>
-                                <div class="col" [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
-                                    {{totalPriceAndShipment | trimDecimalPipe}} {{"SAR" | translate }}
+                                <div style="font-weight: bolder;" class="col" dir="rtl"
+                                    [ngClass]="direction === 'rtl' ? 'text-start' : 'text-end'">
+                                    {{totalPriceAndShipment | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                                        src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                                 </div>
                             </div>
                         </div>

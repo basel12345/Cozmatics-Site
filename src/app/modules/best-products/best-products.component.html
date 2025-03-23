@@ -64,24 +64,27 @@
                                         {{Tags[res.tag]}}
                                     </div>
                                     <div class="price">
-                                        <span
+                                        <span dir="rtl"
                                             [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
                                             {{(res['vat'] ? (res.price | addVat) :
-                                            res.price)  | trimDecimalPipe}} {{"SAR" | translate}} </span>
+                                            res.price)  | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                                        src="assets/Saudi_Riyal_Symbol-2.svg" alt=""> </span>
                                         <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                                     </div>
                                     <div class="discount">
-                                        <span *ngIf="res.discountPercentage && !res['vat']">
+                                        <span dir="rtl" *ngIf="res.discountPercentage && !res['vat']">
                                             {{(+res.price - ((+res.discountPercentage
                                             /
                                             100 ) * +res.price)) | trimDecimalPipe}}
-                                            {{"SAR" | translate}}
+                                            <img style="width: 15px; height: 15px;"
+                                            src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                                         </span>
-                                        <span *ngIf="res.discountPercentage && res['vat']">
+                                        <span dir="rtl" *ngIf="res.discountPercentage && res['vat']">
                                             {{(+(res.price | addVat) - ((+res.discountPercentage
                                             /
                                             100 ) * +(res.price | addVat))) | trimDecimalPipe}}
-                                            {{"SAR" | translate}}
+                                            <img style="width: 15px; height: 15px;"
+                                            src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                                         </span>
                                     </div>
                                 </div>

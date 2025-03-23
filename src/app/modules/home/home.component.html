@@ -41,25 +41,28 @@
                             <div class="tags" *ngIf="res.tag || res.tag === 0">
                                 {{Tags[res.tag]}}
                             </div>
-                            <div class="price" [dir]="direction">
+                            <div class="price" dir="rtl">
                                 <span
                                     [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                    {{(res['vat'] ? (res.price | addVat) : res.price) | trimDecimalPipe}} {{"SAR" |
-                                    translate}}</span>
+                                    {{(res['vat'] ? (res.price | addVat) : res.price) | trimDecimalPipe}} <img
+                                        style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg"
+                                        alt=""></span>
                                 <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                             </div>
-                            <div class="discount" [dir]="direction">
+                            <div class="discount" dir="rtl">
                                 <span *ngIf="res.discountPercentage && !res['vat']">
                                     {{(+res.price - ((+res.discountPercentage
                                     /
                                     100 ) * +res.price)) | trimDecimalPipe}}
-                                    {{"SAR" | translate}}
+                                    <img style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg"
+                                        alt="">
                                 </span>
                                 <span *ngIf="res.discountPercentage && res['vat']">
                                     {{(+(res.price | addVat) - ((+res.discountPercentage
                                     /
                                     100 ) * +(res.price | addVat))) | trimDecimalPipe}}
-                                    {{"SAR" | translate}}
+                                    <img style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg"
+                                        alt="">
                                 </span>
                             </div>
                         </div>
@@ -114,24 +117,28 @@
                             <div class="tags" *ngIf="res.tag || res.tag === 0">
                                 {{Tags[res.tag]}}
                             </div>
-                            <div class="price" [dir]="direction">
+                            <div class="price" dir="rtl">
                                 <span
                                     [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                    {{(res['vat'] ? (res.price | addVat) : res.price) | trimDecimalPipe}} {{"SAR" | translate}} </span>
+                                    {{(res['vat'] ? (res.price | addVat) : res.price) | trimDecimalPipe}} <img
+                                        style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
+                                </span>
                                 <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                             </div>
-                            <div class="discount" [dir]="direction">
+                            <div class="discount" dir="rtl">
                                 <span *ngIf="res.discountPercentage && !res['vat']">
                                     {{(+res.price - ((+res.discountPercentage
                                     /
                                     100 ) * +res.price)) | trimDecimalPipe}}
-                                    {{"SAR" | translate}}
+                                    <img style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg"
+                                        alt="">
                                 </span>
                                 <span *ngIf="res.discountPercentage && res['vat']">
                                     {{(+(res.price | addVat) - ((+res.discountPercentage
                                     /
                                     100 ) * +(res.price | addVat))) | trimDecimalPipe}}
-                                    {{"SAR" | translate}}
+                                    <img style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg"
+                                        alt="">
                                 </span>
                             </div>
                         </div>
@@ -176,25 +183,28 @@
                             <div class="tags" *ngIf="res.tag || res.tag === 0">
                                 {{Tags[res.tag]}}
                             </div>
-                            <div class="price" [dir]="direction">
+                            <div class="price" dir="rtl">
                                 <span
                                     [ngStyle]="{'text-decoration-line': res.discountPercentage ? 'line-through' : 'none'}">
-                                    {{(res['vat'] ? (res.price | addVat) : res.price) | trimDecimalPipe}} {{"SAR" | translate}}
+                                    {{(res['vat'] ? (res.price | addVat) : res.price) | trimDecimalPipe}} <img
+                                        style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg" alt="">
                                 </span>
                                 <span *ngIf="res['vat']"> ({{"VATIncluded" | translate}})</span>
                             </div>
-                            <div class="discount" [dir]="direction">
+                            <div class="discount" dir="rtl">
                                 <span *ngIf="res.discountPercentage && !res['vat']">
                                     {{(+res.price - ((+res.discountPercentage
                                     /
                                     100 ) * +res.price)) | trimDecimalPipe}}
-                                    {{"SAR" | translate}}
+                                    <img style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg"
+                                        alt="">
                                 </span>
                                 <span *ngIf="res.discountPercentage && res['vat']">
                                     {{(+(res.price | addVat) - ((+res.discountPercentage
                                     /
                                     100 ) * +(res.price | addVat))) | trimDecimalPipe}}
-                                    {{"SAR" | translate}}
+                                    <img style="width: 15px; height: 15px;" src="assets/Saudi_Riyal_Symbol-2.svg"
+                                        alt="">
                                 </span>
                             </div>
                         </div>

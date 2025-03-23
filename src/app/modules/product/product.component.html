@@ -33,17 +33,19 @@
             </div>
             <h4 class="d-inline-block mt-2"
                 [ngStyle]="{'text-decoration-line': product.discountPercentage ? 'line-through' : 'none'}">
-                {{(product['vat'] ? (product.price | addVat) : product.price)  | trimDecimalPipe}} {{"SAR" |
-                translate}}</h4> <span *ngIf="product['vat']">
+                {{(product['vat'] ? (product.price | addVat) : product.price)  | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                src="assets/Saudi_Riyal_Symbol-2.svg" alt=""></h4> <span *ngIf="product['vat']">
                 ({{"VATIncluded" | translate}})</span>
             <h4 class="discount mt-2" *ngIf="product.discountPercentage && !product.vat">
                 {{(+product.price - ((+product.discountPercentage
                 /
-                100 ) * +product.price)) | trimDecimalPipe}} {{"SAR" | translate}}</h4>
+                100 ) * +product.price)) | trimDecimalPipe}} <img style="width: 20px; height: 20px;"
+                                    src="assets/Saudi_Riyal_Symbol-2.svg" alt=""></h4>
             <h4 class="discount mt-2" *ngIf="product.discountPercentage && product.vat">
                 {{((product.price | addVat) - ((+product.discountPercentage
                 /
-                100 ) * (product.price | addVat))) | trimDecimalPipe}} {{"SAR" | translate}}</h4>
+                100 ) * (product.price | addVat))) | trimDecimalPipe}}<img style="width: 20px; height: 20px;"
+                                    src="assets/Saudi_Riyal_Symbol-2.svg" alt=""></h4>
             <div class="flex flex-wrap gap-3 mt-2">
                 <div class="flex align-items-center">
                     <ng-container *ngFor="let res of attributeValuesSizes">
