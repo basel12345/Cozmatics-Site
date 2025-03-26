@@ -190,7 +190,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 mt-4">
                                     <label class="mb-2">{{'Area'| translate}}</label>
-                                    <p-dropdown class="w-100" formControlName="area" [options]="areas" filterBy="area"
+                                    <p-dropdown class="w-100" formControlName="area" [options]="areas" [filterBy]="direction === 'rtl' ? 'areaAr': 'area'"
                                         [filter]="true" [optionLabel]="direction === 'rtl' ? 'areaAr': 'area'"
                                         optionValue="id" [placeholder]="'SelectAArea'| translate"></p-dropdown>
                                     <span *ngIf="submitted && AddressForm.get('area')?.errors?.['required']"
